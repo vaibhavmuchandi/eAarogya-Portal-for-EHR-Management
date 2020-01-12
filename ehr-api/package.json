@@ -1,0 +1,29 @@
+{
+  "name": "ehr",
+  "version": "1.0.0",
+  "description": "Electronic health record management",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^3.0.1",
+    "express": "^4.16.2",
+    "fabric-ca-client": "~1.1.0",
+    "fabric-client": "~1.1.0",
+    "grpc": "^1.6.0",
+    "swagger-ui-express": "^4.0.1"
+  },
+  "author": "Vaibhav Muchandi",
+  "license": "Apache-2.0",
+  "keywords": [
+    "Hyperledger",
+    "Fabric",
+    "EHR",
+    "management",
+    "Application"
+  ],
+  "devDependencies": {}
+}
