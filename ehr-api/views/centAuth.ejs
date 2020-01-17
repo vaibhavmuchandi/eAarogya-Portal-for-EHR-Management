@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>Central Authority</title>
+</head>
+
+<body class="centAuth">
+  <div class="sticky-top">
+    <nav class="navbar navbar-expand-sm navbar-dark">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <img src="logo.png" alt="" height="80px">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">
+            <h1>Central Authority</h1>
+          </a>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h4>Enroll Patient</h4><br>
+        <form class="form-inline" method="post" action="/centAuth">
+          <input class="form-control mr-sm-2" type="text" placeholder="Enter Aadhar Number" name="aadhaarNum" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <div class="errors">
+          <% if(errors.length !== 0) { %>
+          <% errors.forEach(error => { %>
+          <div class="alert alert-danger" role="alert">
+            <%= error.msg %>
+          </div>
+          <%})%>
+          <%}%>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="partition"></div>
+
+    <div class="card">
+      <div class="card-body">
+        <p id="message-display"></p>
+        <% if(details.found !== null) { %>
+          <p>Aadhaar Number: <%=details.aadhaarNo%></p>
+          <p>Name: <%=details.name%></p>
+          <p>Date Of Birth: <%=details.dob%></p>
+          <p>Gender: <%=details.gender%></p>
+          <p>Address: <%=details.address%></p>
+          <% } else { %>
+          <script type="text/javascript">
+            document.getElementById("message-display").innerHTML = "<p>Details not found in database. Please ensure you have entered the correct Aadhaar number.</p>"
+          </script>
+          <%}%>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="fixed-bottom" style="text-align: center;">All rights reserved®</div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
