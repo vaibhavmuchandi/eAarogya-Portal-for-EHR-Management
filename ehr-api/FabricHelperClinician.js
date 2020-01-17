@@ -19,7 +19,7 @@ var tx_id = null;
 
 
 // Create a new medical record
-function createRecord(req, res) {
+function createRecord(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -63,7 +63,7 @@ function createRecord(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'createRecord',
-                args: [req.body.recordID, req.body.name, req.body.dob, req.body.address],
+                args: [doc.aadhaarNo, doc.name, doc.dob, doc.address],
                 chainId: 'ehrchannel',
                 txId: tx_id
             };
@@ -82,7 +82,7 @@ function createRecord(req, res) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.send({ code: "201", message: "New medical record has been created" });
+                res.render('centAuth', { details: doc })
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -199,7 +199,7 @@ function createRecord(req, res) {
         });
 }
 // Add a new medical report
-function addReport(req, res) {
+function addReport(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -243,7 +243,7 @@ function addReport(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addReport',
-                args: [req.body.recordID, req.body.report],
+                args: [doc.medicalID, doc.report],
                 chainId: 'ehr',
                 txId: tx_id
             };
@@ -261,8 +261,9 @@ function addReport(req, res) {
                 proposalResponses[0].response.status === 200
             ) {
                 isProposalGood = true;
-                console.log("Transaction proposal was good");
-                res.send({ code: "200", message: "New Report has been added" });
+                console.log(doc);
+                //result = JSON.parse(proposalResponses[0]);
+                res.render("clinicianPortal", { details: doc })
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -382,7 +383,7 @@ function addReport(req, res) {
 
 
 // Get the latest medical report
-function getReport(req, res) {
+function getReport(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -421,7 +422,7 @@ function getReport(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'getReport',
-                args: [req.body.recordID],
+                args: [doc.medicalID],
                 chainId: 'ehr'
             };
 
@@ -437,10 +438,8 @@ function getReport(req, res) {
                     res.send({ code: "500", message: "isuue with getting report" });
                 } else {
                     console.log("Response is ", query_responses[0].toString())
-                    res.send({
-                        code: "200",
-                        data: JSON.parse(query_responses[0].toString())
-                    })
+                    var result = JSON.parse(query_responses[0]);
+                    res.render("clinicianPortal", { details: result })
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -455,7 +454,7 @@ function getReport(req, res) {
 
 
 //Function to get the entire history of medical reports
-function getRecord(req, res) {
+function getRecord(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -494,7 +493,7 @@ function getRecord(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'getRecord',
-                args: [req.body.recordID],
+                args: [doc.medicalID],
                 chainId: 'ehrchannel'
             };
 
@@ -510,10 +509,9 @@ function getRecord(req, res) {
                     //res.send({ code: "500", message: "isuue with getting car history" });
                 } else {
                     console.log("Response is ", query_responses[0].toString());
-                    res.send({
-                        code: "200",
-                        data: JSON.parse(query_responses[0].toString())
-                    })
+                    var result = JSON.parse(query_responses[0]);
+                    console.log(typeof(result));
+                    res.render("clinicianPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -528,8 +526,10 @@ function getRecord(req, res) {
 
 
 //Function to add a new medicine record
-function createMedicineRecord(req, res) {
+function createMedicineRecord(req, res, doc) {
     //Init fabric client
+    var aadhaar = doc.aadhaarNo;
+    var id = aadhaar + '0M';
     var fabric_client = new Fabric_Client();
 
     // setup the fabric network
@@ -570,7 +570,7 @@ function createMedicineRecord(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'createMedicineRecord',
-                args: [req.body.recordID, req.body.name, req.body.dob, req.body.address],
+                args: [id, doc.name, doc.dob, doc.address],
                 chainId: 'ehrchannel',
                 txId: tx_id
             };
@@ -589,7 +589,7 @@ function createMedicineRecord(req, res) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.send({ code: "201", message: "New medicine record has been created" });
+                //res.send({ code: "201", message: "New medicine record has been created" });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -707,7 +707,7 @@ function createMedicineRecord(req, res) {
 }
 
 //Add new medicine report
-function addMedicineReport(req, res) {
+function addMedicineReport(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -748,7 +748,7 @@ function addMedicineReport(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addMedicineReport',
-                args: [req.body.recordID, req.body.prescription],
+                args: [doc.medicalID, doc.prescription],
                 chainId: 'ehr',
                 txId: tx_id
             };
@@ -767,7 +767,7 @@ function addMedicineReport(req, res) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.send({ code: "200", message: "New Medicine Report has been added" });
+                res.render("clinicianPortal", { details: doc });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -1064,7 +1064,7 @@ function addrLReport(req, res) {
 }
 
 //Get latest prescription report
-function getMedicineReport(req, res) {
+function getMedicineReport(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -1102,7 +1102,7 @@ function getMedicineReport(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'getMedicineReport',
-                args: [req.body.recordID],
+                args: [doc.medicalID],
                 chainId: 'ehr'
             };
 
@@ -1118,10 +1118,8 @@ function getMedicineReport(req, res) {
                     res.send({ code: "500", message: "isuue with getting report" });
                 } else {
                     console.log("Response is ", query_responses[0].toString())
-                    res.send({
-                        code: "200",
-                        data: JSON.parse(query_responses[0].toString())
-                    })
+                    var result = JSON.parse(query_responses[0]);
+                    res.render("clinicianPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -1185,7 +1183,6 @@ function getMedicineRecord(req, res) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    //res.send({ code: "500", message: "isuue with getting car history" });
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     res.send({
@@ -1206,7 +1203,7 @@ function getMedicineRecord(req, res) {
 
 
 
-let ehr = {
+let ehrClinician = {
     createRecord: createRecord,
     addReport: addReport,
     getReport: getReport,
@@ -1219,4 +1216,4 @@ let ehr = {
 
 }
 
-module.exports = ehr;
+module.exports = ehrClinician;

@@ -53,8 +53,8 @@ Fabric_Client.newDefaultKeyValueStore({
     const request = {
 
         chaincodeId: 'ehrcc',
-        fcn: 'getRecord',
-        args: ['123'],
+        fcn: 'getMedicineRecord',
+        args: ['12345'],
         chainId: 'ehrchannel',
         txId: tx_id
     };

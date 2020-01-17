@@ -1,0 +1,38 @@
+<%-include("./partials/header.ejs")%>
+
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h4>Enroll Patient</h4><br>
+                <form class="form-inline" method="post" action="/centAuth">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Enter Aadhar Number" name="aadhaarNum" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="partition"></div>
+
+        <div class="card">
+            <div class="card-body">
+                <p>Name:
+                    <%=details.name%>
+                </p>
+                <p>Date Of Birth:
+                    <%=details.dob%>
+                </p>
+                <p>Gender:
+                    <%=details.gender%>
+                </p>
+                <p>Address:
+                    <%=details.address%>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <%- include("./partials/footer.ejs") %>
