@@ -1,0 +1,75 @@
+<%-include ("./partials/header")%>
+    <div class="container-fluid">
+        <div class="card-hcp">
+            <div class="card-body">
+                <h4>Get Latest Medical Report</h4><br>
+                <form class="form-inline" action="/organisation/healthcareprovider/getreport" method="POST">
+                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-hcp">
+            <div class="card-body">
+                <h4>Get Latest Prescription</h4><br>
+                <form class="form-inline" action="/organisation/healthcareprovider/getprescription" method="POST">
+                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-hcp">
+            <div class="card-body">
+                <h4>Get Record History</h4><br>
+                <form class="form-inline" action="/organisation/healthcareprovider/getmedicalrecord" method="POST">
+                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
+                </form>
+            </div>
+        </div>
+        <div class="card=hcp">
+            <div class="card-body">
+                <h4>Get Prescription Record</h4><br>
+                <form class="form-inline" action="/organisation/healthcareprovider/getprescriptionrecord" method="POST">
+                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="partition"></div>
+
+        <div class="card-hcp">
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <td><b>Name</td>
+                        <td><%=details.name%></td>
+                    </tr>
+                    <tr>
+                        <td><b>D.O.B</td>
+                        <td><%=details.dob%></td>
+                    </tr>
+                    <tr>
+                        <td><b>Address</td>
+                        <td><%=details.address%></td>
+                    </tr>
+                    <tr>
+                        <td class="pres"><b>Prescription</td>
+                        <td class="pres"><%=details.prescription%></td>
+                    </tr>
+                    <% Object.values(details).forEach(detail => { %>
+                        <tr>
+                            <td class="pres"><b>Medical Report</b></td>
+                        <td class="pres">
+                            <%=detail.Value.report%>
+                        </td>
+                    </tr>
+                    <%})%>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <%- include("./partials/footer")%>
