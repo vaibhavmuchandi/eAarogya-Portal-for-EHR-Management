@@ -19,7 +19,7 @@ var tx_id = null;
 
 //Get latest prescription report
 function getMedicineReport(req, res, doc) {
-    console.log(doc.medicalID);
+    console.log(doc.medicineID);
     console.log(doc);
     //Init fabric client
     var fabric_client = new Fabric_Client();

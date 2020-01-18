@@ -440,7 +440,7 @@ function getReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("radiologistPortal", { details: result })
+                    res.render("radioLogistPortal", { details: result })
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -947,7 +947,7 @@ function addrLReport(req, res) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.send({ code: "200", message: "New RadioLogist Report has been added" });
+                res.render("radioLogistPortal", { details: doc });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");

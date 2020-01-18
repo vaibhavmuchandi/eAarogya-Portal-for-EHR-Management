@@ -47,6 +47,13 @@ var ehrRadiologist = require("./FabricHelperRadiologist");
     gender: "Male",
     address: "Bhadkal Galli"
 });*/
+//==================INDEX ROUTING================================
+app.get("/", function(req, res) {
+    res.render("index");
+});
+app.get("/professional", function(req, res) {
+    res.render("professionalIndex");
+});
 //==================CENTAUTH ROUTING STARTS=======================
 app.get("/register", function(req, res) {
     res.render("register");
@@ -84,13 +91,15 @@ app.post('/organisation/centauth', [check('aadhaarNum').isLength(12).withMessage
         //   return res.status(422).json({error: errors})
         // }^\d{4} {0,1}\d{4} {0,1}\d{4}$
     var aadhaarNum = req.body.aadhaarNum.trim().replace(/ /g, "");
+    var medicineNum = aadhaarNum + '0M';
     // console.log(aadhaarNum);
     AadhaarUser.findOne({ aadhaarNo: aadhaarNum }, (err, doc) => {
         if (doc == null) {
             res.render('centAuth', { details: { found: null }, errors: errors.array() })
         } else {
             var details = doc.toJSON()
-            ehrClinician.createRecord(req, res, details)
+            ehrClinician.createRecord(req, res, details);
+            ehrClinician.createMedicineRecord(req, res, details);
             console.log('Found:', details);
             //res.render('centAuth', { details: details, errors: [] })
         }

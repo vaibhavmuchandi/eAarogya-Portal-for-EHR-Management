@@ -1,461 +1,497 @@
- /* https://www.freepik.com/free-vector/abstract-blue-background_859016.html */
- 
- .navbar {
-     background-color: #3282b8;
- }
- 
- body {
-     background-image: url('bg1.jpg');
-     background-size: cover;
-     background-position: top;
- }
- /* Footer */
- 
- .fixed-bottom {
-     height: 50px;
-     background-color: #3282b8;
-     color: white;
- }
- /* Submit button common to all pages */
- 
- .submit-btn {
-     background: #0f4c75;
-     color: #fff;
- }
- 
- .submit-btn:hover,
- .btn-lg:hover {
-     background-color: rgba(50, 130, 184, 0.3);
-     color: black;
- }
- /* --------------------------------------------------------------------------------- */
- /* ----------------------------------- Home Page ----------------------------------- */
- 
- .intro {
-     margin-top: 0px;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     /* height: 60vh; */
-     width: 100%;
-     padding: 5%;
- }
- 
- .intro h2 {
-     font-size: 5vw;
-     text-transform: uppercase;
-     font-weight: 900;
-     line-height: 1em;
-     text-align: center;
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent;
-     background-image: url('bg1.png');
-     background-attachment: fixed;
- }
- 
- .intro p {
-     color: #3282b8;
-     margin-top: 30px;
-     text-align: center;
-     font-size: 20px;
-     font-weight: 350;
- }
- 
- .portal {
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: center;
-     width: 100%;
- }
- 
- .btn-lg {
-     background: #0f4c75;
-     color: #fff;
-     font-weight: 600;
-     height: 200px;
-     width: 200px;
-     margin: 70px 50px;
-     box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.04), -6px -6px 12px rgba(0, 0, 0, 0.01);
-     border: none;
- }
- 
- .btn-prof {
-     height: 180px;
-     width: 180px;
-     margin-left: 20px;
-     margin-top: 100px;
-     background-color: rgba(50, 130, 184, 0.3);
- }
- 
- .btn-prof:hover {
-     background: rgba(50, 130, 184, 0.15);
-     box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(250, 250, 250, 1);
- }
- /* ----------------------------------------------------------------------------------*/
- /*  -------------------------------- User Portal  -----------------------------------*/
- 
- #Container-user {
-     text-align: center;
-     margin: 0px auto;
-     margin-top: 10px;
-     width: 100%;
-     padding: 10px;
-     list-style-type: none;
-     display: inline-block;
- }
- 
- #masterCard-user {
-     text-align: center;
-     margin: 0px auto;
-     margin-top: 40px;
-     padding: 10px;
-     padding-top: 0px;
-     width: 50%;
- }
- 
- .hiddenInp {
-     visibility: hidden;
- }
- 
- #box-user {
-     background: rgba(50, 130, 184, 0.3);
-     border: none;
-     box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(250, 250, 250, 1);
- }
- 
- #user-container {
-     background: rgba(255, 255, 255, 0.15);
- }
- 
- .hiddenInp {
-     visibility: hidden;
- }
- /* --------------------------------------------------------------------------- */
- /* ------------------------------- Central Authority ------------------------- */
- 
- .btn-cat {
-     height: 200px;
-     width: 200px;
-     margin-left: 5%;
-     margin-top: 100px;
-     background: white;
-     border-color: #bbe1fa;
-     border-width: 2px;
- }
- 
- .btn-prof:hover {
-     box-shadow: 0px 0px 10px #888888;
- }
- 
- .container-fluid {
-     display: inline-flex;
- }
- 
- .card {
-     margin: 70px;
-     height: 100%;
- }
- 
- .fixed-bottom {
-     height: 50px;
-     background: none;
- }
- 
- #central-authority-form,
- #aadhaar-display,
- #patient-form,
- #user-details {
-     background: rgba(50, 130, 184, 0.15);
-     color: black;
-     border: none;
-     box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
- }
- /* -------------------------------------------------------------- */
- /* ------------------ Clinician Page ---------------------------- */
- 
- .form-control-borderless {
-     border: none;
- }
- 
- .form-control-borderless:hover,
- .form-control-borderless:active,
- .form-control-borderless:focus {
-     border: none;
-     outline: none;
-     box-shadow: none;
- }
- /* nav>.nav.nav-tabs {
-    border: none;
+.navbar {
+    background-color: #3282b8;
+}
+
+body {
+    background-image: url('bg1.jpg');
+    background-size: cover;
+    background-position: top;
+    text-align: center;
+}
+
+
+/* Footer */
+
+.fixed-bottom {
+    height: 50px;
+    background-color: #3282b8;
+    color: black;
+}
+
+
+/* Submit button common to all pages */
+
+.submit-btn {
+    background: #0f4c75;
     color: #fff;
+}
+
+.submit-btn:hover,
+.btn-lg:hover {
+    background-color: rgba(50, 130, 184, 0.3);
+    color: #0f4c75;
+    border: 1px solid #0f4c75;
+}
+
+
+/* --------------------------------------------------------------------------------- */
+
+
+/* ----------------------------------- Home Page ----------------------------------- */
+
+.intro {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* height: 60vh; */
+    width: 100%;
+    padding: 60px;
+}
+
+.intro h2 {
+    font-size: 5vw;
+    text-transform: uppercase;
+    font-weight: 900;
+    line-height: 1em;
+    text-align: center;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: url('bgtext.png');
+    background-attachment: fixed;
+}
+
+.intro p {
+    color: #3282b8;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 350;
+}
+
+.portal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-lg {
+    background: rgba(15, 76, 117, 0.8);
+    color: #fff;
+    font-weight: 600;
+    height: 200px;
+    width: 200px;
+    margin: 70px 50px;
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.04), -6px -6px 12px rgba(0, 0, 0, 0.01);
+    border: none;
+}
+
+.btn-prof {
+    height: 180px;
+    width: 180px;
+    margin-left: 20px;
+    margin-top: 100px;
+    background-color: rgba(50, 130, 184, 0.3);
+}
+
+.btn-prof:hover {
+    background: rgba(50, 130, 184, 0.15);
+    box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(250, 250, 250, 1);
+}
+
+
+/* ----------------------------------------------------------------------------------*/
+
+
+/*  -------------------------------- User Portal  -----------------------------------*/
+
+#Container-user {
+    text-align: center;
+    margin: 0px auto;
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    list-style-type: none;
+    display: inline-block;
+}
+
+#masterCard-user {
+    text-align: center;
+    margin: 0px auto;
+    margin-top: 100px;
+    padding: 10px;
+    padding-top: 0px;
+    width: 50%;
+}
+
+.hiddenInp {
+    visibility: hidden;
+}
+
+#box-user {
+    background: rgba(50, 130, 184, 0.3);
+    border: none;
+    box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(250, 250, 250, 1);
+}
+
+.prof-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+#user-container {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.hiddenInp {
+    visibility: hidden;
+}
+
+
+/* ---------------------------------------------------------------------------- */
+
+
+/* ------------------------- Healthcare Provider ------------------------------- */
+
+#Container-hcp {
+    text-align: center;
+    margin: 0px auto;
+    margin-bottom: 10px;
+    width: 700px;
+    height: 500px;
+    padding: 10px;
+}
+
+#masterCard-hcp {
+    text-align: center;
+    margin: 0px auto;
+    margin-top: 40px;
+    margin-bottom: 0px;
+    padding: 10px;
+    padding-top: 10px;
+    width: 80%;
+    height: 70%;
+}
+
+.partition {
+    margin-top: 50px;
+    width: 1px;
+    height: 500px;
+    ;
+    background-color: grey;
+}
+
+
+/* --------------------------------------------------------------------------- */
+
+
+/* ------------------------------- Central Authority ------------------------- */
+
+.btn-cat {
+    height: 200px;
+    width: 200px;
+    margin-left: 5%;
+    margin-top: 100px;
+    background: white;
+    border-color: #bbe1fa;
+    border-width: 2px;
+}
+
+.btn-prof:hover {
+    box-shadow: 0px 0px 10px #888888;
+}
+
+.container-fluid {
+    display: inline-flex;
+}
+
+.card {
+    margin: 70px;
+    height: 100%;
+    background: rgba(50, 130, 184, 0.3);
+}
+
+.fixed-bottom {
+    height: 50px;
     background: none;
-    border-radius: 0;
-  }
-  nav>div a.nav-item.nav-link,
-  nav>div a.nav-item.nav-link.active {
+}
+
+#central-authority-form,
+#aadhaar-display,
+#patient-form,
+#user-details {
+    background: rgba(50, 130, 184, 0.15);
+    color: black;
     border: none;
-    padding: 18px 25px;
-    color: #fff;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
+}
+
+
+/* -------------------------------------------------------------- */
+
+
+/* ------------------ Clinician Page ---------------------------- */
+
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover,
+.form-control-borderless:active,
+.form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.tabcontainer {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* TABLE */
+
+.nav-tabs .nav-link {
+    color: #0f4c75
+}
+
+.nav-tabs .nav-link.active {
+    background-color: rgba(50, 130, 184, 0.15);
+}
+
+.main .input-group input {
+    font-size: 15px;
+    border-radius: 10px;
+    width: 50px;
+}
+
+.main-center {
+    border-radius: 10px;
+    padding: 10px 40px;
+    background-color: rgba(50, 130, 184, 0.4);
+    color: white;
+    text-shadow: none;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
+}
+
+.dfcontainer {
     background-color: none;
-    border-radius: 0;
-  }
-  nav>div a.nav-item.nav-link.active:after {
-    content: "";
-    position: relative;
-    bottom: -60px;
-    left: -10%;
-    border: 15px solid transparent;
-    border-top-color: #009edf;
-  }
-  .tab-content {
-    line-height: 25px;
-    border: 1px solid #3282b8;
-    border-top: 5px solid #3282b8;
-    border-bottom: 5px solid #3282b8;
-    padding: 30px 25px;
-  }
-  nav>div a.nav-item.nav-link:hover,
-  nav>div a.nav-item.nav-link:focus {
-    border: none;
-    background: #009edf;
-    color: #fff;
-    border-radius: 0;
-    transition: background 0.20s linear;
-  } */
- 
- .tabcontainer {
-     display: flex;
-     justify-content: center;
- }
- /* TABLE */
- 
- .nav-tabs .nav-link {
-     color: #0f4c75
- }
- 
- .nav-tabs .nav-link.active {
-     background-color: rgba(50, 130, 184, 0.15);
- }
- 
- .main .input-group input {
-     font-size: 15px;
-     border-radius: 10px;
-     width: 50px;
- }
- 
- .main-center {
-     border-radius: 10px;
-     padding: 10px 40px;
-     background-color: rgba(50, 130, 184, 0.4);
-     color: white;
-     text-shadow: none;
-     box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
- }
- /* span.input-group-addon i {
-    color: rgba(50, 130, 184, 0.15);
-    font-size: 17px;
-  } */
- 
- .dfcontainer {
-     background-color: none;
- }
- 
- .dpcontainer {
-     margin: 20px;
- }
- 
- .clinician-container1 {
-     display: flex;
-     justify-content: center;
-     height: 100px;
-     margin-bottom: 50px;
- }
- /* REPORT AND PRESCRIPTION BOX */
- 
- .coabox {
-     background: rgba(50, 130, 184, 0.4);
-     color: black;
-     border-radius: 10px;
-     /* -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);
-    -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
-    box-shadow: 5px 5px 7px rgba(33, 33, 33, .7); */
-     box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
-     padding: 40px;
-     margin: 30px;
- }
- 
- .form-group label {
-     color: #0f4c75;
-     font-weight: bold;
- }
- 
- .counted {
-     margin-bottom: 10px;
-     border-radius: 10px;
-     background: #ffffff;
- }
- /* .clinician-form {
+}
+
+.dpcontainer {
+    margin: 20px;
+}
+
+.clinician-container1 {
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    margin-bottom: 50px;
+}
+
+
+/* REPORT AND PRESCRIPTION BOX */
+
+.coabox {
+    background: rgba(50, 130, 184, 0.4);
+    color: black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
+    padding: 40px;
+    margin: 30px;
+}
+
+.form-group label {
+    color: #0f4c75;
+    font-weight: bold;
+}
+
+.counted {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+
+/* .clinician-form {
     width: 400px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
   } */
- /* #blood-group, #blood-pressure, #height, #weight, #allergies, #diagnoses {
+
+
+/* #blood-group, #blood-pressure, #height, #weight, #allergies, #diagnoses {
     border-radius: 10px;
     width: 150px;
   } */
- /* ------------------------------------------------------ */
- /* ----------------------- Login Page ------------------ */
- 
- @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
- @import url("https://fonts.googleapis.com/css?family=Cairo&display=swap");
- .login-body {
-     background-image: url('bg1.jpg');
-     text-align: center;
-     background-image: url('bg1.jpg');
-     background-size: cover;
-     background-position: top;
- }
- 
- #login-container {
-     width: 400px;
-     height: 480px;
-     background-color: rgba(50, 130, 184, 0.15);
-     border-radius: 10px;
-     position: absolute;
-     top: 100;
-     right: 0;
-     bottom: 0;
-     left: 0;
-     margin: auto;
-     margin-top: 30px;
-     padding: 10px;
- }
- 
- #login-container h3 {
-     font-family: 'Cairo', sans-serif;
-     font-weight: normal;
-     text-align: center;
-     color: black;
-     font-size: 2rem;
-     margin-top: 25px;
-     margin-bottom: 5px;
- }
- 
- #login-container hr {
-     margin-top: 15px;
-     margin-bottom: 2.7rem;
-     width: 250px;
-     border-color: #ffffff;
- }
- 
- #login-container .input-group {
-     padding-left: 30px;
-     padding-right: 30px;
- }
- 
- #login-container .input-group span {
-     color: #ffffff;
-     background: #0f4c75;
-     border-radius: 10px 0px 0px 10px;
- }
- 
- #login-container .input-group input {
-     border: 1px solid ##3282b8;
-     border-radius: 0px 10px 10px 0px;
-     font-family: 'Cairo', sans-serif;
- }
- 
- #login-container .input-group input:focus {
-     box-shadow: none;
-     border: 1px solid #3282b8;
- }
- 
- .btn-customized {
-     margin-top: 30px;
-     color: #ffffff;
-     font-family: 'Cairo', sans-serif;
-     border-radius: 10px;
-     background: #0f4c75;
- }
- 
- .btn-customized:hover {
-     background-color: rgba(50, 130, 184, 0.15);
-     color: black;
- }
- 
- #login-logo {
-     display: block;
-     margin: auto;
- }
- /* Parmacist's CSS Start*/
- 
- .logoimg {
-     text-align: left;
-     width: 200px;
-     height: 100px;
- }
- 
- #containerpharma {
-     display: inline-flex;
-     border-color: white;
- }
- 
- .cardpharma {
-     margin: 70px;
-     padding: 10px;
-     height: 100%;
-     background: rgba(50, 130, 184, 0.15);
-     color: black;
-     border: none;
-     box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
- }
- /* .cardcolor
+
+
+/* ------------------------------------------------------ */
+
+
+/* ----------------------- Login Page ------------------ */
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
+@import url("https://fonts.googleapis.com/css?family=Cairo&display=swap");
+#logout {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    margin-right: 20px;
+    z-index: 9999;
+}
+
+.login-body {
+    background-image: url('bg1.jpg');
+    text-align: center;
+    background-image: url('bg1.jpg');
+    background-size: cover;
+    background-position: top;
+}
+
+#login-container {
+    width: 400px;
+    height: 420px;
+    background-color: rgba(50, 130, 184, 0.15);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    padding: 10px;
+}
+
+#login-container h3 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: normal;
+    text-align: center;
+    color: black;
+    font-size: 2rem;
+    margin-top: 25px;
+    margin-bottom: 5px;
+}
+
+#login-container hr {
+    margin-top: 15px;
+    margin-bottom: 2.7rem;
+    width: 250px;
+    border-color: #ffffff;
+}
+
+#login-container .input-group {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#login-container .input-group span {
+    color: #ffffff;
+    background: #0f4c75;
+    border-radius: 10px 0px 0px 10px;
+}
+
+#login-container .input-group input {
+    border: 1px solid ##3282b8;
+    border-radius: 0px 10px 10px 0px;
+    font-family: 'Cairo', sans-serif;
+}
+
+#login-container .input-group input:focus {
+    box-shadow: none;
+    border: 1px solid #3282b8;
+}
+
+.btn-customized {
+    margin-top: 30px;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    border-radius: 10px;
+    background: #0f4c75;
+}
+
+.btn-customized:hover {
+    background-color: rgba(50, 130, 184, 0.15);
+    color: black;
+}
+
+
+/* Parmacist's CSS Start*/
+
+.logoimg {
+    text-align: left;
+    width: 200px;
+    height: 100px;
+}
+
+#containerpharma {
+    display: inline-flex;
+    justify-content: center;
+    border-color: white;
+}
+
+#cardpharma {
+    margin: 70px;
+    padding: 10px;
+    height: 100%;
+    background: rgba(50, 130, 184, 0.15);
+    color: black;
+    border: none;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, .08), -4px -4px 12px rgba(255, 255, 255, 1);
+}
+
+
+/* .cardcolor
   {
     background: #3282b8;
     color: white;
     border: 0;
   } */
- 
- .partitionpharma {
-     width: 1px;
-     background-color: grey;
-     margin-top: 70px;
- }
- 
- .bodypharma {
-     text-align: center;
-     background-image: url('bg1.jpg');
-     background-size: cover;
-     background-position: top;
- }
- 
- .buttonpharma {
-     margin: 10px;
-     background: #0f4c75;
-     color: white;
- }
- 
- .tablepharma {
-     font-family: arial, sans-serif;
-     border-collapse: collapse;
- }
- 
- .pres {
-     height: auto;
- }
- 
- .hrstyle {
-     border: auto;
- }
- 
- td {
-     text-align: left;
-     padding: 8px;
- }
- 
- #tableshadow {
-     border: none;
-     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.08), -4px -4px 12px rgba(255, 255, 255, 1);
- }
- /* Pharmacist css end *
+
+.partitionpharma {
+    width: 1px;
+    background-color: grey;
+    margin-top: 70px;
+}
+
+.bodypharma {
+    text-align: center;
+}
+
+.buttonpharma {
+    margin: 10px;
+    background: #0f4c75;
+    color: white;
+}
+
+.tablepharma {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+.pres {
+    height: auto;
+}
+
+.hrstyle {
+    border: auto;
+}
+
+td {
+    text-align: left;
+    padding: 8px;
+}
+
+#tableshadow {
+    border: none;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.08), -4px -4px 12px rgba(255, 255, 255, 1);
+}
+
+
+/* Pharmacist css end */
