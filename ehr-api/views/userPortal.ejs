@@ -1,60 +1,101 @@
-<%- include("./partials/header") %>
+<%- include ('./partials/header') %>
 
-    <!-- tabs title-->
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-20 ">
-                <nav>
-                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Give Permission</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Revoke Permission</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Get Record</a>
-                        <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Get Permission</a>
-                    </div>
-                </nav>
-                <!-- tabs title ends -->
+    <body>
 
-                <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+        <button type="button" class="btn submit-btn" name="logout" id="logout">Log Out</button>
+        <div class="card justify-center" id="masterCard-user">
+            <!-- <div class="card-body"> -->
+            <div class="container" id="Container-user">
+                <!-- <div class="row"> -->
+                <div class="col-xl-20" id="user-container">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Give Permission</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Revoke Permission</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Get Record</a>
+                            <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-view" aria-selected="false">View Permissions</a>
 
-                    <!-- give permission -->
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="card">
-                            <div class="card-body">
-                                <input type="text" class="" placeholder="Enter Doctor ID"><button type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                    </nav>
+                    <!-- tabs title ends -->
+
+                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+
+                        <!-- give permission -->
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="card" id="box-user">
+                                <div class="card-body small-card" id="">
+                                    <h4>Give Permission</h4><br>
+                                    <form class="form-inline" action="/user/givepermission" method="POST">
+                                        <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="Enter Doctor's ID" aria-label="Search">
+                                        <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                                        <button class="btn b my-2 my-sm-0 submit-btn">Submit</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- give permission -->
-                    <!-- revok permission -->
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <div class="card">
-                            <div class="card-body">
-                                <input type="text" class="" placeholder="Enter Doctor ID"><button type="button" class="btn btn-primary">Submit</button>
+                        <!-- give permission -->
+                        <!-- revoke permission -->
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <div class="card " id="box-user">
+                                <div class=" card-body small-card">
+                                    <h4>Revoke Permission</h4><br>
+                                    <form class="form-inline" action="/user/revokepermission" method="POST">
+                                        <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="Enter Doctor ID" aria-label="Search">
+                                        <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                                        <button class="btn b my-2 my-sm-0 submit-btn" type="submit">Submit</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- revoke permission -->
-                    <!-- get records -->
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        <div class="card">
-                            <div class="card-body">
-                                <input type="text" class="" placeholder="Meidcal ID"><button type="button" class="btn btn-primary">Submit</button>
+                        <!-- revoke permission -->
+                        <!-- get records -->
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <div class="card " id="box-user">
+                                <div class=" card-body small-card">
+                                    <h4>Get Record</h4><br>
+                                    <form class="form-inline" action="/organisation/healthcareprovider/getmedicalrecord" method="POST">
+                                        <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                                        <button class="btn b my-2 my-sm-0 submit-btn" type="submit">Get Record</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- get records -->
-                    <!-- get permission -->
-                    <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                        <div class="card">
-                            <div class="card-body">
-                                <input type="text" class="" placeholder="Medical ID"><button type="button" class="btn btn-primary">Submit</button>
+                        <!-- get records -->
+                        <!-- get permission -->
+                        <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                            <div class="card " id="box-user">
+                                <div class="card-body small-card usercard">
+                                    <form action="/user/getpermission" method="POST">
+                                        <button class="btn submit-btn">Get Permissions</button>
+                                    </form>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Doctor ID</th>
+                                                <th scope="col">Organisation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <%=permission.username%>
+                                                </td>
+                                                <td>
+                                                    Fortis Hospital
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
                             </div>
                         </div>
+                        <!-- get permission -->
                     </div>
-                    <!-- get permission -->
                 </div>
-
             </div>
         </div>
-    </div>
-    <%- include("./partials/footer") %>
+
+        <%- include ('./partials/footer') %>

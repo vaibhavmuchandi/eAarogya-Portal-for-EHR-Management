@@ -1,0 +1,79 @@
+<%- include ('./partials/header') %>
+
+    <body>
+        <br><br>
+
+
+        <div class="container tabcontainer">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-addreport" role="tabpanel" aria-labelledby="nav-addreport-tab">
+                            <div class="dfcontainer" id="test-table">
+                                <div class="main">
+                                    <div class="main-center">
+                                        <br>
+                                        <h3 style="color:#0f4c75; text-align:center;">Test Report Details</h3>
+                                        <form class="clinician-form" method="post" action="/organisation/testcenter/addreport">
+                                            <div class="form-group">
+                                                <label for="name">Medical ID:  </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                                    <input type="text" class="form-control form-input" name="medicalID" id="medicalID" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Blood Group</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                                    <input type="text" class="form-control form-input" name="bloodGroup" id="blood-group" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Blood Pressure</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                                    <input type="text" class="form-control" name="bloodPressure" id="blood-pressure" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Haemoglobin</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                                    <input type="text" class="form-control" name="haemoglobin" id="haemoglobin" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">Glucose</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                                    <input type="text" class="form-control" name="sugarlevel" id="weight" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">Links</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                                    <input type="text" class="form-control" name="links" id="links" />
+                                                </div>
+                                            </div>
+                                            <button class="btn submit-btn" name="button">Submit</button>
+                                            <%=response.message%>
+                                                <br>
+                                        </form>
+                                    </div>
+                                    <!--main-center"-->
+                                </div>
+                                <!--main-->
+                            </div>
+                            <!--container-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <%- include("./partials/footer") %>

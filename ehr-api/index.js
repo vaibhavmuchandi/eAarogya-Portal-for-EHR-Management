@@ -31,6 +31,10 @@ app.use(require("express-session")({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -39,6 +43,7 @@ var ehrClinician = require("./FabricHelperClinician")
 var ehrPharmacist = require("./FabricHelperPharmacist")
 var ehrHCP = require("./FabricHelperHCP");
 var ehrRadiologist = require("./FabricHelperRadiologist");
+var ehrTestCenter = require("./FabricHelpertestcenter");
 
 /*AadhaarUser.create({
     aadhaarNo: "12345",
@@ -54,6 +59,40 @@ app.get("/", function(req, res) {
 app.get("/professional", function(req, res) {
     res.render("professionalIndex");
 });
+app.get("/organisation/hospitals", function(req, res) {
+    res.render("hospitals");
+});
+//==================TESTCENTER ROUTING START=====================
+app.get("/organisation/testcenter/login", function(req, res) {
+    res.render("testcenterlogin");
+});
+app.post("/organisation/testcenter/login", passport.authenticate("local", {
+    successRedirect: "/organisation/testcenter",
+    failureRedirect: "/organisation/testcenter/login"
+}), function(req, res) {
+
+});
+app.get("/organisation/testcenter", function(req, res) {
+    res.render("testcenter", { response: {} });
+});
+app.post("/organisation/testcenter/addreport", function(req, res) {
+    var MedicalID = req.body.medicalID;
+    var bloodgroup = req.body.bloodGroup;
+    var bloodpressure = req.body.bloodPressure;
+    var haemoglobin = req.body.haemoglobin;
+    var sugarlevel = req.body.sugarlevel;
+    var links = req.body.links || " ";
+    var report = "Blood Group:" + bloodgroup + " " + "Blood Pressure:" + bloodpressure + " " + "Haemoglobin:" + haemoglobin + " " + "Glucose:" + sugarlevel;
+    console.log(report);
+    var doc = {
+        "medicalID": MedicalID,
+        "report": report,
+        "links": links
+    }
+
+    ehrTestCenter.addrLReport(req, res, doc);
+})
+
 //==================CENTAUTH ROUTING STARTS=======================
 app.get("/register", function(req, res) {
     res.render("register");
@@ -124,7 +163,16 @@ app.post("/organisation/clinician/medicalID", function(req, res) {
     var doc = {
         "medicalID": MedicalID
     }
-    ehrClinician.getReport(req, res, doc);
+    User.findOne({ username: 'cliniciantest' }, function(err, found) {
+        found.permission.forEach(function(perm) {
+            if (perm == MedicalID) {
+                ehrClinician.getReport(req, res, doc);
+            } else {
+                res.render("clinicianPortal", { details: { msg: "Cannot fetch data" } });
+            }
+        });
+    });
+
 
 });
 
@@ -139,13 +187,10 @@ app.get("/organisation/clinician/addreport", function(req, res) {
 
 app.post("/organisation/clinician/addreport", function(req, res) {
     var MedicalID = req.body.medicalID;
-    var bloodGroup = req.body.bloodGroup;
-    var bloodPressure = req.body.bloodPressure;
-    var Height = req.body.height;
-    var Weight = req.body.weight;
-    var Allergies = req.body.allergies;
-    var Diagnosis = req.body.diagnoses;
-    var report = bloodPressure + " " + bloodGroup + " " + Height + " " + Weight + " " + " " + Allergies + " " + Diagnosis;
+    var allergies = req.body.allergies;
+    var symptoms = req.body.symptoms;
+    var diagnosis = req.body.diagnoses
+    var report = allergies + " " + symptoms + " " + diagnosis;
     var doc = {
         "medicalID": MedicalID,
         "report": report
@@ -399,6 +444,64 @@ app.post("/organisation/radiologist/prescriptionhistory", function(req, res) {
     ehrRadiologist.getMedicineRecord(req, res, doc);
 });
 //======================RADIOLOGIST ROUTE OVER================================
+//======================USERPORTAL ROUTE START================================
+app.get("/user/login", function(req, res) {
+    res.render("userPortalLogin");
+});
+app.post("/user/login", passport.authenticate("local", {
+    successRedirect: "/user",
+    failureRedirect: "/user/login"
+}), function(req, res) {});
+
+app.get("/user", function(req, res) {
+    res.render("userPortal", { permission: {} });
+});
+
+app.post("/user/givepermission", function(req, res) {
+    var DoctorID = req.body.doctorID;
+    var MedicalID = req.body.medicalID;
+    User.findOne({ username: DoctorID }, function(err, foundOrg) {
+        var org = foundOrg;
+        org.permission.push(MedicalID);
+        org.save();
+        console.log(org);
+        res.render("userPortal", { permission: {} });
+    });
+});
+
+app.get("/user/revokepermission", function(req, res) {
+    res.render("userPortal", { permission: {} });
+})
+
+app.post("/user/revokepermission", function(req, res) {
+    var MedicalID = req.body.medicalID;
+    var DoctorID = req.body.doctorID;
+    User.findOne({ username: DoctorID }, function(err, foundOrg) {
+        console.log(foundOrg);
+        for (var i = 0; i < foundOrg.permission.length; i++) {
+            if (foundOrg.permission[i] === MedicalID) {
+                foundOrg.permission.splice(i, 1);
+                foundOrg.save()
+            } else {
+                res.send("Not found");
+            }
+        }
+        console.log(foundOrg);
+        res.redirect("/user");
+    });
+});
+app.get("/user/getpermission", function(req, res) {
+    res.render("userPortal", { permission: {} });
+});
+app.post("/user/getpermission", function(req, res) {
+    User.findOne({ username: 'cliniciantest' }, function(err, found) {
+        var permission = found.toJSON();
+        console.log(permission);
+        res.render("userPortal", { permission: permission })
+    });
+});
+
+
 
 
 app.listen(3000, function() {
