@@ -295,8 +295,8 @@ app.get("/organisation/radiologist/login", function(req, res) {
     res.render("radioLogistLogin");
 });
 app.post("/organisation/radiologist/login", passport.authenticate("local", {
-    successRedirect: "/organisation/radiologist/login",
-    failureRedirect: "/organisation/radiologist"
+    successRedirect: "/organisation/radiologist",
+    failureRedirect: "/organisation/radiologist/login"
 }), function(req, res) {});
 
 app.get("/organisation/radiologist", function(req, res) {
@@ -315,8 +315,81 @@ app.post("/organisation/radiologist/medicalID", function(req, res) {
 app.get("/organisation/radiologist/addreport", function(req, res) {
     res.render("radioLogistPortal", { details: {} });
 });
-app.post("/organisation/radiologist/addreport")
+app.post("/organisation/radiologist/addreport", function(req, res) {
+    var MedicalID = req.body.medicalID;
+    var bloodGroup = req.body.bloodGroup;
+    var bloodPressure = req.body.bloodPressure;
+    var Height = req.body.height;
+    var Weight = req.body.weight;
+    var Allergies = req.body.allergies;
+    var Diagnosis = req.body.diagnoses;
+    var report = bloodPressure + " " + bloodGroup + " " + Height + " " + Weight + " " + " " + Allergies + " " + Diagnosis;
+    var links = req.body.links;
+    var doc = {
+        "medicalID": MedicalID,
+        "report": report,
+        "links": links
+    }
+    ehrRadiologist.addrLReport(req, res, doc);
+});
+app.get("/organisation/radiologist/getreport", function(req, res) {
+    res.render("radioLogistPortal", { details: {} });
+});
+app.post("/organisation/radiologist/getreport", function(req, res) {
+    var medicalID = req.body.medicalID;
+    var doc = {
+        "medicalID": medicalID
+    }
+    ehrRadiologist.getReport(req, res, doc);
+});
+app.get("/organisation/radiologist/addprescription", function(req, res) {
+    res.render("radioLogistPortal", { details: {} });
+});
+app.post("/organisation/radiologist/addprescription", function(req, res) {
+    var medicalID = req.body.medicalID;
+    var medicineID = medicalID + '0M'
+    var prescription = req.body.prescription;
+    var doc = {
+        "medicalID": medicineID,
+        "prescription": prescription
+    }
+    ehrRadiologist.addMedicineReport(req, res, doc);
+});
 
+app.get("/organisation/radiologist/getprescription", function(req, res) {
+    res.render("radioLogistPortal", { details: {} });
+});
+app.post("/organisation/radiologist/getprescription", function(req, res) {
+    var medicalID = req.body.medicalID;
+    var medicineID = medicalID + '0M';
+    var doc = {
+        "medicineID": medicineID
+    }
+    ehrRadiologist.getMedicineRecord(req, res, doc);
+});
+
+app.get("/organisation/radiologist/reporthistory", function(req, res) {
+    res.render("radioLogistPortal", { details: {} });
+});
+app.post("/organisation/radiologist/reporthistory", function(req, res) {
+    var medicalID = req.body.medicalID;
+    var doc = {
+        "medicalID": medicalID
+    }
+    ehrRadiologist.getRecord(req, res, doc);
+});
+app.get("/organisation/radiologist/prescriptionhistory", function(req, res) {
+    res.render("radioLogistPortal", { details: {} });
+});
+app.post("/organisation/radiologist/prescriptionhistory", function(req, res) {
+    var medicalID = req.body.medicalID;
+    var medicineID = medicalID + '0M';
+    var doc = {
+        "medicalID": medicineID
+    }
+    ehrRadiologist.getMedicineRecord(req, res, doc);
+});
+//======================RADIOLOGIST ROUTE OVER================================
 
 
 app.listen(3000, function() {

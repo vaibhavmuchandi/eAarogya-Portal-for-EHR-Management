@@ -139,7 +139,7 @@
                                     <div class="col-sm-4 col-md-12">
                                         <div class="panel panel-default">
                                             <div class="panel-body">
-                                                <form accept-charset="UTF-8" action="/organisation/clinician/addprescription" method="POST">
+                                                <form accept-charset="UTF-8" action="/organisation/radiologist/addprescription" method="POST">
                                                     <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                                                     <%=details.recordID%>>
                                                         <textarea class="form-control counted" name="prescription" placeholder="Enter prescription details" rows="5"></textarea>
@@ -160,7 +160,7 @@
 
 
                             <div class="coabox">
-                                <form action="/organisation/clinician/getreport" method="POST">
+                                <form action="/organisation/radiologist/getreport" method="POST">
                                     <button class="btn submit-btn">Get latest report</button>
                                     <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                                     <%=details.recordID%>>
@@ -191,7 +191,7 @@
                                         <div class="panel panel-default">
                                             <div class="coabox">
                                                 <div class="panel-body">
-                                                    <form action="/organisation/clinician/getprescription" method="POST">
+                                                    <form action="/organisation/radiologist/getprescription" method="POST">
                                                         <button class="btn submit-btn">Get latest prescription</button>
                                                         <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                                                         <%=details.recordID%>>
@@ -239,7 +239,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="coabox">
-                                            <form action="/organisation/clinician/reporthistory" method="POST">
+                                            <form action="/organisation/radiologist/reporthistory" method="POST">
                                                 <button class="btn submit-btn">Get report history</button>
                                                 <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                                                 <%=details.recordID%>>
