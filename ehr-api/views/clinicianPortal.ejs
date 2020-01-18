@@ -1,27 +1,44 @@
-<%-include("./partials/header.ejs")%>
+<%- include("./partials/header") %>
 
-    <link rel="stylesheet" href="/stylesheets/clinicianPortal.css">
+
+
+
 
     <div class="container">
         <br/>
+        <h3> Clinician Portal</h3>
         <div class="row justify-content-center">
-            <div class="">
-                <form class="card card-sm" action="/organisation/clinician/medicalID" method="POST">
+            <div class="clinician-container1">
+
+                <form class="card card-sm" id="patient-form" action="/organisation/clinician/medicalID" method="POST">
                     <div class="card-body row no-gutters align-items-center">
                         <div class="col-auto">
                             <i class="fas fa-search h4 text-body"></i>
                         </div>
                         <!--end of col-->
                         <div class="col">
-                            <input class="form-control form-control-lg form-control-borderless" type="search" name="medicalID" placeholder="Search Patients By Id">
+                            <input class="form-control form-control-lg form-control-borderless" type="search" name="medicalID" placeholder="Enter medical ID of patient">
                         </div>
                         <!--end of col-->
                         <div class="col-auto">
-                            <button class="btn btn-lg btn-success" type="submit">Search</button>
+                            <button class="btn submit-btn" type="submit">Search</button>
                         </div>
                         <!--end of col-->
                     </div>
                 </form>
+
+                <div class="card" id="user-details">
+                    <div class="card-body">
+                        <p>Name:
+                            <%=details.name%>
+                        </p>
+                        <p> Medical No:
+                            <%=details.recordID%>
+                                <%=details.medicalID%>
+
+                        </p>
+                    </div>
+                </div>
             </div>
             <!--end of col-->
         </div>
@@ -29,19 +46,14 @@
     <br><br>
 
 
-
-
-
-
     <div class="container tabcontainer">
         <div class="row">
             <div class="col-xs-12 ">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                        <a class="nav-item nav-link active" id="nav-addreport-tab" data-toggle="tab" href="#nav-addreport" role="tab" aria-controls="nav-addreport" aria-selected="true">Add Report</a>
+                        <a class="nav-item nav-link active" id="nav-addreport-tab" data-toggle="tab" href="#nav-addreport" role="tab" aria-controls="nav-addreport" aria-selected="false">Add Report</a>
                         <a class="nav-item nav-link" id="nav-addprescription-tab" data-toggle="tab" href="#nav-addprescription" role="tab" aria-controls="nav-addprescription" aria-selected="false">Add Prescription</a>
-                        <a class="nav-item nav-link" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab" aria-controls="nav-report" aria-selected="false">Report</a>
+                        <a class="nav-item nav-link" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab" aria-controls="nav-report" aria-selected="true">Report</a>
                         <a class="nav-item nav-link" id="nav-prescription-tab" data-toggle="tab" href="#nav-prescription" role="tab" aria-controls="nav-prescription" aria-selected="false">Prescription</a>
                         <a class="nav-item nav-link" id="nav-reporth-tab" data-toggle="tab" href="#nav-reporth" role="tab" aria-controls="nav-reporth" aria-selected="false">Report History</a>
                         <a class="nav-item nav-link" id="nav-prescriptionh-tab" data-toggle="tab" href="#nav-prescriptionh" role="tab" aria-controls="nav-prescriptionh" aria-selected="false">Prescription History</a>
@@ -51,45 +63,33 @@
                 <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
 
 
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        NAME :
-                        <%=details.name%>
-                            Medical No:
-                            <%=details.recordID%>
-                                <%=details.medicalID%>
-                    </div>
-
-
-
 
                     <div class="tab-pane fade show active" id="nav-addreport" role="tabpanel" aria-labelledby="nav-addreport-tab">
                         <div class="dfcontainer">
                             <div class="main">
                                 <div class="main-center">
-                                    <form class="" method="post" action="/organisation/clinician/addreport">
-
-
-                                        <input type="text" name="medicalID" value=<%=details.recordID%>
+                                    <form class="clinician-form" action="/organisation/clinician/addreport" method="post">
+                                        <input type="text" class="hiddenInp" name="medicalID" value=<%=details.recordID%>
                                         <%=details.medicalID%>>
                                             <div class="form-group">
                                                 <label for="name">Blood Group</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="bloodGroup" id="blood-group" placeholder="Patient's Blood Group" />
+                                                    <input type="text" class="form-control form-input" name="bloodGroup" id="blood-group">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="name">Blood Pressure</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="bloodPressure" id="blood-pressure" placeholder="Patient's Blood Pressure" />
+                                                    <input type="text" class="form-control" name="bloodPressure" id="blood-pressure">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="name">Height</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="height" id="height" placeholder="Patient's Height" />
+                                                    <input type="text" class="form-control" name="height" id="height">
                                                 </div>
                                             </div>
 
@@ -97,7 +97,7 @@
                                                 <label for="name">Weight</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="weight" id="weight" placeholder="Patient's Weight" />
+                                                    <input type="text" class="form-control" name="weight" id="weight">
                                                 </div>
                                             </div>
 
@@ -106,7 +106,7 @@
                                                 <label for="name">Allergies</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="allergies" id="allergies" placeholder="Patient's Allergies" />
+                                                    <input type="text" class="form-control" name="allergies" id="allergies">
                                                 </div>
                                             </div>
 
@@ -114,22 +114,11 @@
                                                 <label for="name">Diagnoses</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="diagnoses" id="diagnoses" placeholder="Patient's Diagnoses " />
+                                                    <input type="text" class="form-control" name="diagnoses" id="diagnoses">
                                                 </div>
                                             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-                                            <button class="btn btn-info" type="submit">Submit</button>
+                                            <button class="btn submit-btn">Submit</button>
 
                                     </form>
                                 </div>
@@ -146,17 +135,17 @@
 
 
                     <div class="tab-pane fade" id="nav-addprescription" role="tabpanel" aria-labelledby="nav-addprescription-tab">
-                        <div class="dpcontainer">
+                        <div clas-s="dpcontainer">
                             <div class="row">
                                 <div class="col-sm-4 col-md-12">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <form accept-charset="UTF-8" action="/organisation/clinician/addprescription" method="POST">
-                                                <input type="text" name="medicalID" value=<%=details.medicalID%>
+                                                <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                                                 <%=details.recordID%>>
-                                                    <textarea class="form-control counted" name="prescription" placeholder="Prescription Details" rows="5" style="margin-bottom:10px;"></textarea>
+                                                    <textarea class="form-control counted" name="prescription" placeholder="Enter prescription details" rows="5"></textarea>
 
-                                                    <button class="btn btn-info" type="submit">Submit</button>
+                                                    <button class="btn submit-btn" type="submit">Submit</button>
                                             </form>
                                         </div>
                                     </div>
@@ -173,44 +162,23 @@
 
                         <div class="coabox">
                             <form action="/organisation/clinician/getreport" method="POST">
-                                <input type="text" name="medicalID" value=<%=details.medicalID%>
+                                <button class="btn submit-btn">Get latest report</button>
+                                <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                                 <%=details.recordID%>>
-                                    <button>Get latest report</button>
                             </form>
                             <div class="report_result">
-                                MedicalID :
-                                <%=details.recordID%>
-                                    Name:
+                                <p>Name:
                                     <%=details.name%>
-                                        DOB :
-                                        <%=details.dob%>
-                                            Report:
-                                            <%=details.report%>
+                                </p>
+                                <p>Date of Birth:
+                                    <%=details.dob%>
+                                </p>
+                                <p> Report:
+                                    <%=details.report%>
+                                </p>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                     <div class="tab-pane fade" id="nav-prescription" role="tabpanel" aria-labelledby="nav-prescription-tab">
@@ -218,21 +186,25 @@
                             <div class="row">
                                 <div class="col-sm-4 col-md-12">
                                     <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <form action="/organisation/clinician/getprescription" method="POST">
-                                                <input type="text" name="medicalID" value=<%=details.medicalID%>
-                                                <%=details.recordID%>>
-                                                    <button>Get latest prescription</button>
-                                            </form>
-                                            <div class="prescription_results">
-                                                MedicalID :
-                                                <%=details.recordID%>
-                                                    Name:
-                                                    <%=details.name%>
-                                                        DOB :
+                                        <div class="coabox">
+                                            <div class="panel-body">
+                                                <form action="/organisation/clinician/getprescription" method="POST">
+                                                    <button class="btn submit-btn">Get latest prescription</button>
+                                                    <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                                                    <%=details.recordID%>>
+                                                </form>
+                                                <br><br>
+                                                <div class="prescription_results">
+                                                    <p>Name:
+                                                        <%=details.name%>
+                                                    </p>
+                                                    <p>Date of Birth:
                                                         <%=details.dob%>
-                                                            Report:
-                                                            <%=details.prescription%>
+                                                    </p>
+                                                    <p> Report:
+                                                        <%=details.prescription%>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -249,24 +221,37 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <ul class="sidebarservices">
+                                    <div class="coabox">
 
-                                        <li>ADD PRESCRIPTION HISTORY HERE ON ITERATION</li>
-                                    </ul><br><br><br>
+                                        <p>ADD PRESCRIPTION HISTORY HERE ON ITERATION</p>
+                                    </div>
+                                    <br><br><br>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="tab-pane fade" id="nav-reporth" role="tabpanel" aria-labelledby="nav-reporth-tab">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <ul class="sidebarservices">
+                                    <div class="coabox">
                                         <form action="/organisation/clinician/reporthistory" method="POST">
-                                            <input type="text" name="medicalID" value=<%=details.medicalID%>
+                                            <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                                             <%=details.recordID%>>
-                                                <button>Get report history</button>
+                                                <button class="btn submit-btn">Get report history</button>
                                         </form>
+
+
+                                        <%for(var i = 0; i<details.length; i++){Object.values(details[i].Value).forEach(detail => { %>
+                                            <div class="coabox">
+                                                <%=detail%>
+                                            </div>
+                                            <%})}%>
+
+
+
+                                    </div>
 
                                 </div>
                             </div>
@@ -279,4 +264,5 @@
         </div>
     </div>
 
-    <%-include("./partials/footer")%>
+
+    <%- include("./partials/footer") %>
