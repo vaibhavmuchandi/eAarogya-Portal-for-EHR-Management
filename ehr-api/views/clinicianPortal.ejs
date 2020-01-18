@@ -219,7 +219,9 @@
                                                 <%=details.recordID%>>
                                             </form>
                                         </div>
-
+                                        <%for(var i = 0; i<details.length;i++){Object.values(details[i]).forEach(b=>{ %>
+                                            <%=b.report%>
+                                                <%})}%>
                                     </div>
                                 </div>
                             </div>

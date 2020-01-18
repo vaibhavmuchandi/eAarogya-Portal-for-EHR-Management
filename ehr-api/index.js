@@ -156,7 +156,7 @@ app.post("/organisation/clinician/login", passport.authenticate("local", {
 }), function(req, res) {});
 
 app.get("/organisation/clinician/medicalID", function(req, res) {
-    res.render("clinicianPortal", { details: {} });
+    res.render("clinicianPortal", { details: {}, history: [] });
 });
 app.post("/organisation/clinician/medicalID", function(req, res) {
     var MedicalID = req.body.medicalID;
@@ -178,11 +178,11 @@ app.post("/organisation/clinician/medicalID", function(req, res) {
 
 
 app.get("/organisation/clinician", function(req, res) {
-    res.render("clinicianPortal", { details: {} });
+    res.render("clinicianPortal", { details: {}, history: [] });
 });
 
 app.get("/organisation/clinician/addreport", function(req, res) {
-    res.render("clinicianPortal", { details: {} });
+    res.render("clinicianPortal", { details: {}, history: [] });
 })
 
 app.post("/organisation/clinician/addreport", function(req, res) {
@@ -202,7 +202,7 @@ app.post("/organisation/clinician/addreport", function(req, res) {
 });
 
 app.get("/organisation/clinician/addprescription", function(req, res) {
-    res.render("clinicianPortal", { details: {} });
+    res.render("clinicianPortal", { details: {}, history: [] });
 });
 
 app.post("/organisation/clinician/addprescription", function(req, res) {
@@ -217,7 +217,7 @@ app.post("/organisation/clinician/addprescription", function(req, res) {
 });
 
 app.get("/organisation/clinician/getreport", function(req, res) {
-    res.render("clinicianPortal", { details: {} });
+    res.render("clinicianPortal", { details: {}, history: [] });
 });
 
 app.post("/organisation/clinician/getreport", function(req, res) {
@@ -229,7 +229,7 @@ app.post("/organisation/clinician/getreport", function(req, res) {
 });
 
 app.get("/organisation/clinician/getprescription", function(req, res) {
-    res.render("clinicianPortal", { details: {} });
+    res.render("clinicianPortal", { details: {}, history: [] });
 });
 app.post("/organisation/clinician/getprescription", function(req, res) {
     var medicalID = req.body.medicalID;
@@ -241,7 +241,7 @@ app.post("/organisation/clinician/getprescription", function(req, res) {
 });
 
 app.get("/organisation/clinician/reporthistory", function(req, res) {
-    res.render("clinicianPortal", { details: {} });
+    res.render("clinicianPortal", { details: {}, history: [] });
 });
 
 app.post("/organisation/clinician/reporthistory", function(req, res) {

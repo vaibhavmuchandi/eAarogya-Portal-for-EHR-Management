@@ -511,8 +511,9 @@ function getRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    console.log(result);
+                    Object.values(result).forEach(b => { console.log(b.Value.name) })
                     res.render("clinicianPortal", { details: result });
+
                 }
             } else {
                 console.log("No payloads were returned from query");
