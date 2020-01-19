@@ -44,6 +44,7 @@ var ehrPharmacist = require("./FabricHelperPharmacist")
 var ehrHCP = require("./FabricHelperHCP");
 var ehrRadiologist = require("./FabricHelperRadiologist");
 var ehrTestCenter = require("./FabricHelpertestcenter");
+var ehrUser = require("./FabricHelperUser");
 
 /*AadhaarUser.create({
     aadhaarNo: "12345",
@@ -190,7 +191,7 @@ app.post("/organisation/clinician/addreport", function(req, res) {
     var allergies = req.body.allergies;
     var symptoms = req.body.symptoms;
     var diagnosis = req.body.diagnoses
-    var report = allergies + " " + symptoms + " " + diagnosis;
+    var report = "Allergies: " + allergies + ", Symptoms: " + symptoms + ", Diagnosis: " + diagnosis;
     var doc = {
         "medicalID": MedicalID,
         "report": report
@@ -504,6 +505,17 @@ app.post("/user/getpermission", function(req, res) {
         console.log(permission);
         res.render("userPortal", { permission: permission })
     });
+});
+
+app.get("/user/record", function(req, res) {
+    res.render("userPortal");
+});
+app.post("/user/record", function(req, res) {
+    var medicalID = req.body.medicalID;
+    var doc = {
+        "medicalID": medicalID
+    }
+    ehrUser.getRecord(req, res, doc);
 });
 
 
