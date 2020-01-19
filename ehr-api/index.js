@@ -503,7 +503,8 @@ app.post("/user/getpermission", function(req, res) {
     User.findOne({ username: 'cliniciantest' }, function(err, found) {
         var permission = found.toJSON();
         console.log(permission);
-        res.render("userPortal", { permission: permission })
+        permission.organisation = "Fortis Hospital"
+        res.render("userPortal", { permission: permission });
     });
 });
 
