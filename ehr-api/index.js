@@ -168,7 +168,7 @@ app.post("/organisation/clinician/medicalID", function(req, res) {
             if (perm == MedicalID) {
                 ehrClinician.getReport(req, res, doc);
             } else {
-
+                console.log("Not allowed")
             }
         });
     });
@@ -306,7 +306,6 @@ app.post("/organisation/healthcareprovider/login", passport.authenticate("local"
 }), function(req, res) {});
 
 
-
 app.get("/organisation/healthcareprovider", function(req, res) {
     res.render("hcpPortal", { details: {} });
 });
@@ -382,14 +381,8 @@ app.get("/organisation/radiologist/addreport", function(req, res) {
     res.render("radioLogistPortal", { details: {} });
 });
 app.post("/organisation/radiologist/addreport", function(req, res) {
-    var MedicalID = req.body.medicalID;
-    var bloodGroup = req.body.bloodGroup;
-    var bloodPressure = req.body.bloodPressure;
-    var Height = req.body.height;
-    var Weight = req.body.weight;
-    var Allergies = req.body.allergies;
     var Diagnosis = req.body.diagnoses;
-    var report = bloodPressure + " " + bloodGroup + " " + Height + " " + Weight + " " + " " + Allergies + " " + Diagnosis;
+    var report = Diagnosis;
     var links = req.body.links;
     var doc = {
         "medicalID": MedicalID,
@@ -495,7 +488,7 @@ app.post("/user/revokepermission", function(req, res) {
                 foundOrg.permission.splice(i, 1);
                 foundOrg.save()
             } else {
-                res.send("Not found");
+                console.log("Not found");
             }
         }
         console.log(foundOrg);
@@ -512,6 +505,8 @@ app.post("/user/getpermission", function(req, res) {
         res.render("userPortal", { permission: permission })
     });
 });
+
+
 
 
 

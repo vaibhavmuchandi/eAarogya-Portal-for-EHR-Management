@@ -1,75 +1,185 @@
-<%-include ("./partials/header")%>
-    <div class="container-fluid">
-        <div class="card-hcp">
-            <div class="card-body">
-                <h4>Get Latest Medical Report</h4><br>
-                <form class="form-inline" action="/organisation/healthcareprovider/getreport" method="POST">
-                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
-                </form>
+<%- include ('./partials/header') %>
+
+    <body>
+        <div class="container">
+            <br/>
+            <div class="row justify-content-center">
+                <div class="clinician-container1">
+
+                    <form class="card card-sm" id="patient-form" action="/organisation/healthcareprovider/getreport" method="POST">
+                        <div class="card-body row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <i class="fas fa-search h4 text-body"></i>
+                            </div>
+                            <!--end of col-->
+                            <div class="col">
+                                <input class="form-control form-control-borderless" type="search" name="medicalID" placeholder="Enter medical ID of patient">
+                            </div>
+                            <!--end of col-->
+                            <div class="col-auto">
+                                <button style="margin-left:10px;" class="btn submit-btn">Search</button>
+                            </div>
+                            <!--end of col-->
+                        </div>
+                        <% if(details.msg) {%>
+                            <div class="alert alert-danger">
+                                <%=details.msg%>
+                            </div>
+                            <%}%>
+                    </form>
+
+                    <div class="card" id="user-details">
+                        <div class="card-body">
+                            <p>Name:
+                                <%=details.name%>
+                            </p>
+                            <p> Medical No:
+                                <%=details.recordID%>
+                                    <%=details.medicalID%>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!--end of col-->
             </div>
         </div>
-        <div class="card-hcp">
-            <div class="card-body">
-                <h4>Get Latest Prescription</h4><br>
-                <form class="form-inline" action="/organisation/healthcareprovider/getprescription" method="POST">
-                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
-                </form>
-            </div>
-        </div>
-        <div class="card-hcp">
-            <div class="card-body">
-                <h4>Get Record History</h4><br>
-                <form class="form-inline" action="/organisation/healthcareprovider/getmedicalrecord" method="POST">
-                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
-                </form>
-            </div>
-        </div>
-        <div class="card=hcp">
-            <div class="card-body">
-                <h4>Get Prescription Record</h4><br>
-                <form class="form-inline" action="/organisation/healthcareprovider/getprescriptionrecord" method="POST">
-                    <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Get Report</button>
-                </form>
+        <br><br>
+
+
+        <div class="container tabcontainer">
+            <div class="row">
+                <div class="col-xs-12 ">
+                    <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab" aria-controls="nav-report" aria-selected="true">Report</a>
+                            <a class="nav-item nav-link" id="nav-prescription-tab" data-toggle="tab" href="#nav-prescription" role="tab" aria-controls="nav-prescription" aria-selected="false">Prescription</a>
+                            <a class="nav-item nav-link" id="nav-reporth-tab" data-toggle="tab" href="#nav-reporth" role="tab" aria-controls="nav-reporth" aria-selected="false">Report History</a>
+                            <a class="nav-item nav-link" id="nav-prescriptionh-tab" data-toggle="tab" href="#nav-prescriptionh" role="tab" aria-controls="nav-prescriptionh" aria-selected="false">Prescription History</a>
+
+                        </div>
+                    </nav>
+                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+
+                        <div class="tab-pane fade show active" id="nav-report" role="tabpanel" aria-labelledby="nav-report-tab">
+
+
+                            <div class="coabox">
+                                <form action="/organisation/healthcareprovider/getreport" method="POST">
+                                    <button class="btn submit-btn">Get latest report</button>
+                                    <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                                    <%=details.recordID%>>
+                                </form>
+                                <div class="report_result">
+                                    <p>Name:
+                                        <%=details.name%>
+                                    </p>
+                                    <p>Date of Birth:
+                                        <%=details.dob%>
+                                    </p>
+                                    <p> Report:
+                                        <%=details.report%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="nav-prescription" role="tabpanel" aria-labelledby="nav-prescription-tab">
+                            <div class="dpcontainer">
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-12">
+                                        <div class="panel panel-default">
+                                            <div class="coabox">
+                                                <div class="panel-body">
+                                                    <form action="/organisation/healthcareprovider/getprescription" method="POST">
+                                                        <button class="btn submit-btn">Get latest prescription</button>
+                                                        <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                                                        <%=details.recordID%>>
+                                                    </form>
+                                                    <br><br>
+                                                    <div class="prescription_results">
+                                                        <p>Name:
+                                                            <%=details.name%>
+                                                        </p>
+                                                        <p>Date of Birth:
+                                                            <%=details.dob%>
+                                                        </p>
+                                                        <p> Report:
+                                                            <%=details.prescription%>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="tab-pane fade" id="nav-prescriptionh" role="tabpanel" aria-labelledby="nav-prescriptionh-tab">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="coabox">
+                                            <form action="/organisation/healthcareprovider/getprescriptionrecord" method="POST">
+                                                <button class="btn submit-btn">Get report history</button>
+                                                <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                                                <%=details.recordID%>>
+                                            </form>
+                                        </div>
+                                        <%for(var i = 0; i<details.length;i++){ %>
+
+                                            <%if(details[i]['Value']['prescription']!=""){%>
+                                                <div class="coabox">
+                                                    Date:
+                                                    <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
+                                                        <br>
+                                                        <%=details[i]['Value']['prescription']%>
+                                                </div>
+                                                <%}%>
+                                                    <%}%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-reporth" role="tabpanel" aria-labelledby="nav-reporth-tab">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="coabox">
+                                            <form action="/organisation/healthcareprovider/getmedicalrecord" method="POST">
+                                                <button class="btn submit-btn">Get report history</button>
+                                                <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                                                <%=details.recordID%>>
+                                            </form>
+                                        </div>
+
+                                        <%for(var i = 0; i<details.length;i++){ %>
+
+                                            <%if(details[i]['Value']['report']!=""){%>
+                                                <div class="coabox">
+                                                    Date:
+                                                    <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
+                                                        <br>
+                                                        <%=details[i]['Value']['report']%>
+                                                </div>
+                                                <%}%>
+                                                    <%}%>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
         </div>
 
-        <div class="partition"></div>
-
-        <div class="card-hcp">
-            <div class="card-body">
-                <table>
-                    <tr>
-                        <td><b>Name</td>
-                        <td><%=details.name%></td>
-                    </tr>
-                    <tr>
-                        <td><b>D.O.B</td>
-                        <td><%=details.dob%></td>
-                    </tr>
-                    <tr>
-                        <td><b>Address</td>
-                        <td><%=details.address%></td>
-                    </tr>
-                    <tr>
-                        <td class="pres"><b>Prescription</td>
-                        <td class="pres"><%=details.prescription%></td>
-                    </tr>
-                    <% Object.values(details).forEach(detail => { %>
-                        <tr>
-                            <td class="pres"><b>Medical Report</b></td>
-                        <td class="pres">
-                            <%=detail.Value.report%>
-                        </td>
-                    </tr>
-                    <%})%>
-
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <%- include("./partials/footer")%>
+        <%- include("./partials/footer") %>
