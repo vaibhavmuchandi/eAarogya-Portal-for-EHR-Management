@@ -444,10 +444,10 @@ app.post("/organisation/radiologist/reporthistory", function(req, res) {
     }
     ehrRadiologist.getRecord(req, res, doc);
 });
-app.get("/organisation/radiologist/prescriptionhistory", function(req, res) {
+app.get("/organisation/radiologist/medicinehistory", function(req, res) {
     res.render("radioLogistPortal", { details: {} });
 });
-app.post("/organisation/radiologist/prescriptionhistory", function(req, res) {
+app.post("/organisation/radiologist/medicinehistory", function(req, res) {
     var medicalID = req.body.medicalID;
     var medicineID = medicalID + '0M';
     var doc = {
