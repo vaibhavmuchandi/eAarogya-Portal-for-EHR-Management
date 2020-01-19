@@ -168,7 +168,7 @@ app.post("/organisation/clinician/medicalID", function(req, res) {
             if (perm == MedicalID) {
                 ehrClinician.getReport(req, res, doc);
             } else {
-                res.render("clinicianPortal", { details: { msg: "Cannot fetch data" } });
+
             }
         });
     });
@@ -250,6 +250,18 @@ app.post("/organisation/clinician/reporthistory", function(req, res) {
         "medicalID": medicalID
     }
     ehrClinician.getRecord(req, res, doc);
+});
+
+app.get("/organisation/clinician/medicinehistory", function(req, res) {
+    res.render("clinicianPortal", { details: {}, history: [] });
+});
+app.post("/organisation/clinician/medicinehistory", function(req, res) {
+    var medicalID = req.body.medicalID;
+    var medicineID = medicalID + '0M'
+    var doc = {
+        "medicalID": medicineID
+    }
+    ehrClinician.getMedicineRecord(req, res, doc)
 });
 
 //==========Clinician Route Over =================================

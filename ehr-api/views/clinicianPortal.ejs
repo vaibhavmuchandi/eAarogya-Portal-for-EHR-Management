@@ -200,9 +200,23 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="coabox">
-                                            <p>ADD PRESCRIPTION HISTORY HERE ON ITERATION</p>
+                                            <form action="/organisation/clinician/medicinehistory" method="POST">
+                                                <button class="btn submit-btn">Get report history</button>
+                                                <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                                                <%=details.recordID%>>
+                                            </form>
                                         </div>
-                                        <br><br><br>
+                                        <%for(var i = 0; i<details.length;i++){ %>
+
+                                            <%if(details[i]['Value']['prescription']!=""){%>
+                                                <div class="coabox">
+                                                    Date:
+                                                    <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
+                                                        <br>
+                                                        <%=details[i]['Value']['prescription']%>
+                                                </div>
+                                                <%}%>
+                                                    <%}%>
                                     </div>
                                 </div>
                             </div>
@@ -219,9 +233,19 @@
                                                 <%=details.recordID%>>
                                             </form>
                                         </div>
-                                        <%for(var i = 0; i<details.length;i++){Object.values(details[i]).forEach(b=>{ %>
-                                            <%=b.report%>
-                                                <%})}%>
+
+                                        <%for(var i = 0; i<details.length;i++){ %>
+
+                                            <%if(details[i]['Value']['report']!=""){%>
+                                                <div class="coabox">
+                                                    Date:
+                                                    <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
+                                                        <br>
+                                                        <%=details[i]['Value']['report']%>
+                                                </div>
+                                                <%}%>
+                                                    <%}%>
+
                                     </div>
                                 </div>
                             </div>
