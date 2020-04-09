@@ -230,7 +230,7 @@ function getMedicineReport(req, res, doc) {
 }
 
 //Get entire history of prescriptions
-function getMedicineRecord(req, res) {
+function getMedicineRecord(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -282,10 +282,8 @@ function getMedicineRecord(req, res) {
                     console.error("error from query = ", query_responses[0]);
                 } else {
                     console.log("Response is ", query_responses[0].toString());
-                    res.send({
-                        code: "200",
-                        data: JSON.parse(query_responses[0].toString())
-                    })
+                    var result = JSON.parse(query_responses[0]);
+                    res.render("hcpPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");

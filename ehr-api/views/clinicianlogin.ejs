@@ -1,0 +1,38 @@
+<%- include ('./partials/header') %>
+
+
+    <body class="login-body">
+        <div id="login-container">
+            <img height="100" src="/stylesheets/logo.png" alt="">
+            <h3>Account Login</h3>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="/organisation/clinician/login" method="post">
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="email-label">
+                  <i class="fa fa-user-circle" aria-hidden="true"></i>
+                </span>
+                                </div>
+                                <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Email" aria-describedby="email-label">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="password-label">
+                  <i class="fa fa-key" aria-hidden="true"></i>
+                </span>
+                                </div>
+                                <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-label">
+                            </div>
+
+
+                            <div class="text-center">
+                                <button class="btn btn-customized">Login</button>
+                            </div>
+
+                        </form>
+                        <%- include("./partials/footer") %>
