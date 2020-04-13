@@ -3,11 +3,11 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
-const User = require("../models/user");
+const User = require("../../models/user");
 
 //All routes have prefix '/organsation/clinician'
 router.get('/login', function(req, res) {
-    res.render('clinicianlogin');
+    res.render('org-login', {org: 'clinician'});
 });
 
 router.post('/login', passport.authenticate('local', {

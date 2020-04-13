@@ -63,7 +63,7 @@ function createRecord(req, res, doc) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'createRecord',
-                args: [doc.aadhaarNo, doc.name, doc.dob, doc.address],
+                args: [doc.aadhaarNo, doc.name, doc.dob, doc.gender, doc.address],
                 chainId: 'ehrchannel',
                 txId: tx_id
             };

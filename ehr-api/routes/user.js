@@ -4,23 +4,89 @@ const router = express.Router();
 const passport = require('passport');
 const ehrUser = require('../FabricHelper/FabricHelperUser');
 const User = require('../models/user');
+const AadhaarUser = require('../models/aadhaaruser')
 
-//All routes have prefix '/organsation/clinician'
-app.get('/login', function(req, res) {
-    res.render('userPortalLogin');
+//All routes have prefix '/user'
+router.get('/login', (req, res) => {
+    res.render('user-login');
 });
 
-app.post('/login', passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login'
-}), function(req, res) {});
+}), (req, res) => {});
 
-app.get('/', function(req, res) {
+router.get('/', (req, res) => {
     res.render('userPortal', { permission: {} });
 });
 
+router.get('/register-user', (req, res) => {
+    res.render('register-user/index');
+});
 
-app.post('/givepermission', function(req, res) {
+router.post('/register-user', (req, res) => {
+  let aadhaarNum = req.body.aadhaarNum.trim().replace(/[ -]/g, '');
+  AadhaarUser.findOne({aadhaarNo: aadhaarNum}, (err, user) => {
+    if(user) {
+      app.set('details', user.toJSON());
+
+      var options = {
+        method: 'GET',
+        url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/' + detail.phoneNumber + '/AUTOGEN',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        form: {}
+      };
+
+      request(options, function(error, response, body) {
+        if (error) throw new Error(error);
+
+        let session = JSON.parse(body);
+        app.set('sessionNum', session.Details);
+      });
+
+      res.render('register-user/enter-code', {error: null});
+    } else {
+      res.render('register-user/index');
+    }
+  })
+});
+
+
+router.post('/register-user/verify-otp', (req, res) => {
+    let otp = req.body.code;
+    let sessNum = app.get('sessionNum');
+    let options = {
+      method: 'GET',
+      url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/VERIFY/' + sessNum + '/' + otp,
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      form: {}
+    };
+
+    request(options, function(error, response, body) {
+      if (error) throw new Error(error);
+
+      if (response.statusCode == 200) {
+        let details = app.get('details');
+        res.render('register-user/complete-form', {
+          details: details
+        });
+      } else {
+        res.render('register-user/enter-code', {error: 'Invalid OTP'})
+      }
+    });
+})
+
+router.post('/register-user/complete-form', (req, res) => {
+  let details = req.body;
+  ehrClinician.createRecord(req, res, details);
+  ehrClinician.createMedicineRecord(req, res, details);
+});
+
+router.post('/givepermission', (req, res) => {
     let DoctorID = req.body.doctorID;
     let MedicalID = req.body.medicalID;
     User.findOne({ username: DoctorID }, function(err, foundOrg) {
@@ -32,11 +98,11 @@ app.post('/givepermission', function(req, res) {
     });
 });
 
-app.get('/revokepermission', function(req, res) {
+router.get('/revokepermission', (req, res) => {
     res.render('userPortal', { permission: {} });
 })
 
-app.post('/revokepermission', function(req, res) {
+router.post('/revokepermission', (req, res) => {
     let MedicalID = req.body.medicalID;
     let DoctorID = req.body.doctorID;
     User.findOne({ username: DoctorID }, function(err, foundOrg) {
@@ -54,11 +120,11 @@ app.post('/revokepermission', function(req, res) {
     });
 });
 
-app.get('/getpermission', function(req, res) {
+router.get('/getpermission', (req, res) => {
     res.render('userPortal', { permission: {} });
 });
 
-app.post('/getpermission', function(req, res) {
+router.post('/getpermission', (req, res) => {
     User.findOne({ username: 'cliniciantest' }, function(err, found) {
         let permission = found.toJSON();
         console.log(permission);
@@ -67,11 +133,11 @@ app.post('/getpermission', function(req, res) {
     });
 });
 
-app.get('/record', function(req, res) {
+router.get('/record', (req, res) => {
     res.render('userPortal');
 });
 
-app.post('/record', function(req, res) {
+router.post('/record', (req, res) => {
     let medicalID = req.body.medicalID;
     let doc = {
         'medicalID': medicalID

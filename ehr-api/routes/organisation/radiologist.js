@@ -6,7 +6,7 @@ const ehrRadiologist = require('../../FabricHelper/FabricHelperRadiologist');
 
 //All routes have prefix '/organisation/radiologist'
 router.get('/login', function(req, res) {
-    res.render('radioLogistLogin');
+    res.render('org-login', {org: 'radiologist'});
 });
 
 router.post('/login', passport.authenticate('local', {

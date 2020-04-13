@@ -7,7 +7,7 @@ const AadhaarUser = require('../../models/aadhaaruser');
 
 //All routes have prefix '/organisation/centauth'
 router.get('/login', function(req, res) {
-    res.render('centauthlogin');
+    res.render('org-login', {org: 'centauth'});
 });
 
 router.post('/login', passport.authenticate('local', {

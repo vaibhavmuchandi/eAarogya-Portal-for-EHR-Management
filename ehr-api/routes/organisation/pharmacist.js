@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-    res.render('pharmacistlogin');
+    res.render('org-login', {org: 'pharmacist'});
 });
 
 router.post('/login', passport.authenticate('local', {

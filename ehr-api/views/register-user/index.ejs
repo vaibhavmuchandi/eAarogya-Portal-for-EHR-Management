@@ -1,0 +1,11 @@
+<%-include("../partials/header.ejs")%>
+
+<body>
+  <form action="/register-user" method="post">
+    <label for="aadhaarNum">Enter your Aadhaar Number:</label>
+    <input type="text" name="aadhaarNum" id="aadhaarNum">
+    <button>Submit</button>
+  </form>
+</body>
+
+<%- include("../partials/footer.ejs") %>

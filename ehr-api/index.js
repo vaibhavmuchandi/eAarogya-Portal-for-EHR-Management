@@ -33,7 +33,7 @@ const organisationRoutes = require('./routes/organisations');
 const userRoutes = require('./routes/user');
 
 app.use('/organisation', organisationRoutes);
-app.user('/user', userRoutes);
+app.use('/user', userRoutes);
 
 app.get('/', function(req, res) {
     res.render('index');
