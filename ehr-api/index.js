@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const User = require('./models/user');
 const LocalStrategy = require('passport-local');
 const passportLocalMongoose = require('passport-local-mongoose');
-const uri = "mongodb+srv://test:<password>@cluster0-2czvc.mongodb.net/ehr?retryWrites=true&w=majority"
+const uri = "mongodb+srv://test:test@cluster0-2czvc.mongodb.net/ehr?retryWrites=true&w=majority"
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 app.use(bodyParser.urlencoded({ extended: true }))
 

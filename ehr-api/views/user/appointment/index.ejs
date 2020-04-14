@@ -14,12 +14,12 @@
 </head>
 
 <body>
-  <form action="/get-slots" method="post">
+  <form action="/user/appointment/get-slots" method="post">
     <input type="text" id="datepicker" name="date" value="<%=date%>" onfocusout="submitDate()">
     <button id="date-button" hidden></button>
   </form>
 
-  <form action="/book-appointment" method="post">
+  <form action="/user/appointment/book-appointment" method="post">
     <% if(slots.length!=0) { %>
     <% for(i in slots) { %>
     <input type="button" onclick="handleClick(this)" value="<%=slots[i]%>">
