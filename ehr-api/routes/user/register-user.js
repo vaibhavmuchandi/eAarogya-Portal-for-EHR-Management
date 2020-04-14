@@ -4,8 +4,8 @@ const passport = require('passport');
 const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
 const AadhaarUser = require('../../models/aadhaaruser');
 let app = express();
-//All routes have prefix /user/register-user
 
+//All routes have prefix /user/register-user
 router.get('/', (req, res) => {
     res.render('user/register-user/index');
 });
