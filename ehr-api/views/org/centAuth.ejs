@@ -1,4 +1,4 @@
-<%-include("./partials/header.ejs")%>
+<%-include("../partials/header.ejs")%>
 
 <div class="container-fluid">
   <div class="cent-auth-container">
@@ -52,7 +52,7 @@
         <!--<div class="alert alert-success" role="alert" style="width: 150px;">EHR created!</div> -->
         <% } else { %>
         <script type="text/javascript">
-          document.getElementById("message-display").innerHTML = "<p class=\"alert alert-danger\" role=\"alert\">Details not found in database. Please ensure you have entered the correct Aadhaar number.</p>"
+        document.getElementById("message-display").innerHTML = "<p class=\"alert alert-danger\" role=\"alert\">Details not found in database. Please ensure you have entered the correct Aadhaar number.</p>"
         </script>
         <%}%>
             </div>
@@ -74,7 +74,7 @@
         <p>Address: <%=details.address%></p>
         <% } else { %>
         <script type="text/javascript">
-          document.getElementById("message-display").innerHTML = "<p>Details not found in database. Please ensure you have entered the correct Aadhaar number.</p>"
+        document.getElementById("message-display").innerHTML = "<p>Details not found in database. Please ensure you have entered the correct Aadhaar number.</p>"
         </script>
         <%}%>
       </div>
@@ -84,4 +84,4 @@
 
   <div class="fixed-bottom" style="text-align: center;">All rights reserved®</div>
 
-    <%- include("./partials/footer.ejs") %>
+    <%- include("../partials/footer.ejs") %>

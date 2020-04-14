@@ -6,7 +6,7 @@ const ehrPharmacist = require('../../FabricHelper/FabricHelperPharmacist')
 
 //All routes have prefix '/organisation/pharmacist'
 router.get('/', function(req, res) {
-    res.render('pharmacistPortal', { details: {} });
+    res.render('org/pharmacistPortal', { details: {} });
 });
 
 router.get('/login', function(req, res) {
@@ -19,7 +19,7 @@ router.post('/login', passport.authenticate('local', {
 }), function(req, res) {});
 
 router.get('/getprescription', function(req, res) {
-    res.render('pharmacistPortal', { details: {} });
+    res.render('org/pharmacistPortal', { details: {} });
 });
 
 router.post('/getprescription', function(req, res) {

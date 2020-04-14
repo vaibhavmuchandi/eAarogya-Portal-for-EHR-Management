@@ -82,7 +82,7 @@ function createRecord(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render('centAuth', { details: doc, errors: [] });
+                res.render('org/centAuth', { details: doc, errors: [] });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -264,7 +264,7 @@ function addReport(req, res, doc) {
                 console.log(doc);
                 //result = JSON.parse(proposalResponses[0]);
                 console.log(proposalResponses[0].name)
-                res.render("radioLogistPortal", { details: doc, name: proposalResponses[0].name })
+                res.render("org/radiologistPortal", { details: doc, name: proposalResponses[0].name })
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -440,7 +440,7 @@ function getReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("radioLogistPortal", { details: result })
+                    res.render("org/radiologistPortal", { details: result })
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -512,7 +512,7 @@ function getRecord(req, res, doc) {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
                     console.log(result);
-                    res.render("radioLogistPortal", { details: result });
+                    res.render("org/radiologistPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -768,7 +768,7 @@ function addMedicineReport(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render("radioLogistPortal", { details: doc });
+                res.render("org/radiologistPortal", { details: doc });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -947,7 +947,7 @@ function addrLReport(req, res) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render("radioLogistPortal", { details: doc });
+                res.render("org/radiologistPortal", { details: doc });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -1120,7 +1120,7 @@ function getMedicineReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("radioLogistPortal", { details: result });
+                    res.render("org/radiologistPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -1187,7 +1187,7 @@ function getMedicineRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("radioLogistPortal", { details: result })
+                    res.render("org/radiologistPortal", { details: result })
                 }
             } else {
                 console.log("No payloads were returned from query");

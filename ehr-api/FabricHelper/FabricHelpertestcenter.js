@@ -68,7 +68,7 @@ function addrLReport(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render("testcenter", { response: { message: "New report added successfully" } });
+                res.render("org/testcenter", { response: { message: "New report added successfully" } });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");

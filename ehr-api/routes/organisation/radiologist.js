@@ -15,12 +15,12 @@ router.post('/login', passport.authenticate('local', {
 }), function(req, res) {});
 
 router.get('/', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 
 router.get('/medicalID', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 router.post('/medicalID', function(req, res) {
@@ -32,7 +32,7 @@ router.post('/medicalID', function(req, res) {
 });
 
 router.get('/addreport', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 router.post('/addreport', function(req, res) {
@@ -48,7 +48,7 @@ router.post('/addreport', function(req, res) {
 });
 
 router.get('/getreport', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 router.post('/getreport', function(req, res) {
@@ -60,7 +60,7 @@ router.post('/getreport', function(req, res) {
 });
 
 router.get('/addprescription', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 router.post('/addprescription', function(req, res) {
@@ -75,7 +75,7 @@ router.post('/addprescription', function(req, res) {
 });
 
 router.get('/getprescription', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 router.post('/getprescription', function(req, res) {
@@ -88,7 +88,7 @@ router.post('/getprescription', function(req, res) {
 });
 
 router.get('/reporthistory', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 router.post('/reporthistory', function(req, res) {
@@ -100,7 +100,7 @@ router.post('/reporthistory', function(req, res) {
 });
 
 router.get('/medicinehistory', function(req, res) {
-    res.render('radioLogistPortal', { details: {} });
+    res.render('org/radiologistPortal', { details: {} });
 });
 
 router.post('/medicinehistory', function(req, res) {

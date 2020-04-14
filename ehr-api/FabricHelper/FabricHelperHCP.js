@@ -74,7 +74,7 @@ function getReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("hcpPortal", { details: result })
+                    res.render("org/hcpPortal", { details: result })
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -146,7 +146,7 @@ function getRecord(req, res, doc) {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
                     console.log(typeof(result));
-                    res.render("hcpPortal", { details: result });
+                    res.render("org/hcpPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -216,7 +216,7 @@ function getMedicineReport(req, res, doc) {
                     var result = JSON.parse(query_responses[0]);
                     console.log(typeof(result));
                     console.log(result);
-                    res.render("hcpPortal", { details: result });
+                    res.render("org/hcpPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -283,7 +283,7 @@ function getMedicineRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("hcpPortal", { details: result });
+                    res.render("org/hcpPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");

@@ -1,0 +1,51 @@
+<%-include ('../partials/header') %>
+
+<body class="bodypharma">
+  <br>
+  <h3>Pharmacist Portal</h3>
+
+  <div class="container-fluid" id="containerpharma">
+
+    <div class="card" id="cardpharma">
+      <div class="card-body cardcolor">
+        <h4>Get latest prescription</h4><br>
+        <form class="form-inline" action="/organisation/pharmacist/getprescription" method="POST">
+          <input type="text" class="form-control mr-sm-2" name="medicalID" placeholder="Enter Medical ID" aria-label="Search">
+          <button class="btn  my-2 my-sm-0 buttonpharma" type="submit">Get History</button>
+        </form>
+      </div>
+      <hr class="hrstyle">
+      <div class="card-body cardcolor">
+        <h4>Get prescription history</h4><br>
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="text" placeholder="Enter Medical ID" aria-label="Search">
+          <button class="btn  my-2 my-sm-0 buttonpharma" type="submit">Get History</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- <div class="partition partitionpharma"></div> -->
+
+    <div class="card" id="cardpharma">
+      <div class="card-body">
+        <table class="tablepharma">
+          <tr>
+            <td><b>Name:</td>
+            <td><%=details.name%></td>
+          </tr>
+          <tr>
+            <td><b>D.O.B:</td>
+            <td><%=details.dob%></td>
+          </tr>
+          <tr>
+            <td><b>Address:</td>
+            <td><%=details.address%></td>
+          </tr>
+          <tr>
+            <td class="pres"><b>Prescription:</td>
+            <td class="pres"><%=details.prescription%></td>
+          <tr>
+        </table>
+      </div>
+    </div>
+  </div>

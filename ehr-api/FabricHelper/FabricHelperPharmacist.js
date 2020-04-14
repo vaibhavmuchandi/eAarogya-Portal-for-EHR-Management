@@ -75,7 +75,7 @@ function getMedicineReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("pharmacistPortal", { details: result });
+                    res.render("org/pharmacistPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");

@@ -17,7 +17,7 @@ router.post('/login', passport.authenticate('local', {
 });
 
 router.get('/', (req, res) => {
-    res.render('testcenter', { response: {} });
+    res.render('org/testcenter', { response: {} });
 });
 
 router.post('/addreport', (req, res) => {

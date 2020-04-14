@@ -16,12 +16,12 @@ router.post('/login', passport.authenticate('local', {
 }), function(req, res) {});
 
 router.get('/', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 });
 
 
 router.get('/medicalID', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 });
 
 router.post('/medicalID', function(req, res) {
@@ -44,7 +44,7 @@ router.post('/medicalID', function(req, res) {
 
 
 router.get('/addreport', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 })
 
 router.post('/addreport', function(req, res) {
@@ -64,7 +64,7 @@ router.post('/addreport', function(req, res) {
 });
 
 router.get('/addprescription', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 });
 
 router.post('/addprescription', function(req, res) {
@@ -79,7 +79,7 @@ router.post('/addprescription', function(req, res) {
 });
 
 router.get('/getreport', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 });
 
 router.post('/getreport', function(req, res) {
@@ -91,7 +91,7 @@ router.post('/getreport', function(req, res) {
 });
 
 router.get('/getprescription', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 });
 router.post('/getprescription', function(req, res) {
     let medicalID = req.body.medicalID;
@@ -103,7 +103,7 @@ router.post('/getprescription', function(req, res) {
 });
 
 router.get('/reporthistory', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 });
 
 router.post('/reporthistory', function(req, res) {
@@ -115,7 +115,7 @@ router.post('/reporthistory', function(req, res) {
 });
 
 router.get('/medicinehistory', function(req, res) {
-    res.render('clinicianPortal', { details: {}, history: [] });
+    res.render('org/clinicianPortal', { details: {}, history: [] });
 });
 router.post('/medicinehistory', function(req, res) {
     let medicalID = req.body.medicalID;

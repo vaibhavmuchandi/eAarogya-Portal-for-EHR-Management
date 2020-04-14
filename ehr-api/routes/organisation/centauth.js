@@ -4,6 +4,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator')
 const passport = require('passport');
 const AadhaarUser = require('../../models/aadhaaruser');
+const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
 
 //All routes have prefix '/organisation/centauth'
 router.get('/login', function(req, res) {

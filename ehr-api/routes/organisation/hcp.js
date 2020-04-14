@@ -16,11 +16,11 @@ router.post('/login', passport.authenticate('local', {
 
 
 router.get('/', function(req, res) {
-    res.render('hcpPortal', { details: {} });
+    res.render('org/hcpPortal', { details: {} });
 });
 
 router.get('/getreport', function(req, res) {
-    res.render('hcpPortal', { details: {} });
+    res.render('org/hcpPortal', { details: {} });
 })
 router.post('/getreport', function(req, res) {
     var medicalID = req.body.medicalID;
@@ -31,7 +31,7 @@ router.post('/getreport', function(req, res) {
 });
 
 router.get('/getmedicalrecord', function(req, res) {
-    res.render('hcpPortal', { details: {} });
+    res.render('org/hcpPortal', { details: {} });
 });
 router.post('/getmedicalrecord', function(req, res) {
     var medicalID = req.body.medicalID;
@@ -42,7 +42,7 @@ router.post('/getmedicalrecord', function(req, res) {
 });
 
 router.get('/getprescription', function(req, res) {
-    res.render('hcpPortal', { details: {} });
+    res.render('org/hcpPortal', { details: {} });
 });
 router.post('/getprescription', function(req, res) {
     var medicalID = req.body.medicalID
@@ -53,7 +53,7 @@ router.post('/getprescription', function(req, res) {
     ehrHCP.getMedicineReport(req, res, doc);
 });
 router.get('/getprescriptionrecord', function(req, res) {
-    res.render('hcpPortal', { details: {} });
+    res.render('org/hcpPortal', { details: {} });
 });
 
 router.post('/getprescriptionrecord', function(req, res) {
