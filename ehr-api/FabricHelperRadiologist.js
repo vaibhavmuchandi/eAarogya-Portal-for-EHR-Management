@@ -25,11 +25,11 @@ function createRecord(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -63,7 +63,7 @@ function createRecord(req, res, doc) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'createRecord',
-                args: [doc.aadhaarNo, doc.name, doc.dob, doc.gender, doc.address],
+                args: [doc.aadhaarNo, doc.name, doc.dob, doc.address],
                 chainId: 'ehrchannel',
                 txId: tx_id
             };
@@ -114,7 +114,7 @@ function createRecord(req, res, doc) {
                 // get an eventhub once the fabric client has a user assigned. The user
                 // is required bacause the event registration must be signed
                 let event_hub = fabric_client.newEventHub();
-                event_hub.setPeerAddr("grpc://localhost:8053");
+                event_hub.setPeerAddr("grpc://192.168.99.100:8053");
 
                 // using resolve the promise so that result status may be processed
                 // under the then clause rather than having the catch clause process
@@ -205,11 +205,11 @@ function addReport(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -264,7 +264,7 @@ function addReport(req, res, doc) {
                 console.log(doc);
                 //result = JSON.parse(proposalResponses[0]);
                 console.log(proposalResponses[0].name)
-                res.render("org/clinicianPortal", { details: doc, name: proposalResponses[0].name })
+                res.render("org/radiologistPortal", { details: doc, name: proposalResponses[0].name })
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -296,7 +296,7 @@ function addReport(req, res, doc) {
                 // get an eventhub once the fabric client has a user assigned. The user
                 // is required bacause the event registration must be signed
                 let event_hub = fabric_client.newEventHub();
-                event_hub.setPeerAddr("grpc://localhost:8051");
+                event_hub.setPeerAddr("grpc://192.168.99.100:8051");
 
                 // using resolve the promise so that result status may be processed
                 // under the then clause rather than having the catch clause process
@@ -390,11 +390,11 @@ function getReport(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:9051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:9051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -440,7 +440,7 @@ function getReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("org/clinicianPortal", { details: result })
+                    res.render("org/radiologistPortal", { details: result })
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -461,11 +461,11 @@ function getRecord(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -511,9 +511,8 @@ function getRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    Object.values(result).forEach(b => { console.log(b.Value.name) })
-                    res.render("org/clinicianPortal", { details: result });
-
+                    console.log(result);
+                    res.render("org/radiologistPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -536,11 +535,11 @@ function createMedicineRecord(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -623,7 +622,7 @@ function createMedicineRecord(req, res, doc) {
                 // get an eventhub once the fabric client has a user assigned. The user
                 // is required bacause the event registration must be signed
                 let event_hub = fabric_client.newEventHub();
-                event_hub.setPeerAddr("grpc://localhost:8053");
+                event_hub.setPeerAddr("grpc://192.168.99.100:8053");
 
                 // using resolve the promise so that result status may be processed
                 // under the then clause rather than having the catch clause process
@@ -715,11 +714,11 @@ function addMedicineReport(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -769,7 +768,7 @@ function addMedicineReport(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render("org/clinicianPortal", { details: doc });
+                res.render("org/radiologistPortal", { details: doc });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -801,7 +800,7 @@ function addMedicineReport(req, res, doc) {
                 // get an eventhub once the fabric client has a user assigned. The user
                 // is required bacause the event registration must be signed
                 let event_hub = fabric_client.newEventHub();
-                event_hub.setPeerAddr("grpc://localhost:8051");
+                event_hub.setPeerAddr("grpc://192.168.99.100:8051");
 
                 // using resolve the promise so that result status may be processed
                 // under the then clause rather than having the catch clause process
@@ -893,11 +892,11 @@ function addrLReport(req, res) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -929,7 +928,7 @@ function addrLReport(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addrLReport',
-                args: [req.body.recordID, req.body.report, req.body.links],
+                args: [doc.recordID, doc.report, doc.links],
                 chainId: 'ehr',
                 txId: tx_id
             };
@@ -948,7 +947,7 @@ function addrLReport(req, res) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.send({ code: "200", message: "New RadioLogist Report has been added" });
+                res.render("org/radiologistPortal", { details: doc });
             } else {
                 res.send({ code: "500", message: proposalResponses[0].response.message });
                 console.error("Transaction proposal was bad");
@@ -980,7 +979,7 @@ function addrLReport(req, res) {
                 // get an eventhub once the fabric client has a user assigned. The user
                 // is required bacause the event registration must be signed
                 let event_hub = fabric_client.newEventHub();
-                event_hub.setPeerAddr("grpc://localhost:8051");
+                event_hub.setPeerAddr("grpc://192.168.99.100:8051");
 
                 // using resolve the promise so that result status may be processed
                 // under the then clause rather than having the catch clause process
@@ -1072,11 +1071,11 @@ function getMedicineReport(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:9051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:9051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -1121,7 +1120,7 @@ function getMedicineReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("org/clinicianPortal", { details: result });
+                    res.render("org/radiologistPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -1141,11 +1140,11 @@ function getMedicineRecord(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -1188,7 +1187,7 @@ function getMedicineRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("org/clinicianPortal", { details: result });
+                    res.render("org/radiologistPortal", { details: result })
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -1203,7 +1202,7 @@ function getMedicineRecord(req, res, doc) {
 
 
 
-let ehrClinician = {
+let ehrRadiologist = {
     createRecord: createRecord,
     addReport: addReport,
     getReport: getReport,
@@ -1216,4 +1215,4 @@ let ehrClinician = {
 
 }
 
-module.exports = ehrClinician;
+module.exports = ehrRadiologist;

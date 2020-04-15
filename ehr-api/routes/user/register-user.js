@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
+const ehrClinician = require('../../FabricHelperClinician');
 const AadhaarUser = require('../../models/aadhaaruser');
 let app = express();
 

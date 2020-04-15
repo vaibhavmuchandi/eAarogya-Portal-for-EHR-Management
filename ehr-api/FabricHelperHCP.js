@@ -24,11 +24,11 @@ function getReport(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:9051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:9051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -95,11 +95,11 @@ function getRecord(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -165,11 +165,11 @@ function getMedicineReport(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:9051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:9051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -236,11 +236,11 @@ function getMedicineRecord(req, res, doc) {
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })

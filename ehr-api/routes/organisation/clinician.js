@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
+const ehrClinician = require('../../FabricHelperClinician');
 const User = require("../../models/user");
 
 //All routes have prefix '/organsation/clinician'
