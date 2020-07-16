@@ -5,7 +5,8 @@ let AadhaarSchema =  mongoose.Schema({
         name: String,
         dob: String,
         gender: String,
-        address: String
+        address: String,
+        phoneNumber: String
 });
 
 module.exports = mongoose.model('AadhaarUser', AadhaarSchema);

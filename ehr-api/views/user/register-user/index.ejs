@@ -1,11 +1,15 @@
 <%-include("../../partials/header.ejs")%>
 
 <body>
-  <form action="/user/register-user" method="post">
-    <label for="aadhaarNum">Enter your Aadhaar Number:</label>
-    <input type="text" name="aadhaarNum" id="aadhaarNum">
-    <button>Submit</button>
-  </form>
+  <div class="d-flex align-items-center justify-content-center" style="height: 80%;">
+    <form class="bg-white shadow p-5 mt-5" action="/user/register-user" method="post">
+      <div class="form-group">
+        <label for="aadhaarNum">Enter your Aadhaar Number:</label>
+        <input class="form-control" type="text" name="aadhaarNum" id="aadhaarNum">
+      </div>
+      <button class="btn submit-btn">Submit</button>
+    </form>
+  </div>
 </body>
 
 <%- include("../../partials/footer.ejs") %>

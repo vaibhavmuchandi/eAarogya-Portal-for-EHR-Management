@@ -1,15 +1,19 @@
 <%-include("../../partials/header.ejs")%>
 
 <body>
-  <form action="/user/register-user/verify-otp" method="post">
-    <label for="code">Enter the code</label>
-    <input type="text" name="code">
-    <button id="sendCode">Submit</button>
-    <% if(error) { %>
-    <%=error%>
-    <%}%>
-  </form>
-
+  <div class="d-flex align-items-center justify-content-center" style="height: 80%;">
+    <form class="bg-white shadow p-4" action="/user/register-user/verify-otp" method="post">
+      <div class="form-group">
+        <label for="code">Enter the code</label>
+        <input class="form-control" type="text" name="code">
+      </div>
+      <button class="btn submit-btn" id="sendCode">Submit</button>
+      <% if(error) { %>
+      <div class="alert alert-danger mt-4"><%=error%></div>
+      <%}%>
+    </form>
+  
+  </div>
 </body>
 
-<%- include("../../partials/footer.ejs") %>1
+<%- include("../../partials/footer.ejs") %>

@@ -1,34 +1,67 @@
 <%-include("../../partials/header.ejs")%>
 
 <body>
-  <form action="/user/register-aadhaar/complete-form" method="post">
-    <label for="aadhaarNum">Aadhaar Number:</label>
-    <input type="text" name="aadhaarNo" value="<%=details.aadhaarNo%>" disabled>
+  <div class="d-flex align-items-center justify-content-center mt-5">
+    <form class="bg-white shadow p-5 mt-5" action="/user/register-aadhaar/complete-form" method="post"
+      style="border-radius: 10px;">
+      <div class="form-row mt-1">
+        <div class="col">
+          <label for="aadhaarNum">Aadhaar Number:</label>
+          <input class="form-control" type="text" name="aadhaarNo" value="<%=details.aadhaarNo%>" disabled>
+        </div>
 
-    <label for="name">Name:</label>
-    <input type="text" name="name" value="<%=details.name%>" disabled>
+        <div class="col">
+          <label for="name">Name:</label>
+          <input class="form-control" type="text" name="name" value="<%=details.name%>" disabled>
+        </div>
+      </div>
 
-    <label for="dob">Date of Birth</label>
-    <input type="text" name="dob" value="<%=details.dob%>" disabled>
+      <div class="form-row mt-1">
+        <div class="col">
+          <label for="dob">Date of Birth</label>
+          <input class="form-control" type="text" name="dob" value="<%=details.dob%>" disabled>
+        </div>
 
-    <label for="gender">Gender</label>
-    <input type="text" name="gender" value="<%=details.gender%>" disabled>
+        <div class="col">
+          <label for="gender">Gender</label>
+          <input class="form-control" type="text" name="gender" value="<%=details.gender%>" disabled>
+        </div>
+      </div>
 
-    <label for="gender">Address</label>
-    <input type="text" name="address" value="<%=details.address%>" disabled>
+      <div class="form-row mt-1">
+        <div class="col">
+          <label for="gender">Address</label>
+          <input class="form-control" type="text" name="address" value="<%=details.address%>" disabled>
+        </div>
+      </div>
 
-    <label for="username">Username:</label>
-    <input type="text" name="username">
+      <div class="form-row mt-1">
+        <div class="col">
+          <label for="username">Username:</label>
+          <input class="form-control" type="text" name="username">
+        </div>
 
-    <label for="email">Email:</label>
-    <input type="email" name="email">
+        <div class="col">
+          <label for="email">Email:</label>
+          <input class="form-control" type="email" name="email">
+        </div>
+      </div>
 
-    <label for="password">Password:</label>
-    <input type="password" name="password">
+      <div class="form-row">
+        <div class="col">
+          <label for="password">Password:</label>
+          <input class="form-control" type="password" name="password">
+        </div>
 
-    <button name="button">Submit</button>
+        <div class="col">
+          <label for="repeat-password">Repeat Password:</label>
+          <input class="form-control" type="password" name="repeat-password">
+        </div>
+      </div>
 
-  </form>
+      <button class="btn btn-primary mt-3 submit-btn">Submit</button>
+    </form>
+  </div>
 </body>
 
 <%- include("../../partials/footer.ejs") %>

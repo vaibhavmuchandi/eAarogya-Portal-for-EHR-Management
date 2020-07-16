@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
 .navbar {
     background-color: #3282b8;
 }
@@ -11,6 +12,9 @@ body {
     font-family: 'Open Sans';
 }
 
+form {
+    border-radius: 10px;
+}
 
 /* Footer */
 
@@ -23,14 +27,15 @@ body {
 
 /* Submit button common to all pages */
 
-.submit-btn {
-    background: #0f4c75;
-    color: #fff;
+.submit-btn,
+.btn-lg {
+    background: #0f4c75 !important;
+    color: #fff !important;
 }
 
 .submit-btn:hover,
 .btn-lg:hover {
-    background-color: rgba(50, 130, 184, 0.3);
+    background-color: rgba(50, 130, 184, 0.9) !important;
     color: #0f4c75;
     border: 1px solid #0f4c75;
 }
@@ -63,10 +68,11 @@ body {
     line-height: 1em;
     text-align: center;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     background-image: url('bgtext.png');
     background-attachment: fixed;
-    fon-family: 'Open Sans';
+    font-family: 'Open Sans';
 }
 
 .intro p {
@@ -387,6 +393,7 @@ body {
 
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
 @import url("https://fonts.googleapis.com/css?family=Cairo&display=swap");
+
 #logout {
     position: absolute;
     top: 0;
@@ -447,7 +454,7 @@ body {
 }
 
 #login-container .input-group input {
-    border: 1px solid ##3282b8;
+    border: 1px solid #3282b8;
     border-radius: 0px 10px 10px 0px;
     font-family: 'Cairo', sans-serif;
 }
@@ -544,3 +551,7 @@ td {
 
 
 /* Pharmacist css end */
+
+input[type="text"]:disabled {
+    background: #fff !important;
+}

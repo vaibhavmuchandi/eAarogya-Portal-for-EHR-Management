@@ -7,7 +7,7 @@
   <title></title>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
   <style media="screen">
-    .active {
+    .slot-active {
       background: green;
     }
   </style>
@@ -50,10 +50,10 @@
   <script type="text/javascript">
     function handleClick(el) {
       document.getElementById('slot_time').value = el.value;
-      let active = document.querySelector('.active')
+      let active = document.querySelector('.slot-active')
       if(active)
-        active.classList.remove('active');
-      el.classList.add('active');
+        active.classList.remove('slot-active');
+      el.classList.add('slot-active');
     }
 
     function submitDate() {
