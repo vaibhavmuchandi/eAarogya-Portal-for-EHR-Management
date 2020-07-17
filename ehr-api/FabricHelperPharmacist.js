@@ -57,7 +57,7 @@ function getMedicineReport(req, res, doc) {
 
             var request = {
                 chaincodeId: 'ehrcc',
-                fcn: 'getMedicineReport',
+                fcn: 'getReport',
                 args: [doc.medicineID],
                 chainId: 'ehr'
             };
@@ -125,7 +125,7 @@ function getMedicineRecord(req, res) {
             }
             var request = {
                 chaincodeId: 'ehrcc',
-                fcn: 'getMedicineRecord',
+                fcn: 'getRecord',
                 args: [req.body.recordID],
                 chainId: 'ehrchannel'
             };

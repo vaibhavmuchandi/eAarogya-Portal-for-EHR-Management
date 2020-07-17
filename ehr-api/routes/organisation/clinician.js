@@ -69,10 +69,9 @@ router.get('/addprescription', function(req, res) {
 
 router.post('/addprescription', function(req, res) {
     let medicalID = req.body.medicalID;
-    let medicalRecordID = medicalID + '0M';
     let prescription = req.body.prescription;
     let doc = {
-        'medicalID': medicalRecordID,
+        'medicalID': medicalID,
         'prescription': prescription
     }
     ehrClinician.addMedicineReport(req, res, doc);
@@ -95,9 +94,8 @@ router.get('/getprescription', function(req, res) {
 });
 router.post('/getprescription', function(req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M';
     let doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrClinician.getMedicineReport(req, res, doc);
 });
@@ -119,9 +117,8 @@ router.get('/medicinehistory', function(req, res) {
 });
 router.post('/medicinehistory', function(req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M'
     let doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrClinician.getMedicineRecord(req, res, doc)
 });
