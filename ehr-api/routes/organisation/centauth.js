@@ -19,7 +19,7 @@ router.post('/login', passport.authenticate('local', {
 });
 
 router.get('/', (req, res) => {
-    res.render('centAuth', { details: {}, errors: [] });
+    res.render('org/centAuth', { details: {}, errors: [] });
 });
 
 router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a valid 12 digit Aadhaar Number').matches(/\d/).withMessage('Your Aadhaar number can only contain numbers')], function(req, res) {
@@ -36,7 +36,6 @@ router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a v
         } else {
             let details = doc.toJSON()
             ehrClinician.createRecord(req, res, details);
-            ehrClinician.createMedicineRecord(req, res, details);
             console.log('Found:', details);
             //res.render('centAuth', { details: details, errors: [] })
         }

@@ -29,7 +29,7 @@ router.post('/medicalID', function(req, res) {
     let doc = {
         'medicalID': MedicalID
     }
-    User.findOne({ username: 'cliniciantest' }, function(err, found) {
+    User.findOne({ username: 'vaibhavtest' }, function(err, found) {
         found.permission.forEach(function(perm) {
             if (perm == MedicalID) {
                 ehrClinician.getReport(req, res, doc);
