@@ -35,7 +35,7 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 60000
+        maxAge: 600000
     }
 }));
 app.use(cookieParser());

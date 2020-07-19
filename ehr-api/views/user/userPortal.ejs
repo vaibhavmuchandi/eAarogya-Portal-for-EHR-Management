@@ -28,7 +28,7 @@
             <div class="card" id="box-user">
               <div class="card-body small-card" id="">
                 <h4><%= __('user.givePerm') %></h4><br>
-                <form class="form-inline" action="/user/user.givePermission" method="POST">
+                <form class="form-inline" action="/user/givepermission" method="POST">
                   <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="<%= __('doctorID') %>"
                     aria-label="Search">
                   <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="<%= __('medicalID') %>"
@@ -44,7 +44,7 @@
             <div class="card " id="box-user">
               <div class=" card-body small-card">
                 <h4><%= __('user.revokePerm') %></h4><br>
-                <form class="form-inline" action="/user/user.revokePermission" method="POST">
+                <form class="form-inline" action="/user/revokepermission" method="POST">
                   <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="<%= __('doctorID') %>"
                     aria-label="Search">
                   <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="<%= __('medicalID') %>"

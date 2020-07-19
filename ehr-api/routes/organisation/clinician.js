@@ -45,7 +45,7 @@ router.post('/medicalID', function (req, res) {
         'medicalID': MedicalID
     }
     User.findOne({
-        username: 'vaibhavtest'
+        username: req.user.username
     }, function (err, found) {
         found.permission.forEach(function (perm) {
             if (perm == MedicalID) {
