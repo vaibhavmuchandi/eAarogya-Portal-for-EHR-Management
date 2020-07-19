@@ -6,31 +6,48 @@ const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
 const User = require("../../models/user");
 
 //All routes have prefix '/organsation/clinician'
-router.get('/login', function(req, res) {
-    res.render('org-login', {org: 'clinician'});
+router.get('/login', function (req, res) {
+    res.render('org/org-login', {
+        org: 'clinician'
+    });
 });
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/organisation/clinician',
     failureRedirect: '/login'
-}), function(req, res) {});
+}), function (req, res) {});
 
-router.get('/', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.use((req, res, next) => {
+    if(req.user.type=='clinician')
+        next();
+    else 
+        res.redirect('/');
+});
+
+router.get('/', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 });
 
 
-router.get('/medicalID', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.get('/medicalID', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 });
 
-router.post('/medicalID', function(req, res) {
+router.post('/medicalID', function (req, res) {
     let MedicalID = req.body.medicalID;
     let doc = {
         'medicalID': MedicalID
     }
-    User.findOne({ username: 'cliniciantest' }, function(err, found) {
-        found.permission.forEach(function(perm) {
+    User.findOne({
+        username: 'cliniciantest'
+    }, function (err, found) {
+        found.permission.forEach(function (perm) {
             if (perm == MedicalID) {
                 ehrClinician.getReport(req, res, doc);
             } else {
@@ -43,11 +60,14 @@ router.post('/medicalID', function(req, res) {
 });
 
 
-router.get('/addreport', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.get('/addreport', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 })
 
-router.post('/addreport', function(req, res) {
+router.post('/addreport', function (req, res) {
     let MedicalID = req.body.medicalID;
     let allergies = req.body.allergies;
     let symptoms = req.body.symptoms;
@@ -63,11 +83,14 @@ router.post('/addreport', function(req, res) {
 
 });
 
-router.get('/addprescription', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.get('/addprescription', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 });
 
-router.post('/addprescription', function(req, res) {
+router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
     let medicalRecordID = medicalID + '0M';
     let prescription = req.body.prescription;
@@ -78,11 +101,14 @@ router.post('/addprescription', function(req, res) {
     ehrClinician.addMedicineReport(req, res, doc);
 });
 
-router.get('/getreport', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.get('/getreport', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 });
 
-router.post('/getreport', function(req, res) {
+router.post('/getreport', function (req, res) {
     let medicalID = req.body.medicalID;
     let doc = {
         'medicalID': medicalID
@@ -90,10 +116,13 @@ router.post('/getreport', function(req, res) {
     ehrClinician.getReport(req, res, doc);
 });
 
-router.get('/getprescription', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.get('/getprescription', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 });
-router.post('/getprescription', function(req, res) {
+router.post('/getprescription', function (req, res) {
     let medicalID = req.body.medicalID;
     let medicineID = medicalID + '0M';
     let doc = {
@@ -102,11 +131,14 @@ router.post('/getprescription', function(req, res) {
     ehrClinician.getMedicineReport(req, res, doc);
 });
 
-router.get('/reporthistory', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.get('/reporthistory', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 });
 
-router.post('/reporthistory', function(req, res) {
+router.post('/reporthistory', function (req, res) {
     let medicalID = req.body.medicalID;
     let doc = {
         'medicalID': medicalID
@@ -114,10 +146,13 @@ router.post('/reporthistory', function(req, res) {
     ehrClinician.getRecord(req, res, doc);
 });
 
-router.get('/medicinehistory', function(req, res) {
-    res.render('org/clinicianPortal', { details: {}, history: [] });
+router.get('/medicinehistory', function (req, res) {
+    res.render('org/clinicianPortal', {
+        details: {},
+        history: []
+    });
 });
-router.post('/medicinehistory', function(req, res) {
+router.post('/medicinehistory', function (req, res) {
     let medicalID = req.body.medicalID;
     let medicineID = medicalID + '0M'
     let doc = {

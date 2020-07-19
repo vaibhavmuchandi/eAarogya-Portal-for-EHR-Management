@@ -4,7 +4,7 @@
   <div class="d-flex align-items-center justify-content-center" style="height: 80%;">
     <form class="bg-white shadow p-4" action="/user/register-user/verify-otp" method="post">
       <div class="form-group">
-        <label for="code">Enter the code</label>
+        <label for="code"><%=__('otp')%></label>
         <input class="form-control" type="text" name="code">
       </div>
       <button class="btn submit-btn" id="sendCode">Submit</button>

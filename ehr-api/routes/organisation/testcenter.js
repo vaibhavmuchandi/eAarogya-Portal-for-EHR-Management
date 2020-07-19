@@ -6,18 +6,29 @@ const ehrTestCenter = require('../../FabricHelper/FabricHelpertestcenter');
 
 //All routes have prefix '/organisation/testcenter'
 router.get('/login', (req, res) => {
-    res.render('org-login', {org: 'testcenter'});
+    res.render('org/org-login', {
+        org: 'testcenter'
+    });
 });
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/organisation/testcenter',
     failureRedirect: '/login'
 }), (req, res) => {
 
 });
 
+router.use((req, res, next) => {
+    if(req.user.type=='testcenter')
+        next();
+    else 
+        res.redirect('/');
+});
+
 router.get('/', (req, res) => {
-    res.render('org/testcenter', { response: {} });
+    res.render('org/testcenter', {
+        response: {}
+    });
 });
 
 router.post('/addreport', (req, res) => {

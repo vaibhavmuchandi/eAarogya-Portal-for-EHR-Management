@@ -5,28 +5,43 @@ const passport = require('passport');
 const ehrPharmacist = require('../../FabricHelper/FabricHelperPharmacist')
 
 //All routes have prefix '/organisation/pharmacist'
-router.get('/', function(req, res) {
-    res.render('org/pharmacistPortal', { details: {} });
-});
 
-router.get('/login', function(req, res) {
-    res.render('org-login', {org: 'pharmacist'});
+router.get('/login', function (req, res) {
+    res.render('org/org-login', {
+        org: 'pharmacist'
+    });
 });
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/organisation/pharmacist',
     failureRedirect: '/login'
-}), function(req, res) {});
+}), function (req, res) {});
 
-router.get('/getprescription', function(req, res) {
-    res.render('org/pharmacistPortal', { details: {} });
+router.use((req, res, next) => {
+    console.log(req.user.type=='pharmacist');
+    if(req.user.type=='pharmacist')
+        next();
+    else 
+        res.redirect('/');
 });
 
-router.post('/getprescription', function(req, res) {
+router.get('/', function (req, res) {
+    res.render('org/pharmacistPortal', {
+        details: {}
+    });
+});
+
+router.get('/getprescription', function (req, res) {
+    res.render('org/pharmacistPortal', {
+        details: {}
+    });
+});
+
+router.post('/getprescription', function (req, res) {
     let MedicalID = req.body.medicalID;
     let MedicineID = MedicalID + '0M'
     console.log(MedicalID);
-    console.log(typeof(MedicalID));
+    console.log(typeof (MedicalID));
     let doc = {
         'medicineID': MedicineID
     }

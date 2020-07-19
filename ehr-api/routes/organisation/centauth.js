@@ -1,38 +1,60 @@
 //Central Authority Routes
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator')
+const {
+    check,
+    validationResult
+} = require('express-validator')
 const passport = require('passport');
 const AadhaarUser = require('../../models/aadhaaruser');
 const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
 
 //All routes have prefix '/organisation/centauth'
-router.get('/login', function(req, res) {
-    res.render('org-login', {org: 'centauth'});
+router.get('/login', function (req, res) {
+    res.render('org/org-login', {
+        org: 'centauth'
+    });
 });
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/organisation/centauth',
     failureRedirect: '/login'
-}), function(req, res) {
+}), function (req, res) {
 
+});
+
+router.use((req, res, next) => {
+    if(req.user.type=='centauth')
+        next();
+    else 
+        res.redirect('/');
 });
 
 router.get('/', (req, res) => {
-    res.render('org/centAuth', { details: {}, errors: [] });
+    res.render('org/centAuth', {
+        details: {},
+        errors: []
+    });
 });
 
-router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a valid 12 digit Aadhaar Number').matches(/\d/).withMessage('Your Aadhaar number can only contain numbers')], function(req, res) {
+router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a valid 12 digit Aadhaar Number').matches(/\d/).withMessage('Your Aadhaar number can only contain numbers')], function (req, res) {
     let errors = validationResult(req)
-        // if(!errors.isEmpty()) {
-        //   return res.status(422).json({error: errors})
-        // }^\d{4} {0,1}\d{4} {0,1}\d{4}$
+    // if(!errors.isEmpty()) {
+    //   return res.status(422).json({error: errors})
+    // }^\d{4} {0,1}\d{4} {0,1}\d{4}$
     let aadhaarNum = req.body.aadhaarNum.trim().replace(/ /g, '');
     let medicineNum = aadhaarNum + '0M';
     // console.log(aadhaarNum);
-    AadhaarUser.findOne({ aadhaarNo: aadhaarNum }, (err, doc) => {
+    AadhaarUser.findOne({
+        aadhaarNo: aadhaarNum
+    }, (err, doc) => {
         if (doc == null) {
-            res.render('org/centAuth', { details: { found: null }, errors: errors.array() })
+            res.render('org/centAuth', {
+                details: {
+                    found: null
+                },
+                errors: errors.array()
+            })
         } else {
             let details = doc.toJSON()
             ehrClinician.createRecord(req, res, details);

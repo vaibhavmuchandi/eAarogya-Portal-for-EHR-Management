@@ -1,18 +1,46 @@
 <%- include ('./partials/header') %>
 
 
-    <!-- navbar ends -->
+<!-- navbar ends -->
 
-    <div class="intro">
-        <h2>Secure. Fast. Electronic.</h2>
-        <p>Our aim is to use blockchain technology to leverage the creation of Electronic Health Records (EHR). The blockchain ensures security of your data, so this means your data in your hands. eAarogya provides the platform for professionals and patients
-            to collaborate and share data in one centralised record. </p>
+<div class="row justify-content-center align-items-center mt-5">
+    <div class="col-md-6 text-center">
+        <h1 class="text-main"><%= __('home.welcome') %></h1>
+        <h4 class="text-accent"><%= __('home.caption') %></h4>
+        <br>
+        <a href="user/register-user" class="btn submit-btn font-weight-bold"><%= __('home.ecard')%></a>
     </div>
-
-    <div class="portal">
-        <!-- Trigger the modal with a button -->
-        <a href="/user/login"><button type="button" class="btn btn-lg">User Portal</button></a>
-        <a href="/professional"><button type="button" class="btn btn-lg">Professional Portal</button></a>
+    <div class="col-md-6">
+        <img src="/assets/medicine.svg" alt="" style="width: 90%">
     </div>
+</div>
+<br><br><br>
+<div style="position: relative">
+    <div class="col-md-8 offset-md-2 text-main card shadow border-0 p-4 mt-5">
+        <h4 class="font-weight-bold"><%= __('home.special')%></h4>
+        <p class="text-accent" style="font-size: 1.2rem;"><%= __('home.specialty') %></p>
+    </div>
+    <br>
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 0; height: 100px" viewBox="0 0 100 100"
+        preserveAspectRatio="none">
+        <polygon fill="#eee" points="0,100 100,0 100,100" />
+    </svg> -->
+</div>
 
-    <%- include("./partials/footer") %>
+<div class="portal mt-5" style="background: #efefef;">
+    <a href="/user/login">
+        <div class="p-4 submit-btn text-center m-5 card">
+            <img src="assets/user.svg" alt="user" height="150" style="width: 250px;">
+            <br>
+            <h4><%= __('home.userPortal') %></h4>
+        </div>
+    </a>
+    <a href="/professional">
+        <div class="p-4 submit-btn text-center m-5 card">
+            <img src="assets/doctor.svg" alt="user" height="150" style="width: 250px;"><br>
+            <h4><%= __('home.professionalPortal') %></h4>
+        </div>
+    </a>
+</div>
+
+<%- include("./partials/footer") %>

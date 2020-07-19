@@ -1,12 +1,15 @@
 <%- include("./partials/header") %>
-    <div class="container">
+<div class="container">
 
-        <div class="prof-container">
-            <a href="/organisation/hospitals"> <button type="button" class="btn btn-prof"><img src="/stylesheets/Clinic.png" alt="" height="60px"><br>Clinic</button></a>
-            <a href="/organisation/radiologist/login"> <button type="button" class="btn btn-prof"><img src="/stylesheets/Radiology.png" alt="" height="60px"><br>Radiologist</button></a>
-            <a href="/organisation/pharmacist/login"><button type="button" class="btn btn-prof"><img src="/stylesheets/Pharmacist.png" alt="" height="60px"><br>Pharmacist</button></a>
-            <a href="/organisation/healthcareprovider/login"><button type="button" class="btn btn-prof"><img src="/stylesheets/healthcare.png" alt="" height="60px"><br>Health Care</button></a>
-
-        </div>
+    <div class="prof-container">
+        <a href="/organisation/hospitals"> <button type="button" class="btn btn-prof"><img src="/stylesheets/Clinic.png"
+                    alt="" height="60px"><br><%=__('clinician')%></button></a>
+        <a href="/organisation/radiologist/login"> <button type="button" class="btn btn-prof"><img
+                    src="/stylesheets/Radiology.png" alt="" height="60px"><br><%=__('radiologist')%></button></a>
+        <a href="/organisation/pharmacist/login"><button type="button" class="btn btn-prof"><img
+                    src="/stylesheets/Pharmacist.png" alt="" height="60px"><br><%=__('pharma')%></button></a>
+        <a href="/organisation/healthcareprovider/login"><button type="button" class="btn btn-prof"><img
+                    src="/stylesheets/healthcare.png" alt="" height="60px"><br><%=__('hcp')%></button></a>
     </div>
-    <%- include("./partials/footer") %>
+</div>
+<%- include("./partials/footer") %>

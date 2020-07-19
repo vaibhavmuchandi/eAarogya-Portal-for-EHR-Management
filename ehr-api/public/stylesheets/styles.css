@@ -1,15 +1,37 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-.navbar {
-    background-color: #3282b8;
+a:link,
+a:hover {
+    text-decoration: none !important;
+}
+
+.bg-main {
+    background: #0f4c75 !important;
+}
+
+.text-main {
+    color: #0f4c75 !important;
+}
+
+.bg-accent {
+    background: #3282b8;
+}
+
+.text-accent {
+    color: #3282b8;
+}
+
+.btn {
+    padding: 0.7rem !important;
 }
 
 body {
-    background-image: url('bg1.jpg');
+    /* background-image: url('bg1.jpg'); */
     background-size: cover;
     background-position: top;
     text-align: center;
     font-family: 'Open Sans';
+    overflow-x: hidden;
 }
 
 form {
@@ -27,17 +49,15 @@ form {
 
 /* Submit button common to all pages */
 
-.submit-btn,
-.btn-lg {
+.submit-btn {
     background: #0f4c75 !important;
     color: #fff !important;
 }
 
-.submit-btn:hover,
-.btn-lg:hover {
-    background-color: rgba(50, 130, 184, 0.9) !important;
-    color: #0f4c75;
-    border: 1px solid #0f4c75;
+.submit-btn:hover {
+    background-color: #3282b8 !important;
+
+    /* border: 1px solid #0f4c75; */
 }
 
 .prof-icon {
@@ -61,7 +81,7 @@ form {
     padding: 60px;
 }
 
-.intro h2 {
+/* .intro h2 {
     font-size: 5vw;
     text-transform: uppercase;
     font-weight: 900;
@@ -73,7 +93,7 @@ form {
     background-image: url('bgtext.png');
     background-attachment: fixed;
     font-family: 'Open Sans';
-}
+} */
 
 .intro p {
     color: #3282b8;
@@ -90,16 +110,6 @@ form {
     width: 100%;
 }
 
-.btn-lg {
-    background: rgba(15, 76, 117, 0.7);
-    color: #fff;
-    font-weight: 600;
-    height: 200px;
-    width: 200px;
-    margin: 70px 50px;
-    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.04), -6px -6px 12px rgba(0, 0, 0, 0.01);
-    border: none;
-}
 
 .btn-prof {
     height: 180px;
@@ -151,12 +161,6 @@ form {
     text-align: center;
 }
 
-
-/* th, td, tr {
-    text-align: center;
-    padding: 40px;
-    border: 1px solid #000;
-  } */
 
 #box-user {
     background: rgba(50, 130, 184, 0.3);
@@ -243,12 +247,12 @@ form {
     display: inline-flex;
 }
 
-.card {
+/* .card {
     text-align: center;
     margin: 70px;
     height: 100%;
     background: rgba(50, 130, 184, 0.3);
-}
+} */
 
 .fixed-bottom {
     height: 50px;
@@ -322,12 +326,12 @@ form {
     margin: 20px;
 }
 
-.clinician-container1 {
+/* .clinician-container1 {
     display: flex;
     justify-content: center;
     height: 100px;
     margin-bottom: 50px;
-}
+} */
 
 
 /* REPORT AND PRESCRIPTION BOX */
@@ -376,14 +380,6 @@ form {
     width: 400px;
 }
 
-#medicalID,
-#blood-group,
-#blood-pressure,
-#height,
-#weight,
-#links {
-    border-radius: 10px;
-}
 
 
 /* ------------------------------------------------------ */

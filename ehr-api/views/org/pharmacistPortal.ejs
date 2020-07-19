@@ -1,51 +1,47 @@
 <%-include ('../partials/header') %>
 
-<body class="bodypharma">
-  <br>
-  <h3>Pharmacist Portal</h3>
-
-  <div class="container-fluid" id="containerpharma">
-
-    <div class="card" id="cardpharma">
-      <div class="card-body cardcolor">
-        <h4>Get latest prescription</h4><br>
-        <form class="form-inline" action="/organisation/pharmacist/getprescription" method="POST">
-          <input type="text" class="form-control mr-sm-2" name="medicalID" placeholder="Enter Medical ID" aria-label="Search">
-          <button class="btn  my-2 my-sm-0 buttonpharma" type="submit">Get History</button>
-        </form>
-      </div>
-      <hr class="hrstyle">
-      <div class="card-body cardcolor">
-        <h4>Get prescription history</h4><br>
-        <form class="form-inline">
-          <input class="form-control mr-sm-2" type="text" placeholder="Enter Medical ID" aria-label="Search">
-          <button class="btn  my-2 my-sm-0 buttonpharma" type="submit">Get History</button>
-        </form>
-      </div>
+<h3 class="text-center mt-5"><%=__('pharma')%> <%= __('portal')%></h3>
+<div class="container-fluid mt-5 justify-content-center align-items-center">
+  <div class="card" id="cardpharma">
+    <div class="card-body cardcolor">
+      <h4><%=__('latestPresc')%></h4><br>
+      <form class="form-inline" action="/organisation/pharmacist/getprescription" method="POST">
+        <input type="text" class="form-control mr-sm-2" name="medicalID" placeholder="<%=__('medicalID')%>"
+          aria-label="Search">
+        <button class="btn  my-2 my-sm-0 submit-btn" type="submit"><%=__('getHist')%></button>
+      </form>
     </div>
+    <hr class="hrstyle">
+    <div class="card-body cardcolor">
+      <h4><%=__('prescHist')%></h4><br>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="text" placeholder="<%=__('medicalID')%>" aria-label="Search">
+        <button class="btn  my-2 my-sm-0 submit-btn" type="submit"><%=__('getHist')%></button>
+      </form>
+    </div>
+  </div>
 
-    <!-- <div class="partition partitionpharma"></div> -->
+  <!-- <div class="partition partitionpharma"></div> -->
 
-    <div class="card" id="cardpharma">
-      <div class="card-body">
-        <table class="tablepharma">
-          <tr>
-            <td><b>Name:</td>
-            <td><%=details.name%></td>
-          </tr>
-          <tr>
-            <td><b>D.O.B:</td>
-            <td><%=details.dob%></td>
-          </tr>
-          <tr>
-            <td><b>Address:</td>
-            <td><%=details.address%></td>
-          </tr>
-          <tr>
-            <td class="pres"><b>Prescription:</td>
-            <td class="pres"><%=details.prescription%></td>
-          <tr>
-        </table>
-      </div>
+  <div class="card" id="cardpharma">
+    <div class="card-body">
+      <table class="tablepharma">
+        <tr>
+          <td><b><%=__('name')%>:</td>
+          <td><%=details.name%></td>
+        </tr>
+        <tr>
+          <td><b><%=__('dob')%>:</td>
+          <td><%=details.dob%></td>
+        </tr>
+        <tr>
+          <td><b><%=__('address')%>:</td>
+          <td><%=details.address%></td>
+        </tr>
+        <tr>
+          <td class="pres"><b><%=__('presc')%>:</td>
+          <td class="pres"><%=details.prescription%></td>
+        <tr>
+      </table>
     </div>
   </div>

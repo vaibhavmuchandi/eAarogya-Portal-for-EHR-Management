@@ -5,24 +5,36 @@ const passport = require('passport');
 const ehrHCP = require('../../FabricHelper/FabricHelperHCP');
 
 //All routers have prefix '/organisation/healthcareprovider'
-router.get('/login', function(req, res) {
-    res.render('org-login', {org: 'healthcareprovider'});
+router.get('/login', function (req, res) {
+    res.render('org/org-login', {
+        org: 'healthcareprovider'
+    });
 });
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/organisation/healthcareprovider',
     failureRedirect: '/login'
-}), function(req, res) {});
+}), function (req, res) {});
 
-
-router.get('/', function(req, res) {
-    res.render('org/hcpPortal', { details: {} });
+router.use((req, res, next) => {
+    if(req.user.type=='hcp')
+        next();
+    else 
+        res.redirect('/');
 });
 
-router.get('/getreport', function(req, res) {
-    res.render('org/hcpPortal', { details: {} });
+router.get('/', function (req, res) {
+    res.render('org/hcpPortal', {
+        details: {}
+    });
+});
+
+router.get('/getreport', function (req, res) {
+    res.render('org/hcpPortal', {
+        details: {}
+    });
 })
-router.post('/getreport', function(req, res) {
+router.post('/getreport', function (req, res) {
     var medicalID = req.body.medicalID;
     var doc = {
         'medicalID': medicalID
@@ -30,10 +42,12 @@ router.post('/getreport', function(req, res) {
     ehrHCP.getReport(req, res, doc);
 });
 
-router.get('/getmedicalrecord', function(req, res) {
-    res.render('org/hcpPortal', { details: {} });
+router.get('/getmedicalrecord', function (req, res) {
+    res.render('org/hcpPortal', {
+        details: {}
+    });
 });
-router.post('/getmedicalrecord', function(req, res) {
+router.post('/getmedicalrecord', function (req, res) {
     var medicalID = req.body.medicalID;
     var doc = {
         'medicalID': medicalID
@@ -41,10 +55,12 @@ router.post('/getmedicalrecord', function(req, res) {
     ehrHCP.getRecord(req, res, doc);
 });
 
-router.get('/getprescription', function(req, res) {
-    res.render('org/hcpPortal', { details: {} });
+router.get('/getprescription', function (req, res) {
+    res.render('org/hcpPortal', {
+        details: {}
+    });
 });
-router.post('/getprescription', function(req, res) {
+router.post('/getprescription', function (req, res) {
     var medicalID = req.body.medicalID
     var medicineID = medicalID + '0M';
     var doc = {
@@ -52,11 +68,13 @@ router.post('/getprescription', function(req, res) {
     }
     ehrHCP.getMedicineReport(req, res, doc);
 });
-router.get('/getprescriptionrecord', function(req, res) {
-    res.render('org/hcpPortal', { details: {} });
+router.get('/getprescriptionrecord', function (req, res) {
+    res.render('org/hcpPortal', {
+        details: {}
+    });
 });
 
-router.post('/getprescriptionrecord', function(req, res) {
+router.post('/getprescriptionrecord', function (req, res) {
     var medicalID = req.body.medicalID;
     var medicineID = medicalID + '0M';
     var doc = {

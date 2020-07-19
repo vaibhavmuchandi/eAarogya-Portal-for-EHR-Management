@@ -19,21 +19,21 @@ router.post('/', (req, res) => {
     if (user) {
       app.set('details', user.toJSON());
 
-      // var options = {
-      //   method: 'GET',
-      //   url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/' + user.phoneNumber + '/AUTOGEN',
-      //   headers: {
-      //     'content-type': 'application/x-www-form-urlencoded'
-      //   },
-      //   form: {}
-      // };
+      var options = {
+        method: 'GET',
+        url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/' + user.phoneNumber + '/AUTOGEN',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        form: {}
+      };
 
-      // request(options, function(error, response, body) {
-      //   if (error) throw new Error(error);
+      request(options, function (error, response, body) {
+        if (error) throw new Error(error);
 
-      //   let session = JSON.parse(body);
-      //   app.set('sessionNum', session.Details);
-      // });
+        let session = JSON.parse(body);
+        app.set('sessionNum', session.Details);
+      });
 
       res.render('user/register-user/enter-code', {
         error: null
@@ -77,6 +77,20 @@ router.post('/complete-form', (req, res) => {
   let details = req.body;
   ehrClinician.createRecord(req, res, details);
   ehrClinician.createMedicineRecord(req, res, details);
+  User.register(new User({
+    username: req.body.username,
+    email: req.body.email,
+    phone: req.body.phone,
+    type: 'user'
+  }), req.body.password, (err, user) => {
+    if (err) {
+      console.log(err);
+    } else {
+      passport.authenticate('local')(req, res, () => {
+        res.redirect('/');
+      })
+    }
+  });
 });
 
 module.exports = router;

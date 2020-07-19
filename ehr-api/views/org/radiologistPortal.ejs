@@ -1,57 +1,54 @@
 <%- include ('../partials/header') %>
 
 <body>
-  <div class="container">
-    <br />
-    <div class="row justify-content-center">
-      <div class="clinician-container1">
-
-        <form class="card card-sm" id="patient-form" action="/organisation/radiologist/medicalID" method="POST">
-          <div class="card-body row no-gutters align-items-center">
-            <div class="col-auto">
-              <i class="fas fa-search h4 text-body"></i>
-            </div>
-            <!--end of col-->
-            <div class="col">
-              <input class="form-control form-control-lg form-control-borderless" type="search" name="medicalID" placeholder="Enter medical ID of patient">
-            </div>
-            <!--end of col-->
-            <div class="col-auto">
-              <button class="btn submit-btn" type="submit">Search</button>
-            </div>
-            <!--end of col-->
+  <br>
+  <div class="container mt-4">
+    <div class="row justify-content-center align-items-center">
+      <form class="card card-sm" id="patient-form" action="/organisation/radiologist/medicalID" method="POST">
+        <div class="card-body row no-gutters align-items-center">
+          <div class="col-md-auto">
+            <i class="text-main fas fa-search h4 mr-2"></i>
           </div>
-        </form>
-
-        <div class="card" id="user-details">
-          <div class="card-body">
-            <p>Name:
-              <%=details.name%>
-            </p>
-            <p> Medical No:
-              <%=details.recordID%>
-              <%=details.medicalID%>
-            </p>
+          <div class="col">
+            <input class="form-control form-control-borderless" type="search" name="medicalID"
+              placeholder="<%= __('ph1')%>">
+          </div>
+          <div class="col-auto">
+            <button style="margin-left:10px;" class="btn submit-btn"><%=__('search')%></button>
           </div>
         </div>
-      </div>
-      <!--end of col-->
+        <% if(details.msg) {%>
+        <div class=" alert alert-danger">
+          <%=details.msg%>
+        </div>
+        <%}%>
+      </form>
+
+      <div class="card ml-4" id="user-details">
+        <div class="card-body text-main">
+          <p><%= __('name') %>: <%=details.name%> </p>
+        <p> <%= __('medicalID') %>: <%=details.recordID%> <%=details.medicalID%></p>
     </div>
   </div>
   <br><br>
 
-
-  <div class="container tabcontainer">
+  <div class="container tabcontainer mt-5">
     <div class="row">
       <div class="col-xs-12 ">
         <nav>
           <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-addreport-tab" data-toggle="tab" href="#nav-addreport" role="tab" aria-controls="nav-addreport" aria-selected="false">Add Report</a>
-            <a class="nav-item nav-link" id="nav-addprescription-tab" data-toggle="tab" href="#nav-addprescription" role="tab" aria-controls="nav-addprescription" aria-selected="false">Add Prescription</a>
-            <a class="nav-item nav-link" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab" aria-controls="nav-report" aria-selected="true">Report</a>
-            <a class="nav-item nav-link" id="nav-prescription-tab" data-toggle="tab" href="#nav-prescription" role="tab" aria-controls="nav-prescription" aria-selected="false">Prescription</a>
-            <a class="nav-item nav-link" id="nav-reporth-tab" data-toggle="tab" href="#nav-reporth" role="tab" aria-controls="nav-reporth" aria-selected="false">Report History</a>
-            <a class="nav-item nav-link" id="nav-prescriptionh-tab" data-toggle="tab" href="#nav-prescriptionh" role="tab" aria-controls="nav-prescriptionh" aria-selected="false">Prescription History</a>
+            <a class="nav-item nav-link active" id="nav-addreport-tab" data-toggle="tab" href="#nav-addreport"
+              role="tab" aria-controls="nav-addreport" aria-selected="false"><%= __('addReport') %></a>
+            <a class="nav-item nav-link" id="nav-addprescription-tab" data-toggle="tab" href="#nav-addprescription"
+              role="tab" aria-controls="nav-addprescription" aria-selected="false"><%= __('addPresc') %></a>
+            <a class="nav-item nav-link" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab"
+              aria-controls="nav-report" aria-selected="true"><%= __('report') %></a>
+            <a class="nav-item nav-link" id="nav-prescription-tab" data-toggle="tab" href="#nav-prescription" role="tab"
+              aria-controls="nav-prescription" aria-selected="false"><%= __('presc') %></a>
+            <a class="nav-item nav-link" id="nav-reporth-tab" data-toggle="tab" href="#nav-reporth" role="tab"
+              aria-controls="nav-reporth" aria-selected="false"><%= __('reportHist') %></a>
+            <a class="nav-item nav-link" id="nav-prescriptionh-tab" data-toggle="tab" href="#nav-prescriptionh"
+              role="tab" aria-controls="nav-prescriptionh" aria-selected="false"><%= __('prescHist') %></a>
 
           </div>
         </nav>
@@ -63,25 +60,26 @@
             <div class="dfcontainer">
               <div class="main">
                 <div class="main-center">
-                  <form class="clinician-form" method="post" action="/organisation/radiologist/addreport">
-                    <input type="text" class="hiddenInp" name="medicalID" value=<%=details.recordID%> <%=details.medicalID%>>
+                  <form class="radiologist-form" method="post" action="/organisation/radiologist/addreport">
+                    <input type="text" class="hiddenInp" name="medicalID" value=<%=details.recordID%>
+                      <%=details.medicalID%>>
+
                     <div class="form-group">
-                      <label for="name">Diagnoses</label>
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                      <label for="name"><%= __('diagnoses') %></label>
+                      <div class="input-group align-items-center">
+                        <span class="input-group-addon mr-3"><i class="h3 fa fa-diagnoses"
+                            aria-hidden="true"></i></span>
                         <input type="text" class="form-control" name="diagnoses" id="diagnoses" />
                       </div>
                     </div>
-
                     <div class="form-group">
-                      <label for="name">Links to medical images</label>
-                      <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="links" id="links" />
+                      <label for="name"><%= __('links') %></label>
+                      <div class="input-group align-items-center">
+                        <span class="input-group-addon mr-3"><i class="h3 fa fa-x-ray" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="links" />
                       </div>
                     </div>
-
-                    <button class="btn submit-btn" type="button" name="button">Submit</button>
+                    <button class="btn submit-btn" name="button">Submit</button>
 
                   </form>
                 </div>
@@ -93,6 +91,10 @@
           </div>
 
 
+
+
+
+
           <div class="tab-pane fade" id="nav-addprescription" role="tabpanel" aria-labelledby="nav-addprescription-tab">
             <div clas-s="dpcontainer">
               <div class="row">
@@ -100,10 +102,12 @@
                   <div class="panel panel-default">
                     <div class="panel-body">
                       <form accept-charset="UTF-8" action="/organisation/radiologist/addprescription" method="POST">
-                        <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%> <%=details.recordID%>>
-                        <textarea class="form-control counted" name="prescription" placeholder="Enter prescription details" rows="5"></textarea>
+                        <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                          <%=details.recordID%>>
+                        <textarea class="form-control counted" name="prescription"
+                          placeholder="Enter prescription details" rows="5"></textarea>
 
-                        <button class="btn submit-btn" type="submit">Submit</button>
+                        <button class="btn submit-btn">Submit</button>
                       </form>
                     </div>
                   </div>
@@ -120,22 +124,19 @@
 
             <div class="coabox">
               <form action="/organisation/radiologist/getreport" method="POST">
-                <button class="btn submit-btn">Get latest report</button>
-                <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%> <%=details.recordID%>>
+                <button class="btn submit-btn"><%=__('latestReport')%></button>
+                <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                  <%=details.recordID%>>
               </form>
-              <br>
               <div class="report_result">
-                <p>Name:
+                <p><%= __('name')%>:
                   <%=details.name%>
                 </p>
-                <p>Date of Birth:
+                <p><%= __('dob')%>:
                   <%=details.dob%>
                 </p>
-                <p> Report:
+                <p><%= __('report')%>:
                   <%=details.report%>
-                </p>
-                <p>Links:
-                  <%=details.links%>
                 </p>
               </div>
             </div>
@@ -150,8 +151,9 @@
                     <div class="coabox">
                       <div class="panel-body">
                         <form action="/organisation/radiologist/getprescription" method="POST">
-                          <button class="btn submit-btn">Get latest prescription</button>
-                          <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%> <%=details.recordID%>>
+                          <button class="btn submit-btn"><%=__('latestPresc')%></button>
+                          <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                            <%=details.recordID%>>
                         </form>
                         <br><br>
                         <div class="prescription_results">
@@ -183,8 +185,9 @@
                 <div class="col-lg-12">
                   <div class="coabox">
                     <form action="/organisation/radiologist/medicinehistory" method="POST">
-                      <button class="btn submit-btn">Get report history</button>
-                      <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%> <%=details.recordID%>>
+                      <button class="btn submit-btn"><%=__('getPrescs')%></button>
+                      <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                        <%=details.recordID%>>
                     </form>
                   </div>
                   <%for(var i = 0; i<details.length;i++){ %>
@@ -209,10 +212,12 @@
                 <div class="col-lg-12">
                   <div class="coabox">
                     <form action="/organisation/radiologist/reporthistory" method="POST">
-                      <button class="btn submit-btn">Get report history</button>
-                      <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%> <%=details.recordID%>>
+                      <button class="btn submit-btn"><%=__('getReports')%></button>
+                      <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
+                        <%=details.recordID%>>
                     </form>
                   </div>
+
                   <%for(var i = 0; i<details.length;i++){ %>
 
                   <%if(details[i]['Value']['report']!=""){%>
@@ -224,17 +229,15 @@
                   </div>
                   <%}%>
                                                     <%}%>
+
                 </div>
-
-
               </div>
             </div>
           </div>
+
         </div>
 
       </div>
-
     </div>
-  </div>
   </div>
   <%- include("../partials/footer") %>

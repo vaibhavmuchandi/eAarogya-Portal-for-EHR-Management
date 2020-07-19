@@ -1,8 +1,6 @@
 <%- include ('../partials/header') %>
 
 <body>
-
-  <button type="button" class="btn submit-btn" name="logout" id="logout">Log Out</button>
   <div class="card justify-center" id="masterCard-user">
     <!-- <div class="card-body"> -->
     <div class="container" id="Container-user">
@@ -10,10 +8,14 @@
       <div class="col-xl-20" id="user-container">
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Give Permission</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Revoke Permission</a>
-            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Get Record</a>
-            <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-view" aria-selected="false">View Permissions</a>
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+              aria-controls="nav-home" aria-selected="true"><%= __('user.givePerm') %></a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+              aria-controls="nav-profile" aria-selected="false"><%= __('user.revokePerm') %></a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+              aria-controls="nav-contact" aria-selected="false"><%= __('reportHist') %></a>
+            <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab"
+              aria-controls="nav-view" aria-selected="false"><%= __('user.viewPerms') %></a>
 
           </div>
         </nav>
@@ -25,10 +27,12 @@
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <div class="card" id="box-user">
               <div class="card-body small-card" id="">
-                <h4>Give Permission</h4><br>
-                <form class="form-inline" action="/user/givepermission" method="POST">
-                  <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="Enter Doctor's ID" aria-label="Search">
-                  <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                <h4><%= __('user.givePerm') %></h4><br>
+                <form class="form-inline" action="/user/user.givePermission" method="POST">
+                  <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="<%= __('doctorID') %>"
+                    aria-label="Search">
+                  <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="<%= __('medicalID') %>"
+                    aria-label="Search">
                   <button class="btn b my-2 my-sm-0 submit-btn">Submit</button>
                 </form>
               </div>
@@ -39,10 +43,12 @@
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="card " id="box-user">
               <div class=" card-body small-card">
-                <h4>Revoke Permission</h4><br>
-                <form class="form-inline" action="/user/revokepermission" method="POST">
-                  <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="Enter Doctor ID" aria-label="Search">
-                  <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
+                <h4><%= __('user.revokePerm') %></h4><br>
+                <form class="form-inline" action="/user/user.revokePermission" method="POST">
+                  <input class="form-control mr-sm-2" name="doctorID" type="text" placeholder="<%= __('doctorID') %>"
+                    aria-label="Search">
+                  <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="<%= __('medicalID') %>"
+                    aria-label="Search">
                   <button class="btn b my-2 my-sm-0 submit-btn" type="submit">Submit</button>
                 </form>
               </div>
@@ -53,10 +59,11 @@
           <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
             <div class="card " id="box-user">
               <div class=" card-body small-card">
-                <h4>Get Record</h4><br>
+                <h4><%= __('reportHist') %></h4><br>
                 <form class="form-inline" action="/organisation/healthcareprovider/getmedicalrecord" method="POST">
-                  <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="Enter Medical ID" aria-label="Search">
-                  <button class="btn b my-2 my-sm-0 submit-btn" type="submit">Get Record</button>
+                  <input class="form-control mr-sm-2" name="medicalID" type="text" placeholder="<%= __('medicalID') %>"
+                    aria-label="Search">
+                  <button class="btn b my-2 my-sm-0 submit-btn" type="submit"><%=__('getReports')%></button>
                 </form>
               </div>
             </div>
@@ -67,13 +74,13 @@
             <div class="card " id="box-user">
               <div class="card-body small-card usercard">
                 <form action="/user/getpermission" method="POST">
-                  <button class="btn submit-btn">Get Permissions</button>
+                  <button class="btn submit-btn"><%= __('user.viewPerms') %></button>
                 </form>
                 <table class="table table-borderless">
                   <thead>
                     <tr>
-                      <th scope="col">Doctor ID</th>
-                      <th scope="col">Organisation</th>
+                      <th scope="col"><%= __('doctorID') %></th>
+                      <th scope="col"><%= __('org') %></th>
                     </tr>
                   </thead>
                   <tbody>

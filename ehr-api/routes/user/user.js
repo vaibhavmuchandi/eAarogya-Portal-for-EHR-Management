@@ -11,34 +11,44 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/user',
     failureRedirect: '/login'
 }), (req, res) => {});
 
 router.get('/', (req, res) => {
-    res.render('user/userPortal', { permission: {} });
+    res.render('user/userPortal', {
+        permission: {}
+    });
 });
 
 router.post('/givepermission', (req, res) => {
     let DoctorID = req.body.doctorID;
     let MedicalID = req.body.medicalID;
-    User.findOne({ username: DoctorID }, function(err, foundOrg) {
+    User.findOne({
+        username: DoctorID
+    }, function (err, foundOrg) {
         let org = foundOrg;
         org.permission.push(MedicalID);
         org.save();
         console.log(org);
-        res.render('user/userPortal', { permission: {} });
+        res.render('user/userPortal', {
+            permission: {}
+        });
     });
 });
 
 router.get('/revokepermission', (req, res) => {
-    res.render('user/userPortal', { permission: {} });
+    res.render('user/userPortal', {
+        permission: {}
+    });
 })
 
 router.post('/revokepermission', (req, res) => {
     let MedicalID = req.body.medicalID;
     let DoctorID = req.body.doctorID;
-    User.findOne({ username: DoctorID }, function(err, foundOrg) {
+    User.findOne({
+        username: DoctorID
+    }, function (err, foundOrg) {
         console.log(foundOrg);
         for (let i = 0; i < foundOrg.permission.length; i++) {
             if (foundOrg.permission[i] === MedicalID) {
@@ -54,15 +64,21 @@ router.post('/revokepermission', (req, res) => {
 });
 
 router.get('/getpermission', (req, res) => {
-    res.render('user/userPortal', { permission: {} });
+    res.render('user/userPortal', {
+        permission: {}
+    });
 });
 
 router.post('/getpermission', (req, res) => {
-    User.findOne({ username: 'cliniciantest' }, function(err, found) {
+    User.findOne({
+        username: 'cliniciantest'
+    }, function (err, found) {
         let permission = found.toJSON();
         console.log(permission);
         permission.organisation = 'Fortis Hospital'
-        res.render('user/userPortal', { permission: permission });
+        res.render('user/userPortal', {
+            permission: permission
+        });
     });
 });
 
