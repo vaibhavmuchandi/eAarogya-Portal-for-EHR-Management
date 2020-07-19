@@ -34,7 +34,9 @@ app.use(require('express-session')({
     secret: 'India is my country I love my country',
     resave: false,
     saveUninitialized: false,
-    cookie: {maxAge: 60000}
+    cookie: {
+        maxAge: 60000
+    }
 }));
 app.use(cookieParser());
 app.use(passport.initialize());

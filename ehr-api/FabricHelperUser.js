@@ -1,13 +1,3 @@
-'use strict';
-/*
- * Copyright IBM Corp All Rights Reserved
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-/*
- * Chaincode Invoke
- */
-
 var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
@@ -17,20 +7,18 @@ var store_path = path.join(__dirname, 'hfc-key-store');
 console.log('Store path:' + store_path);
 var tx_id = null;
 
-//Get latest prescription report
-function getMedicineReport(req, res, doc) {
-    console.log(doc.medicineID);
-    console.log(doc);
+//Function to get the entire history of medical reports
+function getRecord(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:9051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -55,11 +43,12 @@ function getMedicineReport(req, res, doc) {
                 throw new Error("Failed to get clinicianUser.... run registerUser.js");
             }
 
+            // getRecord chaincode function - requires 1 argument, ex: args: ['ABCD'],
             var request = {
                 chaincodeId: 'ehrcc',
-                fcn: 'getMedicineReport',
-                args: [doc.medicineID],
-                chainId: 'ehr'
+                fcn: 'getRecord',
+                args: [doc.medicalID],
+                chainId: 'ehrchannel'
             };
 
             // send the query proposal to the peer
@@ -71,35 +60,36 @@ function getMedicineReport(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    res.send({ code: "500", message: "isuue with getting report" });
+                    //res.send({ code: "500", message: "isuue with getting car history" });
                 } else {
-                    console.log("Response is ", query_responses[0].toString())
+                    console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("org/pharmacistPortal", { details: result });
+                    console.log(typeof(result));
+                    res.render("userPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({ code: "500", message: "No report found" });
+                res.send({ code: "500", message: "No medical record history found" });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({ code: "500", message: "Issue with getting report details" });
+            res.send({ code: "500", message: "Issue with getting record details" });
         });
 }
 
 //Get entire history of prescriptions
-function getMedicineRecord(req, res) {
+function getMedicineRecord(req, res, doc) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
     // setup the fabric network
     var channel = fabric_client.newChannel("ehrchannel");
-    var order = fabric_client.newOrderer("grpc://localhost:7050");
+    var order = fabric_client.newOrderer("grpc://192.168.99.100:7050");
     channel.addOrderer(order);
 
     //add buyer peer
-    var peer = fabric_client.newPeer("grpc://localhost:7051");
+    var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
     Fabric_Client.newDefaultKeyValueStore({ path: store_path })
@@ -125,8 +115,8 @@ function getMedicineRecord(req, res) {
             }
             var request = {
                 chaincodeId: 'ehrcc',
-                fcn: 'getMedicineRecord',
-                args: [req.body.recordID],
+                fcn: 'getRecord',
+                args: [doc.medicalID],
                 chainId: 'ehrchannel'
             };
 
@@ -141,10 +131,8 @@ function getMedicineRecord(req, res) {
                     console.error("error from query = ", query_responses[0]);
                 } else {
                     console.log("Response is ", query_responses[0].toString());
-                    res.send({
-                        code: "200",
-                        data: JSON.parse(query_responses[0].toString())
-                    })
+                    var result = JSON.parse(query_responses[0]);
+                    res.render("userPortal", { details: result });
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -157,9 +145,9 @@ function getMedicineRecord(req, res) {
         });
 }
 
-let ehrPharmacist = {
-    getMedicineReport: getMedicineReport,
+let ehrUser = {
+    getRecord: getRecord,
     getMedicineRecord: getMedicineRecord
 }
 
-module.exports = ehrPharmacist;
+module.exports = ehrUser;

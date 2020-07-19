@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
+const ehrClinician = require('../../FabricHelperClinician');
 const User = require("../../models/user");
 
 //All routes have prefix '/organsation/clinician'
@@ -18,9 +18,9 @@ router.post('/login', passport.authenticate('local', {
 }), function (req, res) {});
 
 router.use((req, res, next) => {
-    if(req.user.type=='clinician')
+    if (req.user.type == 'clinician')
         next();
-    else 
+    else
         res.redirect('/');
 });
 
@@ -45,7 +45,7 @@ router.post('/medicalID', function (req, res) {
         'medicalID': MedicalID
     }
     User.findOne({
-        username: 'cliniciantest'
+        username: 'vaibhavtest'
     }, function (err, found) {
         found.permission.forEach(function (perm) {
             if (perm == MedicalID) {
@@ -92,10 +92,9 @@ router.get('/addprescription', function (req, res) {
 
 router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicalRecordID = medicalID + '0M';
     let prescription = req.body.prescription;
     let doc = {
-        'medicalID': medicalRecordID,
+        'medicalID': medicalID,
         'prescription': prescription
     }
     ehrClinician.addMedicineReport(req, res, doc);
@@ -124,9 +123,8 @@ router.get('/getprescription', function (req, res) {
 });
 router.post('/getprescription', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M';
     let doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrClinician.getMedicineReport(req, res, doc);
 });
@@ -154,9 +152,8 @@ router.get('/medicinehistory', function (req, res) {
 });
 router.post('/medicinehistory', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M'
     let doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrClinician.getMedicineRecord(req, res, doc)
 });

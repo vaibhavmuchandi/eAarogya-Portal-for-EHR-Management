@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const ehrHCP = require('../../FabricHelper/FabricHelperHCP');
+const ehrHCP = require('../../FabricHelperHCP');
 
 //All routers have prefix '/organisation/healthcareprovider'
 router.get('/login', function (req, res) {

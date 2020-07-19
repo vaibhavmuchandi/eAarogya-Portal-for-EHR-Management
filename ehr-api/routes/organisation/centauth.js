@@ -7,7 +7,7 @@ const {
 } = require('express-validator')
 const passport = require('passport');
 const AadhaarUser = require('../../models/aadhaaruser');
-const ehrClinician = require('../../FabricHelper/FabricHelperClinician');
+const ehrClinician = require('../../FabricHelperClinician');
 
 //All routes have prefix '/organisation/centauth'
 router.get('/login', function (req, res) {
@@ -24,9 +24,9 @@ router.post('/login', passport.authenticate('local', {
 });
 
 router.use((req, res, next) => {
-    if(req.user.type=='centauth')
+    if (req.user.type == 'centauth')
         next();
-    else 
+    else
         res.redirect('/');
 });
 
@@ -58,7 +58,6 @@ router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a v
         } else {
             let details = doc.toJSON()
             ehrClinician.createRecord(req, res, details);
-            ehrClinician.createMedicineRecord(req, res, details);
             console.log('Found:', details);
             //res.render('centAuth', { details: details, errors: [] })
         }

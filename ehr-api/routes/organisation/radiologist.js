@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const ehrRadiologist = require('../../FabricHelper/FabricHelperRadiologist');
+const ehrRadiologist = require('../../FabricHelperRadiologist');
 
 //All routes have prefix '/organisation/radiologist'
 router.get('/login', function (req, res) {
