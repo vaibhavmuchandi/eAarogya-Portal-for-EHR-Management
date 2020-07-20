@@ -23,14 +23,13 @@ router.get('/', (req, res) => {
 
 router.post('/givepermission', (req, res) => {
     let DoctorID = req.body.doctorID;
-    let MedicalID = req.body.medicalID;
     User.findOne({
-        username: DoctorID
-    }, function (err, foundOrg) {
-        let org = foundOrg;
-        org.permission.push(MedicalID);
-        org.save();
-        console.log(org);
+        username: req.user.username
+    }, function (err, doc) {
+        let user = doc;
+        user.permission.push(DoctorID);
+        user.save();
+        console.log(user);
         res.render('user/userPortal', {
             permission: {}
         });
@@ -44,21 +43,20 @@ router.get('/revokepermission', (req, res) => {
 })
 
 router.post('/revokepermission', (req, res) => {
-    let MedicalID = req.body.medicalID;
     let DoctorID = req.body.doctorID;
     User.findOne({
-        username: DoctorID
-    }, function (err, foundOrg) {
-        console.log(foundOrg);
-        for (let i = 0; i < foundOrg.permission.length; i++) {
-            if (foundOrg.permission[i] === MedicalID) {
-                foundOrg.permission.splice(i, 1);
-                foundOrg.save()
+        username: req.user.username
+    }, function (err, user) {
+        console.log(user);
+        for (let i = 0; i < user.permission.length; i++) {
+            if (user.permission[i] === DoctorID) {
+                user.permission.splice(i, 1);
+                user.save()
             } else {
                 console.log('Not found');
             }
         }
-        console.log(foundOrg);
+        console.log(user);
         res.redirect('/');
     });
 });
@@ -71,7 +69,7 @@ router.get('/getpermission', (req, res) => {
 
 router.post('/getpermission', (req, res) => {
     User.findOne({
-        username: 'cliniciantest'
+        username: req.user.username
     }, function (err, found) {
         let permission = found.toJSON();
         console.log(permission);

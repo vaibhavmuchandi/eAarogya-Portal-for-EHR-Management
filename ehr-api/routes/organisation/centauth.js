@@ -7,6 +7,7 @@ const {
 } = require('express-validator')
 const passport = require('passport');
 const AadhaarUser = require('../../models/aadhaaruser');
+const User = require('../../models/user');
 const ehrClinician = require('../../FabricHelperClinician');
 
 //All routes have prefix '/organisation/centauth'
@@ -38,13 +39,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a valid 12 digit Aadhaar Number').matches(/\d/).withMessage('Your Aadhaar number can only contain numbers')], function (req, res) {
-    let errors = validationResult(req)
-    // if(!errors.isEmpty()) {
-    //   return res.status(422).json({error: errors})
-    // }^\d{4} {0,1}\d{4} {0,1}\d{4}$
+    let errors = validationResult(req);
     let aadhaarNum = req.body.aadhaarNum.trim().replace(/ /g, '');
-    let medicineNum = aadhaarNum + '0M';
-    // console.log(aadhaarNum);
     AadhaarUser.findOne({
         aadhaarNo: aadhaarNum
     }, (err, doc) => {
@@ -57,9 +53,26 @@ router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a v
             })
         } else {
             let details = doc.toJSON()
-            ehrClinician.createRecord(req, res, details);
+            User.register(new User({
+                _id: details.aadhaarNo,
+                username: details.name.replace(' ', '').toLowerCase() + details.aadhaarNo.slice(0, 4),
+                email: details.email,
+                phone: details.phoneNumber,
+                type: 'user'
+            }), details.name.replace(' ', '').toLowerCase() + details.aadhaarNo.slice(0, 4), (err, user) => {
+                if (err) {
+                    console.log(err.message);
+                    res.render('org/centAuth', {
+                        details: doc,
+                        errors: [{
+                            msg: err.message
+                        }]
+                    });
+                } else {
+                    ehrClinician.createRecord(req, res, details);
+                }
+            })
             console.log('Found:', details);
-            //res.render('centAuth', { details: details, errors: [] })
         }
     })
 

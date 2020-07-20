@@ -27,7 +27,7 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 });
 
@@ -35,7 +35,7 @@ router.get('/', function (req, res) {
 router.get('/medicalID', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 });
 
@@ -45,25 +45,26 @@ router.post('/medicalID', function (req, res) {
         'medicalID': MedicalID
     }
     User.findOne({
-        username: req.user.username
+        _id: MedicalID
     }, function (err, found) {
         found.permission.forEach(function (perm) {
-            if (perm == MedicalID) {
+            if (perm == req.user.username) {
                 ehrClinician.getReport(req, res, doc);
             } else {
-                console.log('Not allowed')
+                res.render("org/clinicianPortal", {
+                    details: {},
+                    error: 'Access denied. Please make sure the user has given you permission'
+                })
             }
         });
     });
-
-
 });
 
 
 router.get('/addreport', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 })
 
@@ -86,7 +87,7 @@ router.post('/addreport', function (req, res) {
 router.get('/addprescription', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 });
 
@@ -103,7 +104,7 @@ router.post('/addprescription', function (req, res) {
 router.get('/getreport', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 });
 
@@ -118,7 +119,7 @@ router.post('/getreport', function (req, res) {
 router.get('/getprescription', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 });
 router.post('/getprescription', function (req, res) {
@@ -132,7 +133,7 @@ router.post('/getprescription', function (req, res) {
 router.get('/reporthistory', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 });
 
@@ -147,7 +148,7 @@ router.post('/reporthistory', function (req, res) {
 router.get('/medicinehistory', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        history: []
+        error: null
     });
 });
 router.post('/medicinehistory', function (req, res) {

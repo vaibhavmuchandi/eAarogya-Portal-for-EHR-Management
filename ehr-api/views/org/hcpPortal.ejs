@@ -17,9 +17,9 @@
             <button style="margin-left:10px;" class="btn submit-btn"><%=__('search')%></button>
           </div>
         </div>
-        <% if(details.msg) {%>
+        <% if(error) {%>
         <div class=" alert alert-danger">
-          <%=details.msg%>
+          <%=error%>
         </div>
         <%}%>
       </form>

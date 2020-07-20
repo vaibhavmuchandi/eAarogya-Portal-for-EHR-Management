@@ -32,14 +32,18 @@ function createRecord(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -82,9 +86,15 @@ function createRecord(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render('org/centAuth', { details: doc, errors: [] });
+                res.render('org/centAuth', {
+                    details: doc,
+                    errors: []
+                });
             } else {
-                res.send({ code: "500", message: proposalResponses[0].response.message });
+                res.send({
+                    code: "500",
+                    message: proposalResponses[0].response.message
+                });
                 console.error("Transaction proposal was bad");
             }
             if (isProposalGood) {
@@ -122,7 +132,9 @@ function createRecord(req, res, doc) {
                 let txPromise = new Promise((resolve, reject) => {
                     let handle = setTimeout(() => {
                         event_hub.disconnect();
-                        resolve({ event_status: "TIMEOUT" }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
+                        resolve({
+                            event_status: "TIMEOUT"
+                        }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
                     }, 3000);
                     event_hub.connect();
                     event_hub.registerTxEvent(
@@ -212,14 +224,18 @@ function addReport(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -264,9 +280,16 @@ function addReport(req, res, doc) {
                 console.log(doc);
                 //result = JSON.parse(proposalResponses[0]);
                 console.log(proposalResponses[0].name)
-                res.render("org/clinicianPortal", { details: doc, name: proposalResponses[0].name })
+                res.render("org/clinicianPortal", {
+                    details: doc,
+                    name: proposalResponses[0].name,
+                    error: null
+                })
             } else {
-                res.send({ code: "500", message: proposalResponses[0].response.message });
+                res.send({
+                    code: "500",
+                    message: proposalResponses[0].response.message
+                });
                 console.error("Transaction proposal was bad");
             }
             if (isProposalGood) {
@@ -304,7 +327,9 @@ function addReport(req, res, doc) {
                 let txPromise = new Promise((resolve, reject) => {
                     let handle = setTimeout(() => {
                         event_hub.disconnect();
-                        resolve({ event_status: "TIMEOUT" }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
+                        resolve({
+                            event_status: "TIMEOUT"
+                        }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
                     }, 3000);
                     event_hub.connect();
                     event_hub.registerTxEvent(
@@ -397,14 +422,18 @@ function getReport(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:9051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -436,20 +465,32 @@ function getReport(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    res.send({ code: "500", message: "isuue with getting report" });
+                    res.send({
+                        code: "500",
+                        message: "isuue with getting report"
+                    });
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("org/clinicianPortal", { details: result })
+                    res.render("org/clinicianPortal", {
+                        details: result,
+                        error: null
+                    })
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({ code: "500", message: "No report found" });
+                res.send({
+                    code: "500",
+                    message: "No report found"
+                });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({ code: "500", message: "Issue with getting report details" });
+            res.send({
+                code: "500",
+                message: "Issue with getting report details"
+            });
         });
 }
 
@@ -468,14 +509,18 @@ function getRecord(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -511,18 +556,29 @@ function getRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    Object.values(result).forEach(b => { console.log(b.Value.name) })
-                    res.render("org/clinicianPortal", { details: result });
+                    Object.values(result).forEach(b => {
+                        console.log(b.Value.name)
+                    })
+                    res.render("org/clinicianPortal", {
+                        details: result,
+                        error: null
+                    });
 
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({ code: "500", message: "No car history found" });
+                res.send({
+                    code: "500",
+                    message: "No car history found"
+                });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({ code: "500", message: "Issue with getting car details" });
+            res.send({
+                code: "500",
+                message: "Issue with getting car details"
+            });
         });
 }
 
@@ -722,14 +778,18 @@ function addMedicineReport(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -769,9 +829,14 @@ function addMedicineReport(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render("org/clinicianPortal", { details: doc });
+                res.render("org/clinicianPortal", {
+                    details: doc
+                });
             } else {
-                res.send({ code: "500", message: proposalResponses[0].response.message });
+                res.send({
+                    code: "500",
+                    message: proposalResponses[0].response.message
+                });
                 console.error("Transaction proposal was bad");
             }
             if (isProposalGood) {
@@ -809,7 +874,9 @@ function addMedicineReport(req, res, doc) {
                 let txPromise = new Promise((resolve, reject) => {
                     let handle = setTimeout(() => {
                         event_hub.disconnect();
-                        resolve({ event_status: "TIMEOUT" }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
+                        resolve({
+                            event_status: "TIMEOUT"
+                        }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
                     }, 3000);
                     event_hub.connect();
                     event_hub.registerTxEvent(
@@ -900,14 +967,18 @@ function addrLReport(req, res) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -948,9 +1019,15 @@ function addrLReport(req, res) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.send({ code: "200", message: "New RadioLogist Report has been added" });
+                res.send({
+                    code: "200",
+                    message: "New RadioLogist Report has been added"
+                });
             } else {
-                res.send({ code: "500", message: proposalResponses[0].response.message });
+                res.send({
+                    code: "500",
+                    message: proposalResponses[0].response.message
+                });
                 console.error("Transaction proposal was bad");
             }
             if (isProposalGood) {
@@ -988,7 +1065,9 @@ function addrLReport(req, res) {
                 let txPromise = new Promise((resolve, reject) => {
                     let handle = setTimeout(() => {
                         event_hub.disconnect();
-                        resolve({ event_status: "TIMEOUT" }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
+                        resolve({
+                            event_status: "TIMEOUT"
+                        }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
                     }, 3000);
                     event_hub.connect();
                     event_hub.registerTxEvent(
@@ -1079,14 +1158,18 @@ function getMedicineReport(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:9051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -1117,20 +1200,32 @@ function getMedicineReport(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    res.send({ code: "500", message: "isuue with getting report" });
+                    res.send({
+                        code: "500",
+                        message: "isuue with getting report"
+                    });
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
-                    res.render("org/clinicianPortal", { details: result });
+                    res.render("org/clinicianPortal", {
+                        details: result,
+                        error: null
+                    });
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({ code: "500", message: "No report found" });
+                res.send({
+                    code: "500",
+                    message: "No report found"
+                });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({ code: "500", message: "Issue with getting report details" });
+            res.send({
+                code: "500",
+                message: "Issue with getting report details"
+            });
         });
 }
 
@@ -1148,14 +1243,18 @@ function getMedicineRecord(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -1188,16 +1287,25 @@ function getMedicineRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("org/clinicianPortal", { details: result });
+                    res.render("org/clinicianPortal", {
+                        details: result,
+                        error: null
+                    });
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({ code: "500", message: "No medicine history found" });
+                res.send({
+                    code: "500",
+                    message: "No medicine history found"
+                });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({ code: "500", message: "Issue with getting medicine history details" });
+            res.send({
+                code: "500",
+                message: "Issue with getting medicine history details"
+            });
         });
 }
 

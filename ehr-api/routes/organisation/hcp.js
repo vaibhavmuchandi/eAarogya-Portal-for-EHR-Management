@@ -17,21 +17,44 @@ router.post('/login', passport.authenticate('local', {
 }), function (req, res) {});
 
 router.use((req, res, next) => {
-    if(req.user.type=='hcp')
+    if (req.user.type == 'hcp')
         next();
-    else 
+    else
         res.redirect('/');
 });
 
 router.get('/', function (req, res) {
     res.render('org/hcpPortal', {
-        details: {}
+        details: {},
+        error: null
+    });
+});
+
+router.post('/medicalID', function (req, res) {
+    let MedicalID = req.body.medicalID;
+    let doc = {
+        'medicalID': MedicalID
+    }
+    User.findOne({
+        _id: MedicalID
+    }, function (err, found) {
+        found.permission.forEach(function (perm) {
+            if (perm == req.user.username) {
+                ehrHCP.getReport(req, res, doc);
+            } else {
+                res.render("org/hcpPortal", {
+                    details: {},
+                    error: 'Access denied. Please make sure the user has given you permission'
+                })
+            }
+        });
     });
 });
 
 router.get('/getreport', function (req, res) {
     res.render('org/hcpPortal', {
-        details: {}
+        details: {},
+        error: null
     });
 })
 router.post('/getreport', function (req, res) {
@@ -44,7 +67,8 @@ router.post('/getreport', function (req, res) {
 
 router.get('/getmedicalrecord', function (req, res) {
     res.render('org/hcpPortal', {
-        details: {}
+        details: {},
+        error: null
     });
 });
 router.post('/getmedicalrecord', function (req, res) {
@@ -57,7 +81,8 @@ router.post('/getmedicalrecord', function (req, res) {
 
 router.get('/getprescription', function (req, res) {
     res.render('org/hcpPortal', {
-        details: {}
+        details: {},
+        error: null
     });
 });
 router.post('/getprescription', function (req, res) {
@@ -70,7 +95,8 @@ router.post('/getprescription', function (req, res) {
 });
 router.get('/getprescriptionrecord', function (req, res) {
     res.render('org/hcpPortal', {
-        details: {}
+        details: {},
+        error: null
     });
 });
 

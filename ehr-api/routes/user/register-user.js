@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const ehrClinician = require('../../FabricHelperClinician');
 const AadhaarUser = require('../../models/aadhaaruser');
+const User = require('../../models/user');
 let app = express();
 
 //All routes have prefix /user/register-user
@@ -75,8 +76,8 @@ router.post('/verify-otp', (req, res) => {
 router.post('/complete-form', (req, res) => {
   let details = req.body;
   ehrClinician.createRecord(req, res, details);
-  ehrClinician.createMedicineRecord(req, res, details);
   User.register(new User({
+    _id: req.body.aadhaarNum,
     username: req.body.username,
     email: req.body.email,
     phone: req.body.phone,
