@@ -830,7 +830,8 @@ function addMedicineReport(req, res, doc) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
                 res.render("org/clinicianPortal", {
-                    details: doc
+                    details: doc,
+                    error: null
                 });
             } else {
                 res.send({

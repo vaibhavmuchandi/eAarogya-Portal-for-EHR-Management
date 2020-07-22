@@ -1,22 +1,19 @@
 <html>
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/stylesheets/styles.css">
-    <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,500,600,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css?h=a8d4bee654e7f373adc6e3ffc7b44ff5">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
         integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
     <title>eAarogya</title>
 </head>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-accent">
+<nav class="navbar navbar-expand-sm navbar-dark bg-main">
     <a class="navbar-brand" href="/">
-        <img width="140" src="/assets/navLogo.png" alt="">
+        <img width="140" src="/images/navLogo.png" alt="">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,25 +21,30 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <div class="dropdown">
-                    <button class="btn bg-main dropdown-toggle text-white rounded mr-4" type="button"
-                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-language mr-1"></i> <%=lang%>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/en">English</a>
-                        <a class="dropdown-item" href="/hi">हिंदी</a>
-                        <a class="dropdown-item" href="/ka">ಕನ್ನಡ</a>
-                    </div>
-                </div>
-            </li>
-            <% if(user) {%>
+            <% if(!user) {%>
             <li class="nav-item">
-                <a href="/logout" class="btn submit-btn">Log Out</a href="/logout"
-                    style="border: 1px solid #0f4c75 !important;">
+                <a href="/login" class="btn shadow-lg text-white p-3 roundness mr-4"><%=__('login')%></a>
             </li>
             <%}%>
+            <li class="nav-item active">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle text-white mr-4 p-3 shadow-lg roundness" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-language mr-1"></i> <%=lang%>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/en">English</a>
+                <a class="dropdown-item" href="/hi">हिंदी</a>
+                <a class="dropdown-item" href="/ka">ಕನ್ನಡ</a>
+            </div>
+    </div>
+    </li>
+    <% if(user) {%>
+    <li class="nav-item">
+        <a href="/logout" class="btn shadow-lg text-white p-3 roundness">Log Out</a href="/logout"
+            style="border: 1px solid #0f4c75 !important;">
+    </li>
+    <%}%>
         </ul>
     </div>
-</nav>
+</nav> 

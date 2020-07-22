@@ -35,7 +35,7 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 600000
+        maxAge: 6000000
     }
 }));
 app.use(cookieParser());
@@ -90,6 +90,18 @@ app.get('/professional', (req, res) => {
     res.render('professionalIndex');
 });
 
+
+app.get('/login', (req, res) => {
+    res.render('login');
+})
+
+app.post('/login', passport.authenticate('local'), (req, res) => {
+    if(req.user.type == 'user') 
+        res.redirect('/user')
+    else 
+        res.redirect(`/organisation/${req.user.type}`)
+});
+
 app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
@@ -103,6 +115,7 @@ app.post('/register', (req, res) => {
     User.register(new User({
         _id: req.body.id,
         username: req.body.username,
+        org: req.body.org,
         type: req.body.type
     }), req.body.password, (err, user) => {
         if (err) {

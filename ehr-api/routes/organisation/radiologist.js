@@ -14,7 +14,7 @@ router.get('/login', function (req, res) {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/organisation/radiologist',
-    failureRedirect: '/login'
+    failureRedirect: '/organisation/radiologist/login'
 }), function (req, res) {});
 
 

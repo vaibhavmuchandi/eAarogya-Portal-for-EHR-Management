@@ -9,7 +9,11 @@ var UserSchema = new mongoose.Schema({
     email: String,
     phone: String,
     type: String,
-    permission: [String]
+    org: String,
+    permission: [{
+        type: String,
+        ref: 'User'
+    }]
 });
 
 UserSchema.plugin(passportLocalMongoose);

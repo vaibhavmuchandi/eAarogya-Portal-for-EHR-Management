@@ -2,13 +2,13 @@
 
 <div class="container-fluid justify-content-center row align-items-center mt-5" style="margin-top: 10% !important">
 
-  <div class="card col-md-3 offset-sm-3 offset-md-0" id="central-authority-form">
+  <div class="card shadow-lg p-2 roundness col-md-3 offset-sm-3 offset-md-0">
     <div class="card-body text-main">
       <h4><%=__('enrollPatient')%></h4><br>
-      <form class="form-inline" method="post" action="/organisation/centauth">
-        <input class="form-control mr-sm-2" type="text" placeholder="<%=__('aadhaarNum')%>" name="aadhaarNum"
-          aria-label="Search">
-        <button class="btn submit-btn my-2 my-sm-0" type="submit"><%=__('search')%></button>
+      <form class="form-inline user" method="post" action="/organisation/centauth">
+        <input class="form-control form-control-user mr-sm-2" type="text" placeholder="<%=__('aadhaarNum')%>"
+          name="aadhaarNum" aria-label="Search">
+        <button class="btn submit-btn my-2 my-sm-0 roundness" type="submit"><%=__('search')%></button>
       </form>
       <br>
       <div class="errors">
@@ -25,8 +25,8 @@
 
 
 
-    <div class="card col-md-3 offset-1 mt-4" id="aadhaar-display">
-        <div class="card-body text-main">
+    <div class="card shadow-lg p-2 roundness  offset-1 mt-4">
+        <div class="card-body text-main" style="min-width: 250px;">
                 <p id="message-display"></p>
                 <% if(details.found !== null) { %>
         <p><%=__('aadhaarNum')%>:

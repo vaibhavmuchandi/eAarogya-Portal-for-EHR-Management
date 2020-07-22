@@ -13,15 +13,15 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/organisation/testcenter',
-    failureRedirect: '/login'
+    failureRedirect: '/organisation/testcenter/login'
 }), (req, res) => {
 
 });
 
 router.use((req, res, next) => {
-    if(req.user.type=='testcenter')
+    if (req.user.type == 'testcenter')
         next();
-    else 
+    else
         res.redirect('/');
 });
 

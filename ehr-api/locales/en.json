@@ -55,5 +55,10 @@
 	"bloodGroup": "Blood Group",
 	"BP": "Blood Pressure",
 	"Hb": "Haemoglobin",
-	"glucose": "Glucose"
+	"glucose": "Glucose",
+	"login": "Login",
+	"welcome": "Welcome Back!",
+	"noAccount": "Don't have an account? Make one now!",
+	"specialisation": "Specialisation",
+	"prescription": "prescription"
 }
