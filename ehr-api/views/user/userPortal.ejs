@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="tab-pane fade" id="nav-presc" role="tabpanel" aria-labelledby="nav-presc-tab">
-        <div class="card shadow-lg border-0 p-4 roundness">
+        <div class="card shadow-lg border-0 p-4 roundness" style="max-height: 450px; overflow-y: scroll">
           <div class="card-body">
             <h4 class="text-main"><%= __('prescHist') %></h4><br>
             <form class="form-inline" action="/user/prescriptionhistory" method="POST">
@@ -82,7 +82,7 @@
         </div>
       </div>
       <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-        <div class="card shadow-lg p-2 border-0 roundness" style="max-width: 450px; overlow-y: scroll">
+        <div class="card shadow-lg p-2 border-0 roundness" style="max-height: 450px; overflow-y: scroll">
           <div class="card-body">
             <form action="/user/getpermission" method="POST">
               <button class="btn submit-btn roundness"><%= __('user.viewPerms') %></button>
