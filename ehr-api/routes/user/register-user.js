@@ -36,6 +36,9 @@ router.post('/', (req, res) => {
         app.set('sessionNum', session.Details);
       });
 
+
+
+
       res.render('user/register-user/enter-code', {
         error: null
       });
@@ -86,7 +89,6 @@ router.post('/complete-form', (req, res) => {
     if (err) {
       console.log(err.message);
     } else {
-      console.log(typeof (details));
       ehrClinician.createRecord(req, res, details);
     }
   })
