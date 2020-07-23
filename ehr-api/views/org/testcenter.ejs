@@ -15,7 +15,7 @@
                   <br>
                   <h3 style="color:#0f4c75; text-align:center;"><%=__('testReport')%></h3>
                   <br>
-                  <form class="clinician-form" method="post" action="/organisation/testcenter/addreport">
+                  <form class="clinician-form" method="post" action="/organisation/testcenter/addreport" enctype="multipart/form-data">
                     <div class="form-group">
                       <label for="name"><%=__('medicalID')%>: </label>
                       <input type="text" class="form-control form-input" name="medicalID" id="medicalID" />
@@ -42,7 +42,14 @@
                       <label for="name"><%=__('links')%></label>
                       <input type="text" class="form-control" name="links" id="links" />
                     </div>
-                    <button class="btn submit-btn" name="button">Submit</button>
+
+                    <div class="form-group">
+                      
+                        <input class="form-control" type="file" name="file" />                        
+                      
+                    </div>
+                    <button class="btn submit-btn" type="submit" name="button">Submit</button>
+                    
                     <%=response.message%>
                     <br>
                   </form>
@@ -57,3 +64,6 @@
 
 
   <%- include("../partials/footer") %>
+
+
+
