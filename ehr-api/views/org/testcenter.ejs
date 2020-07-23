@@ -14,29 +14,15 @@
                 <div class="text-center">
                   <h4 class="mb-4 h2 text-accent"><%=__('testReport')%></h4>
                 </div>
-                <form class="form user" method="post" action="/organisation/testcenter/addreport" enctype="multipart/form-data">
+                <form class="form user" method="post" action="/organisation/testcenter/addreport"
+                  enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="name"><%=__('medicalID')%>: </label>
                     <input type="text" class="form-control form-control-user" name="medicalID" id="medicalID" />
                   </div>
 
-  <div class="container tabcontainer">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="nav-addreport" role="tabpanel" aria-labelledby="nav-addreport-tab">
-            <div class="dfcontainer" id="test-table">
-              <div class="main">
-                <div class="main-center">
-                  <br>
-                  <h3 style="color:#0f4c75; text-align:center;"><%=__('testReport')%></h3>
-                  <br>
-                  <form class="clinician-form" method="post" action="/organisation/testcenter/addreport" enctype="multipart/form-data">
-                    <div class="form-group">
-                      <label for="name"><%=__('medicalID')%>: </label>
-                      <input type="text" class="form-control form-input" name="medicalID" id="medicalID" />
-                    </div>
-                    <div class="form-group">
+                  <div class="form-row">
+                    <div class="col">
                       <label for="name"><%=__('bloodGroup')%></label>
                       <input type="text" class="form-control form-control-user" name="bloodGroup" id="blood-group" />
                     </div>
@@ -58,18 +44,15 @@
                       <input type="text" class="form-control form-control-user" name="sugarlevel" id="weight" />
                     </div>
                   </div>
-
-
                   <div class="form-group mt-2">
                     <label for="name"><%=__('links')%></label>
                     <input type="text" class="form-control form-control-user" name="links" id="links" />
                   </div>
-                  <div class="form-group">
-                    <input class="form-control" type="file" name="file" />
+                  <div class="custom-file">
+                    <input type="file" name="file" class="custom-file-input" id="file">
+                    <labe class="custom-file-label" for="file">Choose file</label>
                   </div>
-
                   <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
-
 
                   <% if(response.message) {%>
                   <div class="alert alert-info">
@@ -93,3 +76,11 @@
   </svg>
 </body>
 <%- include("../partials/footer") %>
+                  <script type="text/javascript">
+                    ;
+                    $('input[type="file"]').change(function (e) {
+                      var fileName = e.target.files[0].name;
+                      console.log(fileName);
+                      $('.custom-file-label').html(fileName);
+                    });
+                  </script>
