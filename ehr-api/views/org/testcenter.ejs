@@ -14,7 +14,8 @@
                 <div class="text-center">
                   <h4 class="mb-4 h2 text-accent"><%=__('testReport')%></h4>
                 </div>
-                <form class="form user" method="post" action="/organisation/testcenter/addreport">
+                <form class="form user" method="post" action="/organisation/testcenter/addreport"
+                  enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="name"><%=__('medicalID')%>: </label>
                     <input type="text" class="form-control form-control-user" name="medicalID" id="medicalID" />
@@ -43,11 +44,13 @@
                       <input type="text" class="form-control form-control-user" name="sugarlevel" id="weight" />
                     </div>
                   </div>
-
-
                   <div class="form-group mt-2">
                     <label for="name"><%=__('links')%></label>
                     <input type="text" class="form-control form-control-user" name="links" id="links" />
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" name="file" class="custom-file-input" id="file">
+                    <labe class="custom-file-label" for="file">Upload your medical report(.pdf)</label>
                   </div>
                   <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
 
@@ -73,3 +76,10 @@
   </svg>
 </body>
 <%- include("../partials/footer") %>
+                  <script type="text/javascript">
+                    $('input[type="file"]').change(function (e) {
+                      var fileName = e.target.files[0].name;
+                      console.log(fileName);
+                      $('.custom-file-label').html(fileName);
+                    });
+                  </script>
