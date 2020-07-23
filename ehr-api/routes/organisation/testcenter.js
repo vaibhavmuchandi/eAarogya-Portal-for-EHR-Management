@@ -26,12 +26,7 @@ router.post('/login', passport.authenticate('local', {
 });
 
 router.use((req, res, next) => {
-<<<<<<< HEAD
-    
-    if(req.user.type=='testcenter')
-=======
     if (req.user.type == 'testcenter')
->>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646
         next();
     else
         res.redirect('/');

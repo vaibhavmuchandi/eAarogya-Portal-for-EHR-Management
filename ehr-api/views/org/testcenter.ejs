@@ -14,13 +14,12 @@
                 <div class="text-center">
                   <h4 class="mb-4 h2 text-accent"><%=__('testReport')%></h4>
                 </div>
-                <form class="form user" method="post" action="/organisation/testcenter/addreport">
+                <form class="form user" method="post" action="/organisation/testcenter/addreport" enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="name"><%=__('medicalID')%>: </label>
                     <input type="text" class="form-control form-control-user" name="medicalID" id="medicalID" />
                   </div>
 
-<<<<<<< HEAD
   <div class="container tabcontainer">
     <div class="row">
       <div class="col-xs-12">
@@ -38,10 +37,6 @@
                       <input type="text" class="form-control form-input" name="medicalID" id="medicalID" />
                     </div>
                     <div class="form-group">
-=======
-                  <div class="form-row">
-                    <div class="col">
->>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646
                       <label for="name"><%=__('bloodGroup')%></label>
                       <input type="text" class="form-control form-control-user" name="bloodGroup" id="blood-group" />
                     </div>
@@ -64,30 +59,20 @@
                     </div>
                   </div>
 
-<<<<<<< HEAD
-                    <div class="form-group">
-                      <label for="name"><%=__('links')%></label>
-                      <input type="text" class="form-control" name="links" id="links" />
-                    </div>
-
-                    <div class="form-group">
-                      
-                        <input class="form-control" type="file" name="file" />                        
-                      
-                    </div>
-                    <button class="btn submit-btn" type="submit" name="button">Submit</button>
-                    
-=======
 
                   <div class="form-group mt-2">
                     <label for="name"><%=__('links')%></label>
                     <input type="text" class="form-control form-control-user" name="links" id="links" />
                   </div>
+                  <div class="form-group">
+                    <input class="form-control" type="file" name="file" />
+                  </div>
+
                   <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
+
 
                   <% if(response.message) {%>
                   <div class="alert alert-info">
->>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646
                     <%=response.message%>
                   </div>
                   <%}%>
@@ -100,14 +85,6 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
-
-
-  <%- include("../partials/footer") %>
-
-
-
-=======
   </div>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position: absolute; bottom: 0; z-index:-1">
     <path fill="#0f4c75" fill-opacity="1"
@@ -116,4 +93,3 @@
   </svg>
 </body>
 <%- include("../partials/footer") %>
->>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646
