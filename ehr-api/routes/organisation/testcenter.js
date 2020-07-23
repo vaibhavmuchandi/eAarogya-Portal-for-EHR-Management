@@ -36,9 +36,6 @@ router.get('/', (req, res) => {
   res.render('org/testcenter', {
     response: {}
   });
-
-  res.sendFile(__dirname + "org/testcenter"); //text extraction
-
 });
 
 router.post('/addreport', (req, res) => {

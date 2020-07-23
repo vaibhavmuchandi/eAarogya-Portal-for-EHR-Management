@@ -20,21 +20,21 @@ router.post('/', (req, res) => {
     if (user) {
       app.set('details', user.toJSON());
 
-      // var options = {
-      //   method: 'GET',
-      //   url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/' + user.phoneNumber + '/AUTOGEN',
-      //   headers: {
-      //     'content-type': 'application/x-www-form-urlencoded'
-      //   },
-      //   form: {}
-      // };
+      var options = {
+        method: 'GET',
+        url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/' + user.phoneNumber + '/AUTOGEN',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        form: {}
+      };
 
-      // request(options, function (error, response, body) {
-      //   if (error) throw new Error(error);
+      request(options, function (error, response, body) {
+        if (error) throw new Error(error);
 
-      //   let session = JSON.parse(body);
-      //   app.set('sessionNum', session.Details);
-      // });
+        let session = JSON.parse(body);
+        app.set('sessionNum', session.Details);
+      });
 
       res.render('user/register-user/enter-code', {
         error: null
@@ -49,32 +49,28 @@ router.post('/', (req, res) => {
 router.post('/verify-otp', (req, res) => {
   let otp = req.body.code;
   let sessNum = app.get('sessionNum');
-  // let options = {
-  //   method: 'GET',
-  //   url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/VERIFY/' + sessNum + '/' + otp,
-  //   headers: {
-  //     'content-type': 'application/x-www-form-urlencoded'
-  //   },
-  //   form: {}
-  // };
+  let options = {
+    method: 'GET',
+    url: 'http://2factor.in/API/V1/e84b3273-63bb-11ea-9fa5-0200cd936042/SMS/VERIFY/' + sessNum + '/' + otp,
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    form: {}
+  };
 
-  // request(options, function (error, response, body) {
-  //   if (error) throw new Error(error);
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error);
 
-  //   if (response.statusCode == 200) {
-  //     let details = app.get('details');
-  //     res.render('user/register-user/complete-form', {
-  //       details: details
-  //     });
-  //   } else {
-  //     res.render('user/register-user/enter-code', {
-  //       error: 'Invalid OTP'
-  //     })
-  //   }
-  // });
-  let details = app.get('details');
-  res.render('user/register-user/complete-form', {
-    details: details
+    if (response.statusCode == 200) {
+      let details = app.get('details');
+      res.render('user/register-user/complete-form', {
+        details: details
+      });
+    } else {
+      res.render('user/register-user/enter-code', {
+        error: 'Invalid OTP'
+      })
+    }
   });
 })
 
