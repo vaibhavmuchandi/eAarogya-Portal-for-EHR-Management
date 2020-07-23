@@ -1,9 +1,26 @@
 <%- include ('../partials/header') %>
 
 <body>
-  <br><br>
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-9 col-lg-12 col-xl-10">
+      <div class="card shadow-lg o-hidden border-0 mt-4 roundness">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-flex">
+              <img src="/images/report.svg" alt="" style="width: 90%;">
+            </div>
+            <div class="col-lg-6">
+              <div class="mt-3">
+                <div class="text-center">
+                  <h4 class="mb-4 h2 text-accent"><%=__('testReport')%></h4>
+                </div>
+                <form class="form user" method="post" action="/organisation/testcenter/addreport">
+                  <div class="form-group">
+                    <label for="name"><%=__('medicalID')%>: </label>
+                    <input type="text" class="form-control form-control-user" name="medicalID" id="medicalID" />
+                  </div>
 
-
+<<<<<<< HEAD
   <div class="container tabcontainer">
     <div class="row">
       <div class="col-xs-12">
@@ -21,23 +38,33 @@
                       <input type="text" class="form-control form-input" name="medicalID" id="medicalID" />
                     </div>
                     <div class="form-group">
+=======
+                  <div class="form-row">
+                    <div class="col">
+>>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646
                       <label for="name"><%=__('bloodGroup')%></label>
-                      <input type="text" class="form-control form-input" name="bloodGroup" id="blood-group" />
+                      <input type="text" class="form-control form-control-user" name="bloodGroup" id="blood-group" />
                     </div>
-                    <div class="form-group">
+                    <div class="col">
                       <label for="name"><%=__('BP')%></label>
-                      <input type="text" class="form-control" name="bloodPressure" id="blood-pressure" />
+                      <input type="text" class="form-control form-control-user" name="bloodPressure"
+                        id="blood-pressure" />
                     </div>
-                    <div class="form-group">
+                  </div>
+
+                  <div class="form-row mt-2">
+                    <div class="col">
                       <label for="name"><%=__('Hb')%></label>
-                      <input type="text" class="form-control" name="haemoglobin" id="haemoglobin" />
+                      <input type="text" class="form-control form-control-user" name="haemoglobin" id="haemoglobin" />
                     </div>
 
-                    <div class="form-group">
+                    <div class="col">
                       <label for="name"><%=__('glucose')%></label>
-                      <input type="text" class="form-control" name="sugarlevel" id="weight" />
+                      <input type="text" class="form-control form-control-user" name="sugarlevel" id="weight" />
                     </div>
+                  </div>
 
+<<<<<<< HEAD
                     <div class="form-group">
                       <label for="name"><%=__('links')%></label>
                       <input type="text" class="form-control" name="links" id="links" />
@@ -50,10 +77,22 @@
                     </div>
                     <button class="btn submit-btn" type="submit" name="button">Submit</button>
                     
+=======
+
+                  <div class="form-group mt-2">
+                    <label for="name"><%=__('links')%></label>
+                    <input type="text" class="form-control form-control-user" name="links" id="links" />
+                  </div>
+                  <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
+
+                  <% if(response.message) {%>
+                  <div class="alert alert-info">
+>>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646
                     <%=response.message%>
-                    <br>
-                  </form>
-                </div>
+                  </div>
+                  <%}%>
+                  <br>
+                </form>
               </div>
             </div>
           </div>
@@ -61,9 +100,20 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
 
 
   <%- include("../partials/footer") %>
 
 
 
+=======
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position: absolute; bottom: 0; z-index:-1">
+    <path fill="#0f4c75" fill-opacity="1"
+      d="M0,256L80,213.3C160,171,320,85,480,85.3C640,85,800,171,960,186.7C1120,203,1280,149,1360,122.7L1440,96L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+    </path>
+  </svg>
+</body>
+<%- include("../partials/footer") %>
+>>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646

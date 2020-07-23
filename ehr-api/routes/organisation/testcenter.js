@@ -20,16 +20,20 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/organisation/testcenter',
-    failureRedirect: '/login'
+    failureRedirect: '/organisation/testcenter/login'
 }), (req, res) => {
 
 });
 
 router.use((req, res, next) => {
+<<<<<<< HEAD
     
     if(req.user.type=='testcenter')
+=======
+    if (req.user.type == 'testcenter')
+>>>>>>> 2d8638526ec16a6013c41cbb8c7735bbc979a646
         next();
-    else 
+    else
         res.redirect('/');
 });
 

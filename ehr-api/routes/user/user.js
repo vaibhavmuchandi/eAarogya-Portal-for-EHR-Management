@@ -12,12 +12,14 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/user',
-    failureRedirect: '/login'
+    failureRedirect: '/user/login'
 }), (req, res) => {});
 
 router.get('/', (req, res) => {
     res.render('user/userPortal', {
-        permission: {}
+        permission: {},
+        reports: [],
+        prescs: []
     });
 });
 
@@ -31,14 +33,18 @@ router.post('/givepermission', (req, res) => {
         user.save();
         console.log(user);
         res.render('user/userPortal', {
-            permission: {}
+            permission: {},
+            reports: [],
+            prescs: []
         });
     });
 });
 
 router.get('/revokepermission', (req, res) => {
     res.render('user/userPortal', {
-        permission: {}
+        permission: {},
+        reports: [],
+        prescs: []
     });
 })
 
@@ -47,49 +53,62 @@ router.post('/revokepermission', (req, res) => {
     User.findOne({
         username: req.user.username
     }, function (err, user) {
-        console.log(user);
-        for (let i = 0; i < user.permission.length; i++) {
-            if (user.permission[i] === DoctorID) {
-                user.permission.splice(i, 1);
-                user.save()
-            } else {
-                console.log('Not found');
-            }
+        let idx = user.permission.indexOf(DoctorID);
+        if (idx != -1) {
+            user.permission.splice(i, 1);
+            user.save()
+        } else {
+            console.log('Not found');
         }
-        console.log(user);
-        res.redirect('/');
+        res.redirect('/user');
     });
 });
 
 router.get('/getpermission', (req, res) => {
     res.render('user/userPortal', {
-        permission: {}
+        permission: {},
+        reports: [],
+        prescs: []
     });
 });
 
 router.post('/getpermission', (req, res) => {
     User.findOne({
-        username: req.user.username
-    }, function (err, found) {
-        let permission = found.toJSON();
-        console.log(permission);
-        permission.organisation = 'Fortis Hospital'
-        res.render('user/userPortal', {
-            permission: permission
-        });
-    });
+            username: req.user.username
+        }, 'permission')
+        .populate('permission', 'name org type')
+        .exec((err, info) => {
+            res.render('user/userPortal', {
+                permission: info.permission,
+                reports: [],
+                prescs: []
+            });
+        })
 });
 
-router.get('/record', (req, res) => {
+router.get('/reporthistory', (req, res) => {
     res.render('user/userPortal');
 });
 
-router.post('/record', (req, res) => {
-    let medicalID = req.body.medicalID;
+router.post('/reporthistory', (req, res) => {
+    let medicalID = req.user._id;
     let doc = {
         'medicalID': medicalID
     }
+    console.log(medicalID);
     ehrUser.getRecord(req, res, doc);
+});
+
+router.get('/prescriptionhistory', (req, res) => {
+    res.render('user/userPortal');
+});
+
+router.post('/prescriptionhistory', (req, res) => {
+    let medicalID = req.user._id;
+    let doc = {
+        'medicalID': medicalID
+    }
+    ehrUser.getMedicineRecord(req, res, doc);
 });
 
 module.exports = router;

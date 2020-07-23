@@ -21,14 +21,18 @@ function getRecord(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -64,17 +68,27 @@ function getRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    console.log(typeof(result));
-                    res.render("user/userPortal", { details: result });
+                    console.log(typeof (result));
+                    res.render("user/userPortal", {
+                        permission: {},
+                        reports: result,
+                        prescs: []
+                    });
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({ code: "500", message: "No medical record history found" });
+                res.send({
+                    code: "500",
+                    message: "No medical record history found"
+                });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({ code: "500", message: "Issue with getting record details" });
+            res.send({
+                code: "500",
+                message: "Issue with getting record details"
+            });
         });
 }
 
@@ -92,14 +106,18 @@ function getMedicineRecord(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -132,16 +150,26 @@ function getMedicineRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("userPortal", { details: result });
+                    res.render("user/userPortal", {
+                        permission: {},
+                        reports: [],
+                        prescs: result
+                    });
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({ code: "500", message: "No medicine history found" });
+                res.send({
+                    code: "500",
+                    message: "No medicine history found"
+                });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({ code: "500", message: "Issue with getting medicine history details" });
+            res.send({
+                code: "500",
+                message: "Issue with getting medicine history details"
+            });
         });
 }
 

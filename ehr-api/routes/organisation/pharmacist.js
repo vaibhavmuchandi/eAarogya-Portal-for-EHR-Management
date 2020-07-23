@@ -14,14 +14,13 @@ router.get('/login', function (req, res) {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/organisation/pharmacist',
-    failureRedirect: '/login'
+    failureRedirect: '/organisation/pharmacist/login'
 }), function (req, res) {});
 
 router.use((req, res, next) => {
-    console.log(req.user.type=='pharmacist');
-    if(req.user.type=='pharmacist')
+    if (req.user.type == 'pharmacist')
         next();
-    else 
+    else
         res.redirect('/');
 });
 
@@ -39,14 +38,14 @@ router.get('/getprescription', function (req, res) {
 
 router.post('/getprescription', function (req, res) {
     let MedicalID = req.body.medicalID;
-    let MedicineID = MedicalID + '0M'
-    console.log(MedicalID);
-    console.log(typeof (MedicalID));
     let doc = {
-        'medicineID': MedicineID
+        'medicineID': MedicalID
     }
-    console.log(doc);
     ehrPharmacist.getMedicineReport(req, res, doc);
+});
+
+router.post('/getprescriptionhistory', function (req, res) {
+    ehrPharmacist.getMedicineRecord(req, res);
 });
 
 module.exports = router;

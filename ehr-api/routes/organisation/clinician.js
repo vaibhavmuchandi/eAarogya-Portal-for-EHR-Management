@@ -47,16 +47,15 @@ router.post('/medicalID', function (req, res) {
     User.findOne({
         _id: MedicalID
     }, function (err, found) {
-        found.permission.forEach(function (perm) {
-            if (perm == req.user.username) {
-                ehrClinician.getReport(req, res, doc);
-            } else {
-                res.render("org/clinicianPortal", {
-                    details: {},
-                    error: 'Access denied. Please make sure the user has given you permission'
-                })
-            }
-        });
+        let perm = found.permission.indexOf(req.user._id) + 1;
+        if (perm) {
+            ehrClinician.getReport(req, res, doc);
+        } else {
+            res.render("org/clinicianPortal", {
+                details: {},
+                error: 'Access denied. Please make sure the user has given you permission'
+            })
+        }
     });
 });
 

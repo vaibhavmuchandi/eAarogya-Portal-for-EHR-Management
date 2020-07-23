@@ -19,7 +19,7 @@ router.get('/login', function (req, res) {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/organisation/centauth',
-    failureRedirect: '/login'
+    failureRedirect: '/organisation/centauth/login'
 }), function (req, res) {
 
 });
@@ -53,25 +53,27 @@ router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a v
             })
         } else {
             let details = doc.toJSON()
-            User.register(new User({
-                _id: details.aadhaarNo,
-                username: details.name.replace(' ', '').toLowerCase() + details.aadhaarNo.slice(0, 4),
-                email: details.email,
-                phone: details.phoneNumber,
-                type: 'user'
-            }), details.name.replace(' ', '').toLowerCase() + details.aadhaarNo.slice(0, 4), (err, user) => {
-                if (err) {
-                    console.log(err.message);
-                    res.render('org/centAuth', {
-                        details: doc,
-                        errors: [{
-                            msg: err.message
-                        }]
-                    });
-                } else {
-                    ehrClinician.createRecord(req, res, details);
-                }
-            })
+            ehrClinician.createRecord(req, res, details);
+            // User.register(new User({
+            //     _id: details.aadhaarNo,
+            //     username: details.name.replace(' ', '').toLowerCase() + details.aadhaarNo.slice(0, 4),
+            //     email: details.email,
+            //     phone: details.phoneNumber,
+            //     type: 'user'
+            // }), details.name.replace(' ', '').toLowerCase() + details.aadhaarNo.slice(0, 4), (err, user) => {
+            //     if (err) {
+            //         console.log(err.message);
+            //         res.render('org/centAuth', {
+            //             details: doc,
+            //             errors: [{
+            //                 msg: err.message
+            //             }]
+            //         });
+            //     } else {
+            //         console.log(typeof (details));
+            //         ehrClinician.createRecord(req, res, details);
+            //     }
+            // })
             console.log('Found:', details);
         }
     })
