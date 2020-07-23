@@ -37,7 +37,7 @@ router.get('/', (req, res) => {
     response: {}
   });
 
-  res.sendFile(__dirname + "org/testcenter"); //text extraction
+  
 
 });
 
