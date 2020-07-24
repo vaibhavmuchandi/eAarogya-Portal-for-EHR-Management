@@ -60,5 +60,7 @@
 	"welcome": "Welcome Back!",
 	"noAccount": "Don't have an account? Make one now!",
 	"specialisation": "Specialisation",
-	"prescription": "prescription"
+	"prescription": "prescription",
+	"researcher": "researcher",
+	"Researcher": "Researcher"
 }

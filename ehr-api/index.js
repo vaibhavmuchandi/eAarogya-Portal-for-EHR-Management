@@ -93,7 +93,8 @@ app.get('/professional', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.render('login');
-})
+});
+
 
 app.post('/login', passport.authenticate('local'), (req, res) => {
     if(req.user.type == 'user') 

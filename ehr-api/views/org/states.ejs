@@ -1,0 +1,66 @@
+<% include ('header') %> 
+<body>
+	<div id="state_list" align="center"></div>
+	<br>
+	<div class="wrapper">
+	<div id="chartContainer" width="1600" height="900"></div>
+	</div>
+</body>
+	<%- include ('footer') %>
+	<script>
+	countdisease(diseasess,diseaselist.itemlist);
+	countstates(statess,stateslist);
+	window.onload =function(){
+	addData(diseaselist.itemlist,"States","States");
+	}
+	for(var i=0;i<stateslist.length;i++){
+	var diseases=[];
+  	var finaldiseases=[];
+  	var k=0;
+  for(var j=0;j<patients.length;j++)
+    {   
+      if(patients[j].state === stateslist[i]){
+        diseases[k]=patients[j].disease;
+        k++;
+      }
+    }
+
+  countdisease(diseases,finaldiseases);
+  var item1={
+    'statename':stateslist[i],
+    'diseases':finaldiseases
+  };
+  States.items.push(item1);
+	}
+	var myDiv2 = document.getElementById("state_list");
+	var selectList2 = document.createElement("select");
+	selectList2.setAttribute("id", "mySelect2");
+	selectList2.setAttribute("class", "dropdown2");
+
+	var opt2 = document.createElement("option");
+    opt2.setAttribute("value", "States");
+    opt2.text = "States";
+    selectList2.appendChild(opt2);
+
+	for (var i = 0; i < stateslist.length; i++) {
+  	var option2 = document.createElement("option");
+    option2.setAttribute("value", stateslist[i]);
+    option2.text = stateslist[i];
+    selectList2.appendChild(option2);
+	}
+	myDiv2.appendChild(selectList2);
+	$('.dropdown2').change(function () {
+    	 var e = document.getElementById("mySelect2");
+		var selected = $(e).find('option:selected').attr('value');
+		console.log(selected);
+		for(var i=0;i<stateslist.length;i++){
+		if(stateslist[i]==selected){
+			addData(States.items[i].diseases,selected,"States");
+		}
+		else if(selected=="States"){
+			addData(diseaselist.itemlist,selected,"States");
+		}
+	}
+  });
+	</script>
+

@@ -1,0 +1,254 @@
+<%-include ('../partials/header') %> 
+<body>
+	<h3 class="m-3 text-main font-weight-bold">Researcher</h3>
+      <nav>
+            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active shadow-lg show" id="researcher_diseases" data-toggle="tab"
+                  href="#nav-researcher_diseases" role="tab" aria-controls="nav-researcher_diseases" >Diseases</a>
+                <a class="nav-item nav-link shadow-lg" id="reasearcher_states" data-toggle="tab"
+                  href="#nav-researcher_states" role="tab" aria-controls="nav-researcher_states" >States</a>
+              </div>
+        </nav>
+        <div class="tab-pane fade" id="nav-researcher_diseases" role="tabpanel"
+                aria-labelledby="nav-researcher_diseases-tab">
+                <div id="disease_list" align="center"> </div>  
+                <div id="chartcontainer1" width="900" height="900"></div>
+        </div>
+        <div class="tab-pane fade" id="nav-researcher_states" role="tabpanel"
+                aria-labelledby="nav-researcher_states-tab">
+                <div id="state_list" align="center"></div>  
+                <div id="chartcontainer2" width="900" height="900"></div>
+        </div>
+</body>
+<%- include("../partials/footer") %>
+<script type="text/javascript">
+var patients = (function() {
+  var patients = null;
+  $.ajax({
+    'async': false,
+    'global': false,
+    'url': "http://localhost:3000/organisation/researcher/patientsdata",
+    'dataType': "json",
+    'success': function(data){
+      patients = data;
+    }
+  });
+  return patients;
+})();
+
+var statess=[];
+var stateslist=[];
+var States={};
+States.items=[];
+var diseasess = [];
+var diseaselist={};
+diseaselist.itemlist=[];
+var statedislist={};
+statedislist.items=[];
+
+for (var i = 0; i < patients.length; i++) {
+		diseasess[i]=patients[i].disease;
+}
+
+for (var i = 0; i < patients.length; i++) {
+    statess[i]=patients[i].state;
+}
+
+function countdisease(array_count,scope){
+  array_count.sort();
+  var current ="";
+    var cnt = 0;
+    for (var i = 0; i < array_count.length; i++) {
+        if (array_count[i] !== current) {
+            if (cnt > 0) {
+              var item={
+                'name':current,
+                'counts':cnt
+              };
+              scope.push(item);
+            }
+            current=array_count[i].slice();
+            cnt = 1;
+        } else {
+            cnt++;
+        }
+    } 
+    if (cnt > 0) {
+      var item={
+                'name':current,
+                'counts':cnt
+              };
+              scope.push(item);
+    }
+}
+
+function countstates(array_count,scope){
+  array_count.sort();
+  var current ="";
+    var cnt = 0;
+    for (var i = 0; i < array_count.length; i++) {
+        if (array_count[i] !== current) {
+            if (cnt > 0) {
+              var item=current;
+              scope.push(item);
+            }
+            current=array_count[i];
+            cnt = 1;
+        } else {
+            cnt++;
+        }
+    } 
+    if (cnt > 0) {
+      var item=current;
+              scope.push(item);
+    }
+}
+
+function addData(data,Heading,chartype,idd) {
+  var dataPoints = [];
+  if(chartype=="Diseases"){
+    var header="Count of " + Heading + " in India";
+  }
+  else {
+    if(Heading=="States")
+      header ="Count of Diseases in India";
+    else
+      header="Count of Diseases in " +Heading; 
+  }
+  var chart = new CanvasJS.Chart(idd, {
+  animationEnabled: true,
+  theme: "light2",
+  title: {
+    text: header
+  },
+  axisY: {
+    title: "Units",
+    titleFontSize: 24
+  },
+  data: [{
+    type: "column",
+    color:"#ADD8E6",
+    yValueFormatString: "#,### Units",
+    dataPoints: dataPoints
+  }] 
+  });
+  for (var i = 0; i < data.length; i++) {
+    dataPoints.push({
+      y: data[i].counts,
+      label: data[i].name
+    });
+  }
+  chart.render();
+}
+
+countdisease(diseasess,diseaselist.itemlist);
+countstates(statess,stateslist);
+
+for(var i=0;i<diseaselist.itemlist.length;i++){
+	var states=[];
+	var k=0;
+	for(var j=0;j<patients.length;j++)
+		{		
+			if(patients[j].disease === diseaselist.itemlist[i].name){
+				states[k]=patients[j].state;
+				k++;
+			}
+		}
+
+	var finalstates={};
+	finalstates.itemss=[];
+	countdisease(states,finalstates.itemss);
+	var item1={
+		'dname':diseaselist.itemlist[i].name,
+		'snames':finalstates.itemss
+	};
+	statedislist.items.push(item1);
+}
+
+for(var i=0;i<stateslist.length;i++){
+	var diseases=[];
+  	var finaldiseases=[];
+  	var k=0;
+  for(var j=0;j<patients.length;j++)
+    {   
+      if(patients[j].state === stateslist[i]){
+        diseases[k]=patients[j].disease;
+        k++;
+      }
+    }
+
+  countdisease(diseases,finaldiseases);
+  var item1={
+    'statename':stateslist[i],
+    'diseases':finaldiseases
+  };
+  States.items.push(item1);
+}
+
+var activeselected=$('#nav-tab a.active').attr('id');
+console.log(activeselected);
+
+var myDiv = document.getElementById("disease_list");
+var selectList = document.createElement("select");
+selectList.setAttribute("id", "mySelect");
+selectList.setAttribute("class", "dropdown1");
+
+var opt = document.createElement("option");
+    opt.setAttribute("value", "Diseases");
+    opt.text = "Diseases";
+    selectList.add(opt);
+
+for (var i = 0; i < diseaselist.itemlist.length; i++) {
+	var option = document.createElement("option");
+    option.setAttribute("value", diseaselist.itemlist[i].name);
+    option.text = diseaselist.itemlist[i].name;
+    selectList.add(option);
+}
+myDiv.appendChild(selectList);
+console.log(selectList);
+
+var myDiv2 = document.getElementById("state_list");
+var selectList2 = document.createElement("select");
+selectList2.setAttribute("id", "mySelect2");
+
+var opt2 = document.createElement("option");
+opt2.setAttribute("value", "States");
+opt2.text = "States";
+selectList2.appendChild(opt2);
+
+for (var j = 0; j < stateslist.length; j++) {
+var option2 = document.createElement("option");
+option2.setAttribute("value", stateslist[j]);
+option2.text = stateslist[j];
+selectList2.appendChild(option2);
+}
+myDiv2.appendChild(selectList2);
+console.log(selectList2);
+$('#mySelect,#mySelect2').change(function(){
+var e = document.getElementById("mySelect");
+var selected1 = $(e).find('option:selected').attr('value');
+console.log(selected1);
+	for(var i=0;i<statedislist.items.length;i++){
+	if(statedislist.items[i].dname==selected1){
+		addData(statedislist.items[i].snames,selected1,"Diseases","chartcontainer1");
+	}
+	else if(selected1=="Diseases"){
+		addData(diseaselist.itemlist,selected1,"Diseases","chartcontainer1");
+	}
+	}
+var f = document.getElementById("mySelect2");
+	var selected2 = $(f).find('option:selected').attr('value');
+	console.log(selected2);
+	for(var i=0;i<stateslist.length;i++){
+	if(stateslist[i]==selected2 ){
+		addData(States.items[i].diseases,selected2,"States","chartcontainer2");
+	}
+	else if(selected2=="States"){
+		addData(diseaselist.itemlist,selected2,"States","chartcontainer2");
+	}
+}
+
+});
+
+</script>
+	
