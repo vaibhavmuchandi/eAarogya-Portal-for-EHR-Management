@@ -11,7 +11,6 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const i18n = require("i18n");
 const uri =
   "mongodb+srv://test:test@cluster0-2czvc.mongodb.net/ehr?retryWrites=true&w=majority";
-const applogin = require("./routes/user/applogin");
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -48,14 +47,17 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(i18n.init);
-app.use(applogin);
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 const organisationRoutes = require("./routes/organisations");
 const userRoutes = require("./routes/user");
+const appRoutes = require('./routes/app/api');
+
+app.use('/app', appRoutes);
 
 app.get("/en", (req, res) => {
   res.cookie("lang", "en");

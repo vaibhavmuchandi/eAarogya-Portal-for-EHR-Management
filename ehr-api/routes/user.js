@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 router.use('/register-user', require('./user/register-user'));
-router.use('/app', require('./app/api'));
 router.use((req, res, next) => {
+    console.log(req.user);
     if ((req.isAuthenticated() && req.user.type=='user') || req.originalUrl == '/user/login')
         next();
     else
