@@ -23,12 +23,17 @@
     "i18n": "^0.10.0",
     "moment": "^2.24.0",
     "mongoose": "^5.8.7",
+<<<<<<< HEAD
     "ngrok": "^3.2.7",
     "nodemon": "^2.0.4",
+=======
+    "multer": "^1.4.2",
+>>>>>>> eb117a47ee41e87aeaccb18bc7b8d1b5fc92a35d
     "passport": "^0.4.1",
     "passport-local-mongoose": "^6.0.1",
     "pdf-parse": "^1.1.1",
-    "swagger-ui-express": "^4.0.1"
+    "swagger-ui-express": "^4.0.1",
+    "tesseract.js": "^2.0.0-alpha.15"
   },
   "author": "Vaibhav Muchandi",
   "license": "Apache-2.0",
