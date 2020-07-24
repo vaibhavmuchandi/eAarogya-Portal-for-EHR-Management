@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "tunnel": "ngrok http 3000"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -22,7 +23,8 @@
     "i18n": "^0.10.0",
     "moment": "^2.24.0",
     "mongoose": "^5.8.7",
-    "multer": "^1.4.2",
+    "ngrok": "^3.2.7",
+    "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-local-mongoose": "^6.0.1",
     "pdf-parse": "^1.1.1",
