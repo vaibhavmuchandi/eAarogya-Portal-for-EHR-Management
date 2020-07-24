@@ -1,5 +1,5 @@
 module.exports = {
-    accountSid = '',
-    authToken = '',
-    messagingSid = ''
+    accountSid: '',
+    authToken: '',
+    messagingSid: ''
 }
