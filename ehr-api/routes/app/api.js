@@ -32,7 +32,6 @@ router.post('/give-permission', (req, res) => {
     });
 });
 
-
 router.post('/revoke-permission', (req, res) => {
     let DoctorID = req.body.doctorID;
     User.findOne({
@@ -40,13 +39,26 @@ router.post('/revoke-permission', (req, res) => {
     }, function (err, user) {
         let idx = user.permission.indexOf(DoctorID);
         if (idx != -1) {
-            user.permission.splice(i, 1);
+            user.permission.splice(idx, 1);
             user.save()
             res.sendStatus(200);
         } else {
-            res.sendStatus(400);
+            res.sendStatus(404);
         }
     });
+});
+
+router.post('/view-permissions', (req, res) => {
+    User.findOne({
+            username: req.body.username
+        }, 'permission')
+        .populate('permission', 'name org type')
+        .exec((err, info) => {
+            if(err)  
+                return res.sendStatus(400);
+            console.log(info);
+            res.status(200).send({permissions: info.permission});
+        })
 });
 
 module.exports = router;

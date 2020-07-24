@@ -167,7 +167,7 @@ router.post('/revokepermission', (req, res) => {
     }, function (err, user) {
         let idx = user.permission.indexOf(DoctorID);
         if (idx != -1) {
-            user.permission.splice(i, 1);
+            user.permission.splice(idx, 1);
             user.save()
         } else {
             console.log('Not found');
@@ -190,6 +190,7 @@ router.post('/getpermission', (req, res) => {
         }, 'permission')
         .populate('permission', 'name org type')
         .exec((err, info) => {
+            console.log(info);
             res.render('user/userPortal', {
                 permission: info.permission,
                 reports: [],
