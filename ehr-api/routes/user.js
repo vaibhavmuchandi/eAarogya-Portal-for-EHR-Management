@@ -3,6 +3,7 @@ const router = express.Router();
 
 router.use('/register-user', require('./user/register-user'));
 router.use((req, res, next) => {
+    console.log(req.user);
     if ((req.isAuthenticated() && req.user.type=='user') || req.originalUrl == '/user/login')
         next();
     else

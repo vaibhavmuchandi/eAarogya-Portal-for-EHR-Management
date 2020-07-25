@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "tunnel": "ngrok http 3000"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -22,10 +23,14 @@
     "i18n": "^0.10.0",
     "moment": "^2.24.0",
     "mongoose": "^5.8.7",
+    "ngrok": "^3.2.7",
+    "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-local-mongoose": "^6.0.1",
     "pdf-parse": "^1.1.1",
-    "swagger-ui-express": "^4.0.1"
+    "swagger-ui-express": "^4.0.1",
+    "tesseract.js": "^2.0.0-alpha.15",
+    "twilio": "^3.48.1"
   },
   "author": "Vaibhav Muchandi",
   "license": "Apache-2.0",
