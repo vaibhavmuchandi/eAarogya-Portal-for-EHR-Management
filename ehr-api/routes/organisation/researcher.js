@@ -27,9 +27,14 @@ router.get('/', function (req, res) {
         org: 'researcher'
     });
 });
-
+ 
 router.get('/diseases', function(req, res){
-    res.render('diseases');
+    res.render('org/diseases');
+
+});
+
+router.get('/states', function(req, res){
+    res.render('org/states');
 
 });
 
