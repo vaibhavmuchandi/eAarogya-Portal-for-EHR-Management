@@ -13,6 +13,7 @@ router.use('/clinician', require('./organisation/clinician'));
 router.use('/pharmacist', require('./organisation/pharmacist'));
 router.use('/healthcareprovider', require('./organisation/hcp'));
 router.use('/radiologist', require('./organisation/radiologist'));
+router.use('/researcher', require('./organisation/researcher'));
 
 
 module.exports = router;

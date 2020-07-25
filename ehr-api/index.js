@@ -101,6 +101,10 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
 app.post("/login", passport.authenticate("local"), (req, res) => {
   if (req.user.type == "user") res.redirect("/user");
   else res.redirect(`/organisation/${req.user.type}`);
