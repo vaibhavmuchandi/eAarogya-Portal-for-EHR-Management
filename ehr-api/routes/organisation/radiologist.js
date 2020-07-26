@@ -70,7 +70,7 @@ router.get('/addreport', function (req, res) {
     });
 });
 
-router.post('/addreport', function (req, res) {
+router.post('/addreport', async function (req, res) {
     const MedicalID = req.body.medicalID
     let Diagnosis = req.body.diagnoses;
     let report = Diagnosis;
