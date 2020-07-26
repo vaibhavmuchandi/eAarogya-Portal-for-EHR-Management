@@ -7,10 +7,7 @@ const ehrTestCenter = require('../../FabricHelpertestcenter');
 //--------requires for text-extraction-------//
 const fs = require("fs");
 const pdfparse = require("pdf-parse");
-const {
-  TesseractWorker
-} = require('tesseract.js')
-const worker = new TesseractWorker();
+var request = require('request'); 
 const upload = require("express-fileupload");
 router.use(upload());
 //----------------------//
@@ -43,21 +40,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/addreport', (req, res) => {
-  var MedicalID = req.body.medicalID;
-  var bloodgroup = req.body.bloodGroup;
-  var bloodpressure = req.body.bloodPressure;
-  var haemoglobin = req.body.haemoglobin;
-  var sugarlevel = req.body.sugarlevel;
-  var links = req.body.links || ' ';
-  var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
-  console.log(report);
-  var doc = {
-    'medicalID': MedicalID,
-    'report': report,
-    'links': links
-  }
-
-  //------------Text Extraction from pdf or image------------------//
+  
+//------------Text Extraction from pdf or image------------------//
   if (req.files) {
     var file = req.files.file;
     var fileName = file.name;
@@ -76,37 +60,56 @@ router.post('/addreport', (req, res) => {
           });
         }
       });
-    } else {
+    } else if(file.mimetype == 'application/jpg' || 'application/png') {
       file.mv("uploads/" + fileName, (err) => {
         if (err) { // if error occurs run this
           console.log("File was not uploaded!!");
           res.send(err);
         } else {
+          var res;
           console.log("file uploaded");
-          fs.readFile(`./uploads/${fileName}`, (err, data) => {
-            if (err)
-              return console.log('Error reading file', err)
-
-            worker
-              .recognize(data, "eng", {
-                tessjs_create_pdf: 0
-              })
-              .progress(progress => {
-                console.log(progress)
-              })
-              .then(result => {
-                const extractedText = result.text;
-                console.log(extractedText);
-                // res.send(extractedText);
-              })
-
-            // .finally(() => worker.terminate());
-          })
+        const form_data = {
+        file: fs.createReadStream(`./uploads/${fileName}`),
         }
-      })
+      
+      const options = {
+          url : "https://app.nanonets.com/api/v2/OCR/Model/dce1b5d4-3781-43cc-bff1-18d2b12042fc/LabelFile/",
+          formData: form_data,
+          headers: {
+              'Authorization' : 'Basic ' + Buffer.from('fj99eEPW0_3FmWZiglkb1fkP8fpT5E-s' + ':').toString('base64')
+          }
+      }
+      request.post(options, function(err, httpResponse, body) {
+          res = JSON.parse(body);
+          // var MedicalID = req.body.medicalID;
+          var bloodgroup = res.result[0].prediction[1].ocr_text;
+          var bloodpressure = res.result[0].prediction[4].ocr_text;
+          var haemoglobin = res.result[0].prediction[2].ocr_text ;
+          var sugarlevel = res.result[0].prediction[3].ocr_text;
+          var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
+          console.log(report);
+       });
+     }
     }
-  }
-});
+  )};
+}
+    
+      var MedicalID = req.body.medicalID;
+      var bloodgroup = req.body.bloodGroup;
+      var bloodpressure = req.body.bloodPressure;
+      var haemoglobin = req.body.haemoglobin;
+      var sugarlevel = req.body.sugarlevel;
+      var links = req.body.links || ' ';
+      var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
+      console.log(report);
+      var doc = {
+         'medicalID': MedicalID,
+         'report': report,
+         'links': links
+                }
+    });
+  
+
 //------------Text Extraction from pdf or image----------------//
 
 
