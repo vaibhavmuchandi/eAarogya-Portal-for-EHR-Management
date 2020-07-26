@@ -81,6 +81,7 @@ router.post('/complete-form', (req, res) => {
   let details = req.body;
   User.register(new User({
     _id: details.aadhaarNo,
+    name: details.name,
     username: details.username,
     email: details.email,
     phone: details.phone,

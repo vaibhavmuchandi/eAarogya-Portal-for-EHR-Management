@@ -68,12 +68,26 @@ function getRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    console.log(typeof (result));
-                    res.render("user/userPortal", {
-                        permission: {},
-                        reports: result,
-                        prescs: []
-                    });
+                    console.log(doc.mobile);
+                    if (doc.mobile) {
+                        let reports = [];
+                        for (let i in result) {
+                            if (result[i]['Value']['report'] != '')
+                                reports.push({
+                                    date: Date(result[i]['Timestamp'].slice(0, 11)).slice(4, 15),
+                                    info: result[i]['Value']['report']
+                                })
+                        }
+                        res.status(200).send({
+                            data: reports
+                        })
+                    } else {
+                        res.render("user/userPortal", {
+                            permission: {},
+                            reports: result,
+                            prescs: []
+                        });
+                    }
                 }
             } else {
                 console.log("No payloads were returned from query");
@@ -150,11 +164,25 @@ function getMedicineRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("user/userPortal", {
-                        permission: {},
-                        reports: [],
-                        prescs: result
-                    });
+                    if (doc.mobile) {
+                        let prescs = [];
+                        for (let i in result) {
+                            if (result[i]['Value']['prescription'] != '')
+                                prescs.push({
+                                    date: Date(result[i]['Timestamp'].slice(0, 11)).slice(4, 15),
+                                    info: result[i]['Value']['prescription']
+                                })
+                        }
+                        res.status(200).send({
+                            data: prescs
+                        })
+                    } else {
+                        res.render("user/userPortal", {
+                            permission: {},
+                            reports: [],
+                            prescs: result
+                        });
+                    }
                 }
             } else {
                 console.log("No payloads were returned from query");

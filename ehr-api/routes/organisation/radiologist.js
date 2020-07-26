@@ -70,7 +70,7 @@ router.get('/addreport', function (req, res) {
     });
 });
 
-router.post('/addreport', function (req, res) {
+router.post('/addreport', async function (req, res) {
     const MedicalID = req.body.medicalID
     let Diagnosis = req.body.diagnoses;
     let report = Diagnosis;
@@ -80,7 +80,7 @@ router.post('/addreport', function (req, res) {
         'report': report,
         'links': links
     }
-    const response = await AadhaarUser.findOne({aadhaarNo: MedicalID})
+    const response = AadhaarUser.findOne({aadhaarNo: MedicalID})
     const address = response.address.split(',')
     const state = address[address.length-1]
     const disease = Diagnosis
