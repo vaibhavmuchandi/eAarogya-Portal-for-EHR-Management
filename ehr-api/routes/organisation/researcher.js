@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const fs = require('fs'); 
+const fs = require('fs');
+const Data = require('../../models/data')
 //All routes have prefix '/organisation/researcher'
 
 router.get('/login', function (req, res) {
@@ -38,15 +39,31 @@ router.get('/states', function(req, res){
 
 });
 
+router.get('/add-data', (req, res) => {
+    res.render('org/add-data');
+})
+
+router.post('/add-data', (req, res) => {
+    const Bstate = req.body.state
+    const Bdisease = req.body.disease
+    let data = new Data({
+        state: Bstate,
+        disease: Bdisease
+    })
+    data.save((err, data) => {
+        if(err){
+            console.log(err)
+        }
+        console.log(data)
+        res.render('org/add-data')
+    })
+})
+
 
 router.get('/patientsdata', (req, res) => {
-
-    fs.readFile('./routes/organisation/data.json',  (err, json) => {
-        if (err) throw err;
-        let obj = JSON.parse(json);
-        res.json(obj);
-    });
-
+    Data.find({}, (err, foundData) => {
+        res.json(foundData)
+    })
 }); 
 
 module.exports = router; 
