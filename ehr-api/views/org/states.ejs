@@ -4,15 +4,11 @@
   <h3 class=" m-3 text-main font-weight-bold"><%=__('researcher')%> Portal</h3>
   <div class="row justify-content-center">
     <div class="col-md-6 col-xl-3">
-      <h4 align="center"><%=_('selectState')%></h4>
+      <h4 align="center"><%=__('selectState')%></h4>
       <div id="state_list" align="center"></div>
     </div>
     <div class="col-md-6">
-      <div class="card border-0 shadow-lg roundness" style="height: 450px; width:700px;">
-        <div class="card-body border-0">
-          <div id="chartContainer"></div>
-        </div>
-      </div>
+      <div id="chartContainer"></div>
     </div>
   </div>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position: absolute; bottom: 0; z-index:-1">
@@ -36,7 +32,6 @@
     });
     return patients;
   })();
-
   var statess = [];
   var stateslist = [];
   var States = {};
@@ -46,11 +41,9 @@
   diseaselist.itemlist = [];
   var statedislist = {};
   statedislist.items = [];
-
   for (var i = 0; i < patients.length; i++) {
     diseasess[i] = patients[i].disease;
   }
-
   for (var i = 0; i < patients.length; i++) {
     statess[i] = patients[i].state;
   }
@@ -115,7 +108,18 @@
       else
         header = "Count of Diseases in " + Heading;
     }
+    CanvasJS.addColorSet("blueShades",
+      [
+        "#1261A0",
+        "#4184A4",
+        "#4DC8E9",
+        "#8AE3D7",
+        "#61D4D4",
+        "#3BB2E2",
+        "#ADD8E6"
+      ]);
     var chart = new CanvasJS.Chart("chartContainer", {
+      colorSet: "blueShades",
       animationEnabled: true,
       theme: "light2",
       title: {
@@ -127,7 +131,6 @@
       },
       data: [{
         type: "column",
-        color: "#ADD8E6",
         yValueFormatString: "#,### Units",
         dataPoints: dataPoints
       }]
@@ -153,7 +156,6 @@
         k++;
       }
     }
-
     countdisease(diseases, finaldiseases);
     var item1 = {
       'statename': stateslist[i],
@@ -165,12 +167,10 @@
   var selectList2 = document.createElement("select");
   selectList2.setAttribute("id", "mySelect2");
   selectList2.setAttribute("class", "dropdown2");
-
   var opt2 = document.createElement("option");
   opt2.setAttribute("value", "States");
   opt2.text = "States";
   selectList2.appendChild(opt2);
-
   for (var i = 0; i < stateslist.length; i++) {
     var option2 = document.createElement("option");
     option2.setAttribute("value", stateslist[i]);

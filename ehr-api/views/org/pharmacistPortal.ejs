@@ -49,6 +49,8 @@
         <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
         <br>
         <span class="h5"><%=details[i]['Value']['prescription']%></span>
+        <br>
+        <span class="h5"><%=details[i]['Value']['addedby']%></span>
       </div>
       <%}%>
          <%}%>
@@ -61,6 +63,9 @@
       </p>
       <p class="h5 mt-5"><%= __('presc')%>:
         <span class="h4 text-main"><%=details.prescription%></span>
+      </p>
+      <p class="h5 mt-5"><%= __('addedby')%>:
+        <span class="h4 text-main"><%=details.addedby%></span>
       </p>
       <%}%>
       </div>

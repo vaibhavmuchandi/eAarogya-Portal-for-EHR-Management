@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const ehrPharmacist = require('../../FabricHelperPharmacist')
+const ehrPharmacist = require('../../FabricHelperPharmacist');
+const User = require('../../models/user');
 
 //All routes have prefix '/organisation/pharmacist'
 
@@ -26,7 +27,8 @@ router.use((req, res, next) => {
 
 router.get('/', function (req, res) {
     res.render('org/pharmacistPortal', {
-        details: {}
+        details: {},
+        error: null
     });
 });
 

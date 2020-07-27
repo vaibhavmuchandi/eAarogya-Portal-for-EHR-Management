@@ -94,7 +94,7 @@ router.get('/getprescription', function (req, res) {
 router.post('/getprescription', function (req, res) {
     var medicalID = req.body.medicalID
     var doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrHCP.getMedicineReport(req, res, doc);
 });
@@ -107,9 +107,8 @@ router.get('/getprescriptionrecord', function (req, res) {
 
 router.post('/getprescriptionrecord', function (req, res) {
     var medicalID = req.body.medicalID;
-    var medicineID = medicalID + '0M';
     var doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrHCP.getMedicineRecord(req, res, doc);
 });

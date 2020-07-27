@@ -261,7 +261,7 @@ function addReport(req, res, doc) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addReport',
-                args: [doc.medicalID, doc.report],
+                args: [doc.medicalID, doc.report, doc.addedby],
                 chainId: 'ehr',
                 txId: tx_id
             };
@@ -637,7 +637,7 @@ function addMedicineReport(req, res, doc) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addMedicineReport',
-                args: [doc.medicalID, doc.prescription],
+                args: [doc.medicalID, doc.prescription, doc.addedby],
                 chainId: 'ehr',
                 txId: tx_id
             };

@@ -79,5 +79,7 @@
 	"selectDisease": "Select a disease from the Dropdown List to display the Graph",
 	"selectState": "Select a State from the Dropdown List to display the Graph",
 	"diseases": "Diseases",
-	"states": "States"
+	"states": "States",
+	"addedby": "Added By",
+	"added": "added"
 }

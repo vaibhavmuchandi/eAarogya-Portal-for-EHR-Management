@@ -53,7 +53,7 @@ function addrLReport(req, res, doc) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addrLReport',
-                args: [doc.medicalID, doc.report, doc.links],
+                args: [doc.medicalID, doc.report, doc.links, doc.addedby],
                 chainId: 'ehr',
                 txId: tx_id
             };

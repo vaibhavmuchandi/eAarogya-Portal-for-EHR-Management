@@ -8,11 +8,7 @@
       <div id="disease_list" align="center"></div>
     </div>
     <div class="col-md-6">
-      <div class="card border-0 shadow-lg roundness" style="height: 450px; width:700px;">
-        <div class="card-body border-0">
-          <div id="chartContainer"></div>
-        </div>
-      </div>
+      <div id="chartContainer"></div>
     </div>
   </div>
   </div>
@@ -37,7 +33,6 @@
     });
     return patients;
   })();
-
   var statess = [];
   var stateslist = [];
   var States = {};
@@ -47,11 +42,9 @@
   diseaselist.itemlist = [];
   var statedislist = {};
   statedislist.items = [];
-
   for (var i = 0; i < patients.length; i++) {
     diseasess[i] = patients[i].disease;
   }
-
   for (var i = 0; i < patients.length; i++) {
     statess[i] = patients[i].state;
   }
@@ -94,7 +87,18 @@
       else
         header = "Count of Diseases in " + Heading;
     }
+    CanvasJS.addColorSet("blueShades",
+      [
+        "#1261A0",
+        "#4184A4",
+        "#4DC8E9",
+        "#8AE3D7",
+        "#61D4D4",
+        "#3BB2E2",
+        "#ADD8E6"
+      ]);
     var chart = new CanvasJS.Chart("chartContainer", {
+      colorSet: "blueShades",
       animationEnabled: true,
       theme: "light2",
       title: {
@@ -106,7 +110,6 @@
       },
       data: [{
         type: "column",
-        color: "#ADD8E6",
         yValueFormatString: "#,### Units",
         dataPoints: dataPoints
       }]
@@ -118,12 +121,11 @@
         label: data[i].name
       });
     }
+
     chart.render();
   }
-
   countdisease(diseasess, diseaselist.itemlist);
   addData(diseaselist.itemlist, "Diseases", "Diseases");
-
   for (var i = 0; i < diseaselist.itemlist.length; i++) {
     var states = [];
     var k = 0;
@@ -133,7 +135,6 @@
         k++;
       }
     }
-
     var finalstates = {};
     finalstates.itemss = [];
     countdisease(states, finalstates.itemss);
@@ -143,18 +144,14 @@
     };
     statedislist.items.push(item1);
   }
-
-
   var myDiv = document.getElementById("disease_list");
   var selectList = document.createElement("select");
   selectList.setAttribute("id", "mySelect");
   selectList.setAttribute("class", "dropdown1");
-
   var opt = document.createElement("option");
   opt.setAttribute("value", "Diseases");
   opt.text = "Diseases";
   selectList.appendChild(opt);
-
   for (var i = 0; i < diseaselist.itemlist.length; i++) {
     var option = document.createElement("option");
     option.setAttribute("value", diseaselist.itemlist[i].name);
@@ -162,10 +159,10 @@
     selectList.appendChild(option);
   }
   myDiv.appendChild(selectList);
-
   $('.dropdown1').change(function () {
     var e = document.getElementById("mySelect");
     var selected = $(e).find('option:selected').attr('value');
+    var nametype = $("input[name='type']:checked").value;
     console.log(selected);
     for (var i = 0; i < statedislist.items.length; i++) {
       if (statedislist.items[i].dname == selected) {
