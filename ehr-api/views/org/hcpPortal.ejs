@@ -5,7 +5,7 @@
     <div id="content">
       <div class="container-fluid">
         <br>
-        <div class="d-sm-flex mb-4">
+        <div class="d-flex mb-4">
           <h2 class="text-main font-weight-bold mb-0"><%=__('hcp')%></h2>
           <% if(error) {%>
           <div class="ml-5 alert alert-danger roundness">
@@ -168,7 +168,13 @@
   </div>
   </div>
 </body>
-
-
-
 <%- include("../partials/footer") %>
+<script>
+  $(document).ready(function () {
+    window.setTimeout(function () {
+      $(".alert").fadeTo(1000, 0).slideUp(500, function () {
+        $(this).remove();
+      });
+    }, 3000);
+  });
+</script>

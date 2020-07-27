@@ -102,12 +102,16 @@ app.get("/login", (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login');
+  res.render('login');
 });
 
-app.post("/login", passport.authenticate("local"), (req, res) => {
-  if (req.user.type == "user") res.redirect("/user");
-  else res.redirect(`/organisation/${req.user.type}`);
+app.post('/login', passport.authenticate('local'), (req, res) => {
+  if (req.user.type == 'user')
+    res.redirect('/user');
+  else if (req.user.type == 'hcp')
+    res.redirect('/organisation/healthcareprovider');
+  else
+    res.redirect(`/organisation/${req.user.type}`);
 });
 
 app.get("/logout", (req, res) => {

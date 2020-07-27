@@ -75,31 +75,32 @@ function getMedicineReport(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    res.send({
-                        code: "500",
-                        message: "isuue with getting report"
+                    res.render('org/pharmacistPortal', {
+                        details: {},
+                        error: res.__('messages.error')
                     });
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
                     console.log(result);
                     res.render("org/pharmacistPortal", {
-                        details: result
+                        details: result,
+                        error: null
                     });
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No report found"
+                res.render('org/pharmacistPortal', {
+                    details: {},
+                    error: res.__('messages.noReport')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting report details"
+            res.render('org/pharmacistPortal', {
+                details: {},
+                error: res.__('messages.error')
             });
         });
 }
@@ -162,22 +163,23 @@ function getMedicineRecord(req, res) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     res.render('org/pharmacistPortal', {
-                        details: JSON.parse(query_responses[0])
+                        details: JSON.parse(query_responses[0]),
+                        error: null
                     })
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No medicine history found"
+                res.render('org/pharmacistPortal', {
+                    details: {},
+                    error: res.__('messages.noPresc')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting medicine history details"
+            res.render('org/pharmacistPortal', {
+                details: {},
+                error: res.__('messages.error')
             });
         });
 }

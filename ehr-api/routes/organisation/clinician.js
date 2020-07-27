@@ -51,13 +51,19 @@ router.post('/medicalID', function (req, res) {
     User.findOne({
         _id: MedicalID
     }, function (err, found) {
+        if (err || !found)
+            return res.render('org/clinicianPortal', {
+                details: {},
+                error: res.__('messages.error'),
+                message: null,
+            })
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {
             ehrClinician.getReport(req, res, doc);
         } else {
             res.render("org/clinicianPortal", {
                 details: {},
-                error: 'Access denied. Please make sure the user has given you permission'
+                error: res.__('messages.noAccess')
             })
         }
     });
@@ -82,16 +88,18 @@ router.post('/addreport', async function (req, res) {
         'medicalID': MedicalID,
         'report': report
     }
-    const response = await AadhaarUser.findOne({aadhaarNo: MedicalID})
+    const response = await AadhaarUser.findOne({
+        aadhaarNo: MedicalID
+    })
     const address = response.address.split(',')
-    const state = address[address.length-1]
+    const state = address[address.length - 1]
     const disease = diagnosis
     let data = new Data({
         state: state,
         disease: disease
     })
     data.save((err, response) => {
-        if(err){
+        if (err) {
             res.send(err)
         } else {
             console.log(response)

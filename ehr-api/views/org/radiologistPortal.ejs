@@ -12,6 +12,11 @@
             <%=error%>
           </div>
           <%}%>
+          <% if(message) {%>
+          <div class="ml-5 alert alert-success roundness">
+            <%=message%>
+          </div>
+          <%}%>
         </div>
         <div class="row justify-content-center align-items-center">
           <div class="col-md-6 col-xl-3 mb-4">
@@ -215,7 +220,13 @@
   </div>
   </div>
 </body>
-
-
-
 <%- include("../partials/footer") %>
+<script>
+  $(document).ready(function () {
+    window.setTimeout(function () {
+      $(".alert").fadeTo(1000, 0).slideUp(500, function () {
+        $(this).remove();
+      });
+    }, 3000);
+  });
+</script>

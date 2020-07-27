@@ -30,7 +30,8 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -38,7 +39,8 @@ router.get('/', function (req, res) {
 router.get('/medicalID', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -48,25 +50,32 @@ router.post('/medicalID', function (req, res) {
         'medicalID': medicalID
     }
     User.findOne({
-        _id: medicalID
+        _id: MedicalID
     }, function (err, found) {
-        found.permission.forEach(function (perm) {
-            if (perm == req.user.username) {
-                ehrRadiologist.getReport(req, res, doc);
-            } else {
-                res.render("org/radiologistPortal", {
-                    details: {},
-                    error: 'Access denied. Please make sure the user has given you permission'
-                })
-            }
-        });
-    })
+        if (err || !found)
+            return res.render('org/radiologistPortal', {
+                details: {},
+                error: res.__('messages.error'),
+                message: null,
+            })
+        let perm = found.permission.indexOf(req.user._id) + 1;
+        if (perm) {
+            ehrRadiologist.getReport(req, res, doc);
+        } else {
+            res.render("org/radiologistPortal", {
+                details: {},
+                error: res.__('messages.noAccess'),
+                message: null
+            })
+        }
+    });
 });
 
 router.get('/addreport', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -80,16 +89,18 @@ router.post('/addreport', async function (req, res) {
         'report': report,
         'links': links
     }
-    const response = AadhaarUser.findOne({aadhaarNo: MedicalID})
+    const response = AadhaarUser.findOne({
+        aadhaarNo: MedicalID
+    })
     const address = response.address.split(',')
-    const state = address[address.length-1]
+    const state = address[address.length - 1]
     const disease = Diagnosis
     let data = new Data({
         state: state,
         disease: disease
     })
     data.save((err, response) => {
-        if(err){
+        if (err) {
             res.send(err)
         } else {
             console.log(response)
@@ -101,7 +112,8 @@ router.post('/addreport', async function (req, res) {
 router.get('/getreport', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -116,7 +128,8 @@ router.post('/getreport', function (req, res) {
 router.get('/addprescription', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -134,7 +147,8 @@ router.post('/addprescription', function (req, res) {
 router.get('/getprescription', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -150,7 +164,8 @@ router.post('/getprescription', function (req, res) {
 router.get('/reporthistory', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -165,7 +180,8 @@ router.post('/reporthistory', function (req, res) {
 router.get('/medicinehistory', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 

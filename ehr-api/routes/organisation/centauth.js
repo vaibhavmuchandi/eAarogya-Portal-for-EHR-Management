@@ -68,7 +68,7 @@ router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a v
             //         res.render('org/centAuth', {
             //             details: doc,
             //             errors: [{
-            //                 msg: err.message
+            //                 msg: res.__('messages.duplicate')
             //             }]
             //         });
             //     } else {

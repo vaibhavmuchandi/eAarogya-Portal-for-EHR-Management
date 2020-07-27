@@ -85,23 +85,31 @@ function getRecord(req, res, doc) {
                         res.render("user/userPortal", {
                             permission: {},
                             reports: result,
-                            prescs: []
+                            prescs: [],
+                            message: null,
+                            error: null
                         });
                     }
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No medical record history found"
+                res.render("user/userPortal", {
+                    permission: {},
+                    reports: result,
+                    prescs: [],
+                    message: null,
+                    error: res.__('messages.noReport')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting record details"
+            res.render("user/userPortal", {
+                permission: {},
+                reports: result,
+                prescs: [],
+                message: null,
+                error: res.__('messages.error')
             });
         });
 }
@@ -180,23 +188,31 @@ function getMedicineRecord(req, res, doc) {
                         res.render("user/userPortal", {
                             permission: {},
                             reports: [],
-                            prescs: result
+                            prescs: result,
+                            message: null,
+                            error: null
                         });
                     }
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No medicine history found"
+                res.render("user/userPortal", {
+                    permission: {},
+                    reports: result,
+                    prescs: [],
+                    message: null,
+                    error: res.__('messages.noPresc')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting medicine history details"
+            res.render("user/userPortal", {
+                permission: {},
+                reports: result,
+                prescs: [],
+                message: null,
+                error: res.__('messages.error')
             });
         });
 }

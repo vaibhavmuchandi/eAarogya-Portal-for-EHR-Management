@@ -24,24 +24,27 @@
                   <div class="form-row">
                     <div class="col">
                       <label for="name"><%=__('bloodGroup')%></label>
-                      <input type="text" class="form-control form-control-user" name="bloodGroup" id="blood-group"/>
+                      <input type="text" class="form-control form-control-user" name="bloodGroup" id="blood-group"
+                        value="<%=bloodgroup%>" />
                     </div>
                     <div class="col">
                       <label for="name"><%=__('BP')%></label>
-                      <input type="text" class="form-control form-control-user" name="bloodPressure"
-                        id="blood-pressure" />
+                      <input type="text" class="form-control form-control-user" name="bloodPressure" id="blood-pressure"
+                        value="<%=bloodpressure%>" />
                     </div>
                   </div>
 
                   <div class="form-row mt-2">
                     <div class="col">
                       <label for="name"><%=__('Hb')%></label>
-                      <input type="text" class="form-control form-control-user" name="haemoglobin" id="haemoglobin" />
+                      <input type="text" class="form-control form-control-user" name="haemoglobin" id="haemoglobin"
+                        value="<%=haemoglobin%>" />
                     </div>
 
                     <div class="col">
                       <label for="name"><%=__('glucose')%></label>
-                      <input type="text" class="form-control form-control-user" name="sugarlevel" id="weight" />
+                      <input type="text" class="form-control form-control-user" name="sugarlevel" id="weight"
+                        value="<%=sugarlevel%>" />
                     </div>
                   </div>
                   <div class="form-group mt-2">
@@ -50,9 +53,19 @@
                   </div>
                   <div class="custom-file">
                     <input type="file" name="file" class="custom-file-input" id="file">
-                    <label class="custom-file-label" for="file">Upload your medical report (.pdf, .jpeg or .png)</label>
+                    <label class="custom-file-label" for="file"><%=__('upload')%> (.pdf, .jpeg or .png)</label>
                   </div>
-                  <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
+                  <div class="row">
+                    <div class="col">
+                      <button class="btn bg-main btn-block text-white btn-user mt-4"
+                        formaction="/organisation/testcenter/uploaded"><span class="h6">Upload</span></button>
+                    </div>
+                    <div class="col">
+                      <button class="btn bg-main btn-block text-white btn-user mt-4"><span
+                          class="h6">Submit</span></button>
+                    </div>
+                  </div>
+
 
                   <% if(response.message) {%>
                   <div class="alert alert-info">
