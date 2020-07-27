@@ -73,11 +73,13 @@ router.post('/addreport', async function (req, res) {
     let MedicalID = req.body.medicalID;
     let allergies = req.body.allergies;
     let symptoms = req.body.symptoms;
-    let diagnosis = req.body.diagnoses
+    let diagnosis = req.body.diagnoses;
+    let addedBy = req.user._id;
     let report = 'Allergies: ' + allergies + ', Symptoms: ' + symptoms + ', Diagnosis: ' + diagnosis;
     let doc = {
         'medicalID': MedicalID,
-        'report': report
+        'report': report,
+        'addedby': addedBy
     }
     const response = await AadhaarUser.findOne({aadhaarNo: MedicalID})
     const address = response.address.split(',')
@@ -108,9 +110,11 @@ router.get('/addprescription', function (req, res) {
 router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
     let prescription = req.body.prescription;
+    let addedBy = req.user._id
     let doc = {
         'medicalID': medicalID,
-        'prescription': prescription
+        'prescription': prescription,
+        'addedby': addedBy
     }
     ehrClinician.addMedicineReport(req, res, doc);
 });

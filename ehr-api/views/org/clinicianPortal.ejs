@@ -137,6 +137,11 @@
                         <%=details.report%>
                       </span>
                     </p>
+                    <p class="h5 mt-2"><%= __('addedby')%>: <br>
+                      <span class="h4 text-main">
+                        <%=details.addedby%>
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -159,6 +164,9 @@
                     <p class="h5"><%= __('prescription')%>:
                       <span class="h4 text-main"><%=details.prescription%></span>
                     </p>
+                    <p class="h5"><%= __('addedby')%>:
+                      <span class="h4 text-main"><%=details.addedby%></span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -180,6 +188,8 @@
                       <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
                       <br>
                       <span class="h5"><%=details[i]['Value']['prescription']%></span>
+                      <br>
+                      <span class="h5"><%=details[i]['Value']['addedby']%></span>
                     </div>
                     <%}%>
                           <%}%>
@@ -205,6 +215,8 @@
                     <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
                     <br>
                     <span class="h5"><%=details[i]['Value']['report']%></span>
+                    <br>
+                    <span class="h5"><%=details[i]['Value']['addedby']%></span>
                   </div>
                   <%}%>
                  <%}%>

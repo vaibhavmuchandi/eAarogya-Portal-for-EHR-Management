@@ -49,11 +49,12 @@ router.post('/addreport', (req, res) => {
       var sugarlevel = req.body.sugarlevel;
       var links = req.body.links || ' ';
       var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
-      console.log(report);
+      var addedBy = req.user._id
       var doc = {
          'medicalID': MedicalID,
          'report': report,
-         'links': links
+         'links': links,
+         'addedby': addedBy
                 }
     });
   

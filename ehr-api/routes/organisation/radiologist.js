@@ -75,10 +75,12 @@ router.post('/addreport', async function (req, res) {
     let Diagnosis = req.body.diagnoses;
     let report = Diagnosis;
     let links = req.body.links;
+    let addedBy = req.user._id;
     let doc = {
         'medicalID': MedicalID,
         'report': report,
-        'links': links
+        'links': links,
+        'addedby': addedBy
     }
     const response = AadhaarUser.findOne({aadhaarNo: MedicalID})
     const address = response.address.split(',')
@@ -124,9 +126,11 @@ router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
     let medicineID = medicalID + '0M'
     let prescription = req.body.prescription;
+    let addedBy = req.user._id
     let doc = {
         'medicalID': medicineID,
-        'prescription': prescription
+        'prescription': prescription,
+        'addedby': addedBy
     }
     ehrRadiologist.addMedicineReport(req, res, doc);
 });
@@ -171,9 +175,8 @@ router.get('/medicinehistory', function (req, res) {
 
 router.post('/medicinehistory', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M';
     let doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrRadiologist.getMedicineRecord(req, res, doc);
 });
