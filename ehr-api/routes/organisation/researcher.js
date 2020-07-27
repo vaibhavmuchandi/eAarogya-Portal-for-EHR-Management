@@ -31,7 +31,6 @@ router.get('/', function (req, res) {
  
 router.get('/diseases', function(req, res){
     res.render('org/diseases');
-
 });
 
 router.get('/states', function(req, res){
