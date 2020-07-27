@@ -51,7 +51,7 @@ router.post('/medicalID', function (req, res) {
         _id: medicalID
     }, function (err, found) {
         found.permission.forEach(function (perm) {
-            if (perm == req.user.username) {
+            if (perm == req.user._id) {
                 ehrRadiologist.getReport(req, res, doc);
             } else {
                 res.render("org/radiologistPortal", {
@@ -124,11 +124,10 @@ router.get('/addprescription', function (req, res) {
 
 router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M'
     let prescription = req.body.prescription;
     let addedBy = req.user._id
     let doc = {
-        'medicalID': medicineID,
+        'medicalID': medicalID,
         'prescription': prescription,
         'addedby': addedBy
     }
@@ -144,9 +143,8 @@ router.get('/getprescription', function (req, res) {
 
 router.post('/getprescription', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M';
     let doc = {
-        'medicineID': medicineID
+        'medicineID': medicalID
     }
     ehrRadiologist.getMedicineRecord(req, res, doc);
 });

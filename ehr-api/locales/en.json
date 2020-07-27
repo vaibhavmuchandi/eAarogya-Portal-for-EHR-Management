@@ -62,6 +62,7 @@
 	"specialisation": "Specialisation",
 	"prescription": "prescription",
 	"researcher": "Researcher",
-	"phone":"phone",
-	"addedby": "Added By"
+	"phone": "phone",
+	"addedby": "Added By",
+	"added": "added"
 }
