@@ -7,11 +7,7 @@
         <div id="disease_list" align="center"></div>
       </div>
   <div class="col-md-6">
-  <div class="card border-0 shadow-lg roundness" style="height: 450px; width:700px;">
-      <div class="card-body border-0">
         <div id="chartContainer"></div>
-       </div>
-   </div>
   </div>
 </div>
 </div>
@@ -89,7 +85,18 @@ function addData(data,Heading,chartype) {
     else
       header="Count of Diseases in " +Heading; 
   }
+  CanvasJS.addColorSet("blueShades",
+                [
+                "#1261A0",
+                "#4184A4",
+                "#4DC8E9" ,
+                "#8AE3D7",
+                "#61D4D4" ,
+                "#3BB2E2",
+                "#ADD8E6"              
+                ]);
   var chart = new CanvasJS.Chart("chartContainer", {
+  colorSet: "blueShades",
   animationEnabled: true,
   theme: "light2",
   title: {
@@ -100,8 +107,7 @@ function addData(data,Heading,chartype) {
     titleFontSize: 24
   },
   data: [{
-    type: "column",
-    color:"#ADD8E6",
+    type:"column",
     yValueFormatString: "#,### Units",
     dataPoints: dataPoints
   }] 
@@ -113,6 +119,7 @@ function addData(data,Heading,chartype) {
       label: data[i].name
     });
   }
+  
   chart.render();
 }
 
@@ -162,6 +169,7 @@ myDiv.appendChild(selectList);
 $('.dropdown1').change(function () {
     	 var e = document.getElementById("mySelect");
 		var selected = $(e).find('option:selected').attr('value');
+    var nametype=$("input[name='type']:checked").value;
 		console.log(selected);
 		for(var i=0;i<statedislist.items.length;i++){
 		if(statedislist.items[i].dname==selected){
