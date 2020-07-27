@@ -5,7 +5,9 @@ const request = require('request');
 const ehrClinician = require('../../FabricHelperClinician');
 const AadhaarUser = require('../../models/aadhaaruser');
 const User = require('../../models/user');
+const Web3 = require('web3');
 let app = express();
+let web3 = new Web3();
 
 //All routes have prefix /user/register-user
 router.get('/', (req, res) => {
@@ -77,14 +79,21 @@ router.post('/verify-otp', (req, res) => {
   });
 })
 
-router.post('/complete-form', (req, res) => {
+router.post('/complete-form', async(req, res) => {
+  async function createEthreumAccount(){
+    const account = web3.eth.accounts.create()
+    return account
+  }
   let details = req.body;
+  let ethAccount = await createEthreumAccount()
   User.register(new User({
     _id: details.aadhaarNo,
     name: details.name,
     username: details.username,
     email: details.email,
     phone: details.phone,
+    ethereumAddress: ethAccount.address,
+    privateKey: ethAccount.privateKey,
     type: 'user'
   }), details.password, (err, user) => {
     if (err) {
