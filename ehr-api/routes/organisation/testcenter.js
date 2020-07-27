@@ -9,7 +9,7 @@ const fs = require("fs");
 const pdfparse = require("pdf-parse");
 const {
   TesseractWorker
-} = require('tesseract.js')
+} = require('tesseract.js');
 const worker = new TesseractWorker();
 const upload = require("express-fileupload");
 router.use(upload());
