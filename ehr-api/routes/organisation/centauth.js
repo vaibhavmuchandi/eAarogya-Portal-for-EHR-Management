@@ -34,7 +34,8 @@ router.use((req, res, next) => {
 router.get('/', (req, res) => {
     res.render('org/centAuth', {
         details: {},
-        errors: []
+        errors: [],
+        message: null
     });
 });
 
@@ -49,7 +50,8 @@ router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a v
                 details: {
                     found: null
                 },
-                errors: errors.array()
+                errors: errors.array(),
+                message: null
             })
         } else {
             let details = doc.toJSON()

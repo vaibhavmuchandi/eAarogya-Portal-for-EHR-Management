@@ -45,7 +45,9 @@
         <p><%=__('address')%>:
           <%=details.address%>
         </p>
-        <!--<div class="alert alert-success" role="alert" style="width: 150px;">EHR created!</div> -->
+        <% if(message) {%
+          <div class="alert alert-success roundness" role="alert" style="width: 150px;"><%=message%></div>
+        <%}%>
         <% } else { %>
         <script type="text/javascript">
           document.getElementById("message-display").innerHTML =

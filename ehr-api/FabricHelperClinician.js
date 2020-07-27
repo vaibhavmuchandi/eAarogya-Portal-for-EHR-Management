@@ -88,12 +88,14 @@ function createRecord(req, res, doc) {
                 console.log("Transaction proposal was good");
                 res.render('org/centAuth', {
                     details: doc,
-                    errors: []
+                    errors: [],
+                    message: 'EHR Created!'
                 });
             } else {
-                res.send({
-                    code: "500",
-                    message: proposalResponses[0].response.message
+                res.render('org/centAuth', {
+                    details: {},
+                    errors: [proposalResponses[0].response.message],
+                    message: null
                 });
                 console.error("Transaction proposal was bad");
             }
@@ -282,14 +284,15 @@ function addReport(req, res, doc) {
                 console.log(proposalResponses[0].name)
                 res.render("org/clinicianPortal", {
                     details: doc,
-                    name: proposalResponses[0].name,
-                    error: null
+                    error: null,
+                    message: 'Report successfully added!'
                 })
             } else {
-                res.send({
-                    code: "500",
-                    message: proposalResponses[0].response.message
-                });
+                res.render("org/clinicianPortal", {
+                    details: {},
+                    error: proposalResponses[0].response.message,
+                    message: null
+                })
                 console.error("Transaction proposal was bad");
             }
             if (isProposalGood) {
@@ -474,23 +477,26 @@ function getReport(req, res, doc) {
                     var result = JSON.parse(query_responses[0]);
                     res.render("org/clinicianPortal", {
                         details: result,
-                        error: null
+                        error: null,
+                        message: null
                     })
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No report found"
-                });
+                res.render("org/clinicianPortal", {
+                    details: {},
+                    error: "No report found",
+                    message: null
+                })
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting report details"
-            });
+            res.render("org/clinicianPortal", {
+                details: {},
+                error: "Error in retrieving details",
+                message: null
+            })
         });
 }
 
@@ -561,23 +567,26 @@ function getRecord(req, res, doc) {
                     })
                     res.render("org/clinicianPortal", {
                         details: result,
-                        error: null
+                        error: null,
+                        message: null
                     });
 
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No car history found"
+                res.render("org/clinicianPortal", {
+                    details: result,
+                    error: "No reports found",
+                    message: null
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting car details"
+            res.render("org/clinicianPortal", {
+                details: result,
+                error: "Error in retrieving records",
+                message: null
             });
         });
 }

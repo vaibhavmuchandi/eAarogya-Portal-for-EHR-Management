@@ -29,7 +29,8 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -37,7 +38,8 @@ router.get('/', function (req, res) {
 router.get('/medicalID', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -65,7 +67,8 @@ router.post('/medicalID', function (req, res) {
 router.get('/addreport', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 })
 
@@ -101,7 +104,8 @@ router.post('/addreport', async function (req, res) {
 router.get('/addprescription', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -118,7 +122,8 @@ router.post('/addprescription', function (req, res) {
 router.get('/getreport', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -133,7 +138,8 @@ router.post('/getreport', function (req, res) {
 router.get('/getprescription', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 router.post('/getprescription', function (req, res) {
@@ -147,7 +153,8 @@ router.post('/getprescription', function (req, res) {
 router.get('/reporthistory', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -162,7 +169,8 @@ router.post('/reporthistory', function (req, res) {
 router.get('/medicinehistory', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 router.post('/medicinehistory', function (req, res) {
