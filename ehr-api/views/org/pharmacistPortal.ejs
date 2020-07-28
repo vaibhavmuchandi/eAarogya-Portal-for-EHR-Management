@@ -1,6 +1,6 @@
 <%-include ('../partials/header') %>
 
-<div class="d-flex">
+<div class="d-flex mt-2">
   <h3 class="m-3 text-main font-weight-bold"><%=__('pharma')%> <%= __('portal')%></h3>
   <% if(error) {%>
   <div class="ml-5 alert alert-danger roundness">
@@ -79,6 +79,6 @@
             $(".alert").fadeTo(1000, 0).slideUp(500, function () {
               $(this).remove();
             });
-          }, 3000);
+          }, 4000);
         });
       </script>

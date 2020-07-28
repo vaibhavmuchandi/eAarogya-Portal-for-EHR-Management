@@ -63,7 +63,8 @@ router.post('/medicalID', function (req, res) {
         } else {
             res.render("org/clinicianPortal", {
                 details: {},
-                error: res.__('messages.noAccess')
+                error: res.__('messages.noAccess'),
+                message: null
             })
         }
     });

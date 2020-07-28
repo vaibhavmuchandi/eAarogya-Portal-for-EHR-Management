@@ -51,7 +51,8 @@ router.post('/medicalID', function (req, res) {
         } else {
             res.render("org/hcpPortal", {
                 details: {},
-                error: res.__('messages.noAccess')
+                error: res.__('messages.noAccess'),
+                message: null
             })
         }
     });

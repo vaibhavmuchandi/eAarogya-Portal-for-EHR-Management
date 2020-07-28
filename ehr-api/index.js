@@ -32,7 +32,6 @@ app.use(
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
-app.use(flash());
 app.use(
   require("express-session")({
     secret: "India is my country I love my country",
@@ -46,6 +45,7 @@ app.use(
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use(i18n.init);
 
 passport.use(new LocalStrategy(User.authenticate()));
@@ -97,15 +97,11 @@ app.get("/professional", (req, res) => {
   res.render("professionalIndex");
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
 app.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', {error: req.flash('error')[0]});
 });
 
-app.post('/login', passport.authenticate('local'), (req, res) => {
+app.post('/login', passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}), (req, res) => {
   if (req.user.type == 'user')
     res.redirect('/user');
   else if (req.user.type == 'hcp')

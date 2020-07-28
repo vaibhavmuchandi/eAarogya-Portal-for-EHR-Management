@@ -51,7 +51,6 @@ router.post('/getprescription', function (req, res) {
             return res.render('org/pharmacistPortal', {
                 details: {},
                 error: res.__('messages.error'),
-                message: null,
             })
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {
