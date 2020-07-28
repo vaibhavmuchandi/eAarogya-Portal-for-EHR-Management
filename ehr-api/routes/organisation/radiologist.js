@@ -108,13 +108,9 @@ router.post('/addreport', async function (req, res) {
         'links': links,
         'addedby': addedBy
     }
-<<<<<<< HEAD
-    const response = await AadhaarUser.findOne({ aadhaarNo: MedicalID }) //await
-=======
     const response = AadhaarUser.findOne({
         aadhaarNo: MedicalID
     })
->>>>>>> 1f9b4509aaa6fd89e2d4ee1ccce003c2658b4da4
     const address = response.address.split(',')
     const state = address[address.length - 1]
     const disease = Diagnosis
