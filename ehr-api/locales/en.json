@@ -81,5 +81,7 @@
 	"diseases": "Diseases",
 	"states": "States",
 	"addedby": "Added By",
-	"added": "added"
+	"added": "added",
+	"downloadds": "Download Dataset",
+	"phone": "phone"
 }

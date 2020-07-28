@@ -6,6 +6,13 @@ const ehrUser = require('../../FabricHelperUser');
 const twilioConfig = require('./twilioConfig');
 //const client = require('twilio')(twilioConfig.accountSid, twilioConfig.authToken)
 const User = require('../../models/user');
+const axios = require('axios');
+const config = require('../ethConfig');
+const ethInstance = axios.create({
+    baseURL: config.api+config.contract,
+    timeout: 5000,
+    headers: {'X-API-KEY' : config.key}
+})
 
 //SMS Functions
 // async function givePermission(number, doctorId) {
@@ -117,6 +124,7 @@ const User = require('../../models/user');
 //     }
 // }
 
+
 //All routes have prefix '/user'
 router.get('/login', (req, res) => {
     res.render('user/user-login');
@@ -127,17 +135,38 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/user/login'
 }), (req, res) => {});
 
-router.get('/', (req, res) => {
+router.get('/', async(req, res) => {
+    async function getBalance(addr){
+        const response = await ethInstance.get('/balanceOf/'+addr)
+        return response.data.data[0].uint256
+    }
+    const walletBalance = await getBalance(req.user.rewards.ethereumAddress)
+    const rewardDetails = {
+        ethAddr: req.user.rewards.ethereumAddress,
+        enabled: req.user.rewards.enabled,
+        balance: walletBalance
+    }
     res.render('user/userPortal', {
         permission: {},
         reports: [],
         prescs: [],
+        rewards: rewardDetails,
         message: null,
         error: null
     });
 });
 
-router.post('/givepermission', (req, res) => {
+router.post('/givepermission', async(req, res) => {
+    async function getBalance(addr){
+        const response = await ethInstance.get('/balanceOf/'+addr)
+        return response.data.data[0].uint256
+    }
+    const walletBalance = await getBalance(req.user.rewards.ethereumAddress)
+    const rewardDetails = {
+        ethAddr: req.user.rewards.ethereumAddress,
+        enabled: req.user.rewards.enabled,
+        balance: walletBalance
+    }
     let DoctorID = req.body.doctorID;
     User.findOne({
         _id: DoctorID
@@ -148,6 +177,7 @@ router.post('/givepermission', (req, res) => {
                 reports: [],
                 prescs: [],
                 message: null,
+                rewards: rewardDetails,
                 error: res.__('messages.notFound')
             });
         else {
@@ -159,6 +189,7 @@ router.post('/givepermission', (req, res) => {
                         permission: {},
                         reports: [],
                         prescs: [],
+                        rewards: {},
                         message: null,
                         error: res.__('messages.error')
                     });
@@ -169,6 +200,7 @@ router.post('/givepermission', (req, res) => {
                     permission: {},
                     reports: [],
                     prescs: [],
+                    rewards: {},
                     message: res.__('messages.permGranted'),
                     error: null
                 });
@@ -178,17 +210,28 @@ router.post('/givepermission', (req, res) => {
 
 });
 
-router.get('/revokepermission', (req, res) => {
+router.get('/revokepermission', async(req, res) => {
     res.render('user/userPortal', {
         permission: {},
         reports: [],
         prescs: [],
+        rewards: {},
         message: null,
         error: null
     });
 })
 
-router.post('/revokepermission', (req, res) => {
+router.post('/revokepermission', async(req, res) => {
+    async function getBalance(addr){
+        const response = await ethInstance.get('/balanceOf/'+addr)
+        return response.data.data[0].uint256
+    }
+    const walletBalance = await getBalance(req.user.rewards.ethereumAddress)
+    const rewardDetails = {
+        ethAddr: req.user.rewards.ethereumAddress,
+        enabled: req.user.rewards.enabled,
+        balance: walletBalance
+    }
     let DoctorID = req.body.doctorID;
     User.findOne({
         username: req.user.username
@@ -199,6 +242,7 @@ router.post('/revokepermission', (req, res) => {
                 reports: [],
                 prescs: [],
                 message: null,
+                rewards: rewardDetails,
                 error: res.__('messages.error')
             });
         let idx = user.permission.indexOf(DoctorID);
@@ -209,6 +253,7 @@ router.post('/revokepermission', (req, res) => {
                 permission: {},
                 reports: [],
                 prescs: [],
+                rewards: rewardDetails,
                 message: res.__('messages.permRevoked'),
                 error: null
             })
@@ -217,6 +262,7 @@ router.post('/revokepermission', (req, res) => {
                 permission: {},
                 reports: [],
                 prescs: [],
+                rewards: rewardDetails,
                 message: null,
                 error: res.__('messages.notFound')
             })
@@ -224,17 +270,28 @@ router.post('/revokepermission', (req, res) => {
     });
 });
 
-router.get('/getpermission', (req, res) => {
+router.get('/getpermission', async(req, res) => {
     res.render('user/userPortal', {
         permission: {},
         reports: [],
         prescs: [],
+        rewards: {},
         message: null,
         error: null
     });
 });
 
-router.post('/getpermission', (req, res) => {
+router.post('/getpermission', async(req, res) => {
+    async function getBalance(addr){
+        const response = await ethInstance.get('/balanceOf/'+addr)
+        return response.data.data[0].uint256
+    }
+    const walletBalance = await getBalance(req.user.rewards.ethereumAddress)
+    const rewardDetails = {
+        ethAddr: req.user.rewards.ethereumAddress,
+        enabled: req.user.rewards.enabled,
+        balance: walletBalance
+    }
     User.findOne({
             username: req.user.username
         }, 'permission')
@@ -245,44 +302,106 @@ router.post('/getpermission', (req, res) => {
                     permission: {},
                     reports: [],
                     prescs: [],
+                    rewards: rewardDetails,
                     message: null,
                     error: res.__('messages.error')
                 });
-            console.log(info);
             res.render('user/userPortal', {
                 permission: info.permission,
                 reports: [],
                 prescs: [],
+                rewards: rewardDetails,
                 message: null,
                 error: null
             });
         })
 });
 
-router.get('/reporthistory', (req, res) => {
+
+router.get('/reporthistory', async(req, res) => {
     res.render('user/userPortal');
 });
 
-router.post('/reporthistory', (req, res) => {
+router.post('/reporthistory', async(req, res) => {
+    async function getBalance(addr){
+        const response = await ethInstance.get('/balanceOf/'+addr)
+        return response.data.data[0].uint256
+    }
+    const walletBalance = await getBalance(req.user.rewards.ethereumAddress)
+    const rewardDetails = {
+        ethAddr: req.user.rewards.ethereumAddress,
+        enabled: req.user.rewards.enabled,
+        balance: walletBalance
+    }
     let medicalID = req.user._id;
     let doc = {
         'medicalID': medicalID
     }
-    console.log(medicalID);
-    ehrUser.getRecord(req, res, doc);
+    ehrUser.getRecord(req, res, doc, rewardDetails);
 });
 
-router.get('/prescriptionhistory', (req, res) => {
+router.get('/prescriptionhistory', async(req, res) => {
     res.render('user/userPortal');
 });
 
-router.post('/prescriptionhistory', (req, res) => {
+router.post('/prescriptionhistory', async(req, res) => {
+    async function getBalance(addr){
+        const response = await ethInstance.get('/balanceOf/'+addr)
+        return response.data.data[0].uint256
+    }
+    const walletBalance = await getBalance(req.user.rewards.ethereumAddress)
+    const rewardDetails = {
+        ethAddr: req.user.rewards.ethereumAddress,
+        enabled: req.user.rewards.enabled,
+        balance: walletBalance
+    }
     let medicalID = req.user._id;
     let doc = {
         'medicalID': medicalID
     }
-    ehrUser.getMedicineRecord(req, res, doc);
+    ehrUser.getMedicineRecord(req, res, doc, rewardDetails);
 });
+
+router.get('/togglerewards', async(req, res) => {
+    res.render('user/userPortal', {
+        permission: {},
+        reports: [],
+        prescs: [],
+        rewards: {},
+        message: null,
+        error: null
+    });
+})
+
+router.post('/togglerewards', async(req, res) => {
+    let newReward = null
+    User.findOne({_id: req.user._id}, (err, foundUser) => {
+        if(err){
+            console.log(err)
+        }
+        foundUser.rewards.enabled = !foundUser.rewards.enabled
+        foundUser.save()
+        newReward = foundUser.rewards.enabled
+    })
+    async function getBalance(addr){
+        const response = await ethInstance.get('/balanceOf/'+addr)
+        return response.data.data[0].uint256
+    }
+    const walletBalance = await getBalance(req.user.rewards.ethereumAddress)
+    const rewardDetails = {
+        ethAddr: req.user.rewards.ethereumAddress,
+        enabled: newReward,
+        balance: walletBalance
+    }
+    res.render('user/userPortal', {
+        permission: {},
+        reports: [],
+        prescs: [],
+        rewards: rewardDetails,
+        message: null,
+        error: null
+    });
+})
 
 //SMS Functionality control route
 // router.post('/sms', async (req, res) => {
