@@ -20,14 +20,18 @@ function addrLReport(req, res, doc) {
     var peer = fabric_client.newPeer("grpc://192.168.99.100:7051");
     channel.addPeer(peer);
 
-    Fabric_Client.newDefaultKeyValueStore({ path: store_path })
+    Fabric_Client.newDefaultKeyValueStore({
+            path: store_path
+        })
         .then(state_store => {
             // assign the store to the fabric client
             fabric_client.setStateStore(state_store);
             var crypto_suite = Fabric_Client.newCryptoSuite();
             // use the same location for the state store (where the users' certificate are kept)
             // and the crypto store (where the users' keys are kept)
-            var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
+            var crypto_store = Fabric_Client.newCryptoKeyStore({
+                path: store_path
+            });
             crypto_suite.setCryptoKeyStore(crypto_store);
             fabric_client.setCryptoSuite(crypto_suite);
 
@@ -49,7 +53,7 @@ function addrLReport(req, res, doc) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addrLReport',
-                args: [doc.medicalID, doc.report, doc.links],
+                args: [doc.medicalID, doc.report, doc.links, doc.addedby],
                 chainId: 'ehr',
                 txId: tx_id
             };
@@ -68,9 +72,16 @@ function addrLReport(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render("org/testcenter", { response: { message: "New report added successfully" } });
+                res.render("org/testcenter", {
+                    response: {
+                        message: res.__('messages.reportAdded')
+                    }
+                });
             } else {
-                res.send({ code: "500", message: proposalResponses[0].response.message });
+                res.send({
+                    code: "500",
+                    message: proposalResponses[0].response.message
+                });
                 console.error("Transaction proposal was bad");
             }
             if (isProposalGood) {
@@ -108,7 +119,9 @@ function addrLReport(req, res, doc) {
                 let txPromise = new Promise((resolve, reject) => {
                     let handle = setTimeout(() => {
                         event_hub.disconnect();
-                        resolve({ event_status: "TIMEOUT" }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
+                        resolve({
+                            event_status: "TIMEOUT"
+                        }); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
                     }, 3000);
                     event_hub.connect();
                     event_hub.registerTxEvent(

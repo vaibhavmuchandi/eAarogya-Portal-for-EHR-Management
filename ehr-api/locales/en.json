@@ -13,6 +13,18 @@
 		"revokePerm": "Revoke Permission",
 		"viewPerms": "View Permissions"
 	},
+	"messages": {
+		"noAccess": "Access denied. Please make sure the user has given you permission.",
+		"ehrCreated": "EHR successfully created!",
+		"error": "Oops, there was an error",
+		"reportAdded": "Report successfully added!",
+		"noReport": "No report found",
+		"prescAdded": "Prescription successfully added",
+		"noPresc": "No prescriptions found",
+		"permGranted": "Permission granted",
+		"permRevoked": "Permission revoked",
+		"notFound": "No user found with the following ID"
+	},
 	"centAuth": "Central Authority",
 	"pharma": "Pharmacist",
 	"clinician": "Clinician",
@@ -62,5 +74,12 @@
 	"specialisation": "Specialisation",
 	"prescription": "prescription",
 	"researcher": "Researcher",
-	"phone": "phone"
+	"upload": "Upload a medical report",
+	"selectCat": "Select the respective Button Category to display the graph results.",
+	"selectDisease": "Select a disease from the Dropdown List to display the Graph",
+	"selectState": "Select a State from the Dropdown List to display the Graph",
+	"diseases": "Diseases",
+	"states": "States",
+	"addedby": "Added By",
+	"added": "added"
 }

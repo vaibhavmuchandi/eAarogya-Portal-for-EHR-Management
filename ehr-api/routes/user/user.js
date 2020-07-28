@@ -131,32 +131,60 @@ router.get('/', (req, res) => {
     res.render('user/userPortal', {
         permission: {},
         reports: [],
-        prescs: []
+        prescs: [],
+        message: null,
+        error: null
     });
 });
 
 router.post('/givepermission', (req, res) => {
     let DoctorID = req.body.doctorID;
     User.findOne({
-        username: req.user.username
-    }, function (err, doc) {
-        let user = doc;
-        user.permission.push(DoctorID);
-        user.save();
-        console.log(user);
-        res.render('user/userPortal', {
-            permission: {},
-            reports: [],
-            prescs: []
-        });
+        _id: DoctorID
+    }, (err, found) => {
+        if (err || !found)
+            return res.render('user/userPortal', {
+                permission: {},
+                reports: [],
+                prescs: [],
+                message: null,
+                error: res.__('messages.notFound')
+            });
+        else {
+            User.findOne({
+                username: req.user.username
+            }, function (err, doc) {
+                if (err)
+                    return res.render('user/userPortal', {
+                        permission: {},
+                        reports: [],
+                        prescs: [],
+                        message: null,
+                        error: res.__('messages.error')
+                    });
+                let user = doc;
+                user.permission.push(DoctorID);
+                user.save();
+                res.render('user/userPortal', {
+                    permission: {},
+                    reports: [],
+                    prescs: [],
+                    message: res.__('messages.permGranted'),
+                    error: null
+                });
+            });
+        }
     });
+
 });
 
 router.get('/revokepermission', (req, res) => {
     res.render('user/userPortal', {
         permission: {},
         reports: [],
-        prescs: []
+        prescs: [],
+        message: null,
+        error: null
     });
 })
 
@@ -164,15 +192,35 @@ router.post('/revokepermission', (req, res) => {
     let DoctorID = req.body.doctorID;
     User.findOne({
         username: req.user.username
-    }, function (err, user) {
+    }, (err, user) => {
+        if (err)
+            return res.render('user/userPortal', {
+                permission: {},
+                reports: [],
+                prescs: [],
+                message: null,
+                error: res.__('messages.error')
+            });
         let idx = user.permission.indexOf(DoctorID);
         if (idx != -1) {
             user.permission.splice(idx, 1);
             user.save()
+            res.render('user/userPortal', {
+                permission: {},
+                reports: [],
+                prescs: [],
+                message: res.__('messages.permRevoked'),
+                error: null
+            })
         } else {
-            console.log('Not found');
+            res.render('user/userPortal', {
+                permission: {},
+                reports: [],
+                prescs: [],
+                message: null,
+                error: res.__('messages.notFound')
+            })
         }
-        res.redirect('/user');
     });
 });
 
@@ -180,7 +228,9 @@ router.get('/getpermission', (req, res) => {
     res.render('user/userPortal', {
         permission: {},
         reports: [],
-        prescs: []
+        prescs: [],
+        message: null,
+        error: null
     });
 });
 
@@ -190,11 +240,21 @@ router.post('/getpermission', (req, res) => {
         }, 'permission')
         .populate('permission', 'name org type')
         .exec((err, info) => {
+            if (err)
+                return res.render('user/userPortal', {
+                    permission: {},
+                    reports: [],
+                    prescs: [],
+                    message: null,
+                    error: res.__('messages.error')
+                });
             console.log(info);
             res.render('user/userPortal', {
                 permission: info.permission,
                 reports: [],
-                prescs: []
+                prescs: [],
+                message: null,
+                error: null
             });
         })
 });

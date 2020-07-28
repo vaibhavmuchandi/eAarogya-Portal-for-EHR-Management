@@ -74,9 +74,9 @@ function getReport(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    res.send({
-                        code: "500",
-                        message: "isuue with getting report"
+                    res.render("org/hcpPortal", {
+                        details: result,
+                        error: res.__('messages.error')
                     });
                 } else {
                     console.log("Response is ", query_responses[0].toString())
@@ -88,17 +88,17 @@ function getReport(req, res, doc) {
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No report found"
+                res.render("org/hcpPortal", {
+                    details: result,
+                    error: res.__('messages.noReport')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting report details"
+            res.render("org/hcpPortal", {
+                details: result,
+                error: res.__('messages.error')
             });
         });
 }
@@ -161,7 +161,6 @@ function getRecord(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    //res.send({ code: "500", message: "isuue with getting car history" });
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
@@ -173,17 +172,17 @@ function getRecord(req, res, doc) {
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No medical record history found"
+                res.render("org/hcpPortal", {
+                    details: {},
+                    error: res.__('messages.noPresc')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting record details"
+            res.render("org/hcpPortal", {
+                details: result,
+                error: res.__('messages.error')
             });
         });
 }
@@ -243,9 +242,9 @@ function getMedicineReport(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
-                    res.send({
-                        code: "500",
-                        message: "isuue with getting report"
+                    res.render("org/hcpPortal", {
+                        details: {},
+                        error: res.__('messages.error')
                     });
                 } else {
                     //console.log("Response is ", query_responses[0].toString())
@@ -259,18 +258,18 @@ function getMedicineReport(req, res, doc) {
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No report found"
+                res.render("org/hcpPortal", {
+                    details: {},
+                    error: res.__('messages.noReport')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting report details"
-            });
+            res.render("org/hcpPortal", {
+                details: result,
+                error: res.__('messages.error')
+            });;
         });
 }
 
@@ -339,17 +338,17 @@ function getMedicineRecord(req, res, doc) {
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No medicine history found"
+                res.render("org/hcpPortal", {
+                    details: {},
+                    error: res.__('messages.noPresc')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting medicine history details"
+            res.render("org/hcpPortal", {
+                details: result,
+                error: res.__('messages.error')
             });
         });
 }

@@ -29,7 +29,8 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -37,7 +38,8 @@ router.get('/', function (req, res) {
 router.get('/medicalID', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -49,13 +51,19 @@ router.post('/medicalID', function (req, res) {
     User.findOne({
         _id: MedicalID
     }, function (err, found) {
+        if (err || !found)
+            return res.render('org/clinicianPortal', {
+                details: {},
+                error: res.__('messages.error'),
+                message: null,
+            })
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {
             ehrClinician.getReport(req, res, doc);
         } else {
             res.render("org/clinicianPortal", {
                 details: {},
-                error: 'Access denied. Please make sure the user has given you permission'
+                error: res.__('messages.noAccess')
             })
         }
     });
@@ -65,7 +73,8 @@ router.post('/medicalID', function (req, res) {
 router.get('/addreport', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 })
 
@@ -73,22 +82,26 @@ router.post('/addreport', async function (req, res) {
     let MedicalID = req.body.medicalID;
     let allergies = req.body.allergies;
     let symptoms = req.body.symptoms;
-    let diagnosis = req.body.diagnoses
+    let diagnosis = req.body.diagnoses;
+    let addedBy = req.user._id;
     let report = 'Allergies: ' + allergies + ', Symptoms: ' + symptoms + ', Diagnosis: ' + diagnosis;
     let doc = {
         'medicalID': MedicalID,
-        'report': report
+        'report': report,
+        'addedby': addedBy
     }
-    const response = await AadhaarUser.findOne({aadhaarNo: MedicalID})
+    const response = await AadhaarUser.findOne({
+        aadhaarNo: MedicalID
+    })
     const address = response.address.split(',')
-    const state = address[address.length-1]
+    const state = address[address.length - 1]
     const disease = diagnosis
     let data = new Data({
         state: state,
         disease: disease
     })
     data.save((err, response) => {
-        if(err){
+        if (err) {
             res.send(err)
         } else {
             console.log(response)
@@ -101,16 +114,19 @@ router.post('/addreport', async function (req, res) {
 router.get('/addprescription', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
 router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
     let prescription = req.body.prescription;
+    let addedBy = req.user._id
     let doc = {
         'medicalID': medicalID,
-        'prescription': prescription
+        'prescription': prescription,
+        'addedby': addedBy
     }
     ehrClinician.addMedicineReport(req, res, doc);
 });
@@ -118,7 +134,8 @@ router.post('/addprescription', function (req, res) {
 router.get('/getreport', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -133,7 +150,8 @@ router.post('/getreport', function (req, res) {
 router.get('/getprescription', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 router.post('/getprescription', function (req, res) {
@@ -147,7 +165,8 @@ router.post('/getprescription', function (req, res) {
 router.get('/reporthistory', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -162,7 +181,8 @@ router.post('/reporthistory', function (req, res) {
 router.get('/medicinehistory', function (req, res) {
     res.render('org/clinicianPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 router.post('/medicinehistory', function (req, res) {

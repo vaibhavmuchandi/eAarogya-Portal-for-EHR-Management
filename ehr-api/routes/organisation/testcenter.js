@@ -7,11 +7,11 @@ const ehrTestCenter = require('../../FabricHelpertestcenter');
 //--------requires for text-extraction-------//
 const fs = require("fs");
 const pdfparse = require("pdf-parse");
-const {
-  TesseractWorker
-} = require('tesseract.js')
-const worker = new TesseractWorker();
+var request = require('request');
 const upload = require("express-fileupload");
+const {
+  response
+} = require('express');
 router.use(upload());
 //----------------------//
 
@@ -38,6 +38,10 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
   res.render('org/testcenter', {
+    bloodgroup: null,
+    bloodpressure: null,
+    haemoglobin: null,
+    sugarlevel: null,
     response: {}
   });
 });
@@ -50,14 +54,20 @@ router.post('/addreport', (req, res) => {
   var sugarlevel = req.body.sugarlevel;
   var links = req.body.links || ' ';
   var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
-  console.log(report);
+  var addedBy = req.user._id
   var doc = {
     'medicalID': MedicalID,
     'report': report,
-    'links': links
+    'links': links,
+    'addedby': addedBy
   }
 
-  //------------Text Extraction from pdf or image------------------//
+  ehrTestCenter.addrLReport(req, res, doc)
+});
+
+
+
+router.post('/uploaded', (req, res) => {
   if (req.files) {
     var file = req.files.file;
     var fileName = file.name;
@@ -76,37 +86,46 @@ router.post('/addreport', (req, res) => {
           });
         }
       });
-    } else {
+    } else if (file.mimetype == 'application/jpg' || 'application/png') {
       file.mv("uploads/" + fileName, (err) => {
         if (err) { // if error occurs run this
           console.log("File was not uploaded!!");
           res.send(err);
         } else {
+          var extracted;
           console.log("file uploaded");
-          fs.readFile(`./uploads/${fileName}`, (err, data) => {
-            if (err)
-              return console.log('Error reading file', err)
+          const form_data = {
+            file: fs.createReadStream(`./uploads/${fileName}`),
+          }
 
-            worker
-              .recognize(data, "eng", {
-                tessjs_create_pdf: 0
-              })
-              .progress(progress => {
-                console.log(progress)
-              })
-              .then(result => {
-                const extractedText = result.text;
-                console.log(extractedText);
-                // res.send(extractedText);
-              })
-
-            // .finally(() => worker.terminate());
-          })
+          const options = {
+            url: "https://app.nanonets.com/api/v2/OCR/Model/dce1b5d4-3781-43cc-bff1-18d2b12042fc/LabelFile/",
+            formData: form_data,
+            headers: {
+              'Authorization': 'Basic ' + Buffer.from('fj99eEPW0_3FmWZiglkb1fkP8fpT5E-s' + ':').toString('base64')
+            }
+          }
+          request.post(options, (err, httpResponse, body) => {
+            extracted = JSON.parse(body);
+            var bloodgroup = extracted.result[0].prediction[1].ocr_text;
+            var bloodpressure = extracted.result[0].prediction[4].ocr_text;
+            var haemoglobin = extracted.result[0].prediction[2].ocr_text;
+            var sugarlevel = extracted.result[0].prediction[3].ocr_text;
+            var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
+            // console.log(report);
+            res.render('org/testcenter', {
+              bloodgroup: bloodgroup,
+              bloodpressure: bloodpressure,
+              haemoglobin: haemoglobin,
+              sugarlevel: sugarlevel,
+              response: {}
+            });
+          });
         }
       })
-    }
+    };
   }
-});
+})
 //------------Text Extraction from pdf or image----------------//
 
 

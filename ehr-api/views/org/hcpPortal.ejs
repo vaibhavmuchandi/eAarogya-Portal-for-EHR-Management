@@ -5,7 +5,7 @@
     <div id="content">
       <div class="container-fluid">
         <br>
-        <div class="d-sm-flex mb-4">
+        <div class="d-flex mb-4">
           <h2 class="text-main font-weight-bold mb-0"><%=__('hcp')%></h2>
           <% if(error) {%>
           <div class="ml-5 alert alert-danger roundness">
@@ -82,6 +82,11 @@
                         <%=details.report%>
                       </span>
                     </p>
+                    <p class="h5 mt-2"><%= __('addedby')%>: <br>
+                      <span class="h4 text-main">
+                        <%=details.addedby%>
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -104,6 +109,9 @@
                     <p class="h5"><%= __('prescription')%>:
                       <span class="h4 text-main"><%=details.prescription%></span>
                     </p>
+                    <p class="h5"><%= __('addedby')%>:
+                      <span class="h4 text-main"><%=details.addedby%></span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -125,6 +133,8 @@
                       <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
                       <br>
                       <span class="h5"><%=details[i]['Value']['prescription']%></span>
+                      <br>
+                      <span class="h5"><%=details[i]['Value']['addedby']%></span>
                     </div>
                     <%}%>
                           <%}%>
@@ -150,6 +160,8 @@
                     <%=Date(details[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
                     <br>
                     <span class="h5"><%=details[i]['Value']['report']%></span>
+                    <br>
+                    <span class="h5"><%=details[i]['Value']['addedby']%></span>
                   </div>
                   <%}%>
                                                             <%}%>
@@ -168,7 +180,13 @@
   </div>
   </div>
 </body>
-
-
-
 <%- include("../partials/footer") %>
+<script>
+  $(document).ready(function () {
+    window.setTimeout(function () {
+      $(".alert").fadeTo(1000, 0).slideUp(500, function () {
+        $(this).remove();
+      });
+    }, 3000);
+  });
+</script>

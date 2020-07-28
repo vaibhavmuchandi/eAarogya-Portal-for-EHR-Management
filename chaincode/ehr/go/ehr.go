@@ -28,16 +28,8 @@
 	 Report               string `json:"report"`
 	 Links		          string `json:"links"`
 	 Prescription		  string `json:"prescription"`
+	 AddedBy			  string `json:"addedby"`
  }
-//  // Medicine history struct
-//  type medicineRecordStruct struct{
-// 	 RecordID		string `json:"recordID"`
-// 	 Name			string `json:"name"`
-// 	 Dob				string `json:"dob"`
-// 	 Address			string `json:"address"`
-// 	 Prescription	string `json:"prescription"`
- 
-//  }
  
  // Init SmartContract
  func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -80,7 +72,9 @@
 		 Address : 				address,
 		 Report:                "",
 		 Links:					"",
-		 Prescription: 			""}
+		 Prescription: 			"",
+		 AddedBy:				"",
+		}
 	 RecordBytes, err := json.Marshal(Record)
 	 if err != nil {
 		 return shim.Error("JSON Marshal failed.")
@@ -92,36 +86,13 @@
 	 return shim.Success(nil)
  }
  
- //Add medicine record
-//  func (s *SmartContract) createMedicineRecord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
- 
-// 	 recordID := args[0]
-// 	 name := args[1]
-// 	 dob := args[2]
-// 	 address := args[3]
- 
-// 	 mRecord := medicineRecordStruct {RecordID: recordID,
-// 		 Name:                   name,
-// 		 Dob:        			dob,
-// 		 Address : 				address,
-// 		 Prescription:			""}
-// 	 mRecordBytes, err := json.Marshal(mRecord)
-// 	 if err != nil {
-// 		 return shim.Error("JSON Marshal failed.")
-// 	 }
- 
-// 	 APIstub.PutState(recordID, mRecordBytes)
-// 	 fmt.Println("Medicine Record has been created -> ", mRecord)
- 
-// 	 return shim.Success(nil)
-//  }
- 
- //Function for clinicians and radioLogists to add a prescription to medicine record
+  //Function for clinicians and radioLogists to add a prescription to medicine record
  
  func (s *SmartContract) addMedicineReport(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
  
 	 recordID := args[0]
 	 prescription := args[1]
+	 addedby := args[2]
  
 	 RecordAsBytes, _ := APIstub.GetState(recordID)
  
@@ -135,11 +106,12 @@
  
 	 Record := RecordStruct{RecordID: record.RecordID,
 		 Name:                 record.Name,
-		 Dob:       			  record.Dob,
-		 Address: 			  record.Address,
+		 Dob:       		   record.Dob,
+		 Address: 			   record.Address,
 		 Report:				"",
 		 Links:					"",
-		 Prescription:         prescription}
+		 Prescription:         prescription,
+		 AddedBy:			   addedby}
 		 
  
 	 RecordBytes, err := json.Marshal(Record)
@@ -158,6 +130,7 @@
  
 	 recordID := args[0]
 	 report := args[1]
+	 addedby := args[2]
  
 	 RecordAsBytes, _ := APIstub.GetState(recordID)
  
@@ -170,12 +143,13 @@
  
  
 	 Record := RecordStruct{RecordID: record.RecordID,
-		 Name:                 record.Name,
-		 Dob:       			  record.Dob,
-		 Address: 			  record.Address,
-		 Report:               report,
+		 Name:                  record.Name,
+		 Dob:       			record.Dob,
+		 Address: 			  	record.Address,
+		 Report:                report,
 		 Links:					"",
-		 Prescription:			""}
+		 Prescription:			"",
+		 AddedBy:				addedby}
 		 
  
 	 RecordBytes, err := json.Marshal(Record)
@@ -195,6 +169,7 @@
 	 recordID := args[0]
 	 report := args[1]
 	 links := args[2]
+	 addedby := args[3]
  
 	 RecordAsBytes, _ := APIstub.GetState(recordID)
  
@@ -207,12 +182,13 @@
  
  
 	 Record := RecordStruct{RecordID: record.RecordID,
-		 Name:                 record.Name,
-		 Dob:       			  record.Dob,
-		 Address: 			  record.Address,
-		 Report:               report,
-		 Links:				  links,
-		 Prescription:			""}
+		 Name:                  record.Name,
+		 Dob:       			record.Dob,
+		 Address: 			  	record.Address,
+		 Report:                report,
+		 Links:				  	links,
+		 Prescription:			"",
+		 AddedBy:				addedby}
 		 
  
 	 RecordBytes, err := json.Marshal(Record)
@@ -238,17 +214,6 @@
 	 return shim.Success(RecordAsBytes)
 	 
  }
- 
-//  //Function to obtain the latest medicine prescription
-//  func (s *SmartContract) getMedicineReport(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
- 
-// 	 recordID := args[0]
-// 	 mRecordAsBytes, _ := APIstub.GetState(recordID)
-// 	 mrecordd := new(medicineRecordStruct)
-// 	 _ = json.Unmarshal(mRecordAsBytes, mrecordd)
-// 	 return shim.Success(mrecordd)
-	 
-//  }
  
  //Function to get entire medical report history
  func (s *SmartContract) getRecord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
@@ -309,67 +274,7 @@
  
 	 return shim.Success(buffer.Bytes())
  }
- 
-//  //Function to get entire medicine or report history
-//  func (s *SmartContract) getMedicineRecord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
- 
-// 	 recordID := args[0]
- 
-// 	 resultsIterator, err := APIstub.GetHistoryForKey(recordID)
-// 	 if err != nil {
-// 		 return shim.Error("Error retrieving Record history with GetHistoryForKey")
-// 	 }
-// 	 defer resultsIterator.Close()
- 
-// 	 // buffer is a JSON array containing historic values for the Report
-// 	 var buffer bytes.Buffer
-// 	 buffer.WriteString("[")
- 
-// 	 bArrayMemberAlreadyWritten := false
-// 	 for resultsIterator.HasNext() {
-// 		 response, err := resultsIterator.Next()
-// 		 if err != nil {
-// 			 return shim.Error("Error retrieving next Record history.")
-// 		 }
-// 		 // Add a comma before array members, suppress it for the first array member
-// 		 if bArrayMemberAlreadyWritten == true {
-// 			 buffer.WriteString(",")
-// 		 }
-// 		 buffer.WriteString("{\"TxId\":")
-// 		 buffer.WriteString("\"")
-// 		 buffer.WriteString(response.TxId)
-// 		 buffer.WriteString("\"")
- 
-// 		 buffer.WriteString(", \"Value\":")
-// 		 // if it was a delete operation on given key, then we need to set the
-// 		 //corresponding value null. Else, we will write the response.Value
-// 		 //as-is (as the Value itself a JSON marble)
-// 		 if response.IsDelete {
-// 			 buffer.WriteString("null")
-// 		 } else {
-// 			 buffer.WriteString(string(response.Value))
-// 		 }
- 
-// 		 buffer.WriteString(", \"Timestamp\":")
-// 		 buffer.WriteString("\"")
-// 		 buffer.WriteString(time.Unix(response.Timestamp.Seconds, int64(response.Timestamp.Nanos)).String())
-// 		 buffer.WriteString("\"")
- 
-// 		 buffer.WriteString(", \"IsDelete\":")
-// 		 buffer.WriteString("\"")
-// 		 buffer.WriteString(strconv.FormatBool(response.IsDelete))
-// 		 buffer.WriteString("\"")
- 
-// 		 buffer.WriteString("}")
-// 		 bArrayMemberAlreadyWritten = true
-// 	 }
-// 	 buffer.WriteString("]")
- 
-// 	 fmt.Printf("- Getting record returning:\n%s\n", buffer.String())
- 
-// 	 return shim.Success(buffer.Bytes())
-//  }
- 
+  
  // Main function is only relevant in unit test mode. Only included here for completeness.
  func main() {
 	 // Create a new Smart Contract

@@ -47,7 +47,8 @@ router.use((req, res, next) => {
 router.get('/', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -55,7 +56,8 @@ router.get('/', function (req, res) {
 router.get('/medicalID', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -65,48 +67,63 @@ router.post('/medicalID', function (req, res) {
         'medicalID': medicalID
     }
     User.findOne({
-        _id: medicalID
+        _id: MedicalID
     }, function (err, found) {
-        found.permission.forEach(function (perm) {
-            if (perm == req.user.username) {
-                ehrRadiologist.getReport(req, res, doc);
-            } else {
-                res.render("org/radiologistPortal", {
-                    details: {},
-                    error: 'Access denied. Please make sure the user has given you permission'
-                })
-            }
-        });
-    })
+        if (err || !found)
+            return res.render('org/radiologistPortal', {
+                details: {},
+                error: res.__('messages.error'),
+                message: null,
+            })
+        let perm = found.permission.indexOf(req.user._id) + 1;
+        if (perm) {
+            ehrRadiologist.getReport(req, res, doc);
+        } else {
+            res.render("org/radiologistPortal", {
+                details: {},
+                error: res.__('messages.noAccess'),
+                message: null
+            })
+        }
+    });
 });
 
 router.get('/addreport', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
-router.post('/addreport', function (req, res) {
+router.post('/addreport', async function (req, res) {
     const MedicalID = req.body.medicalID
     let Diagnosis = req.body.diagnoses;
     let report = Diagnosis;
     let links = req.body.links;
+    let addedBy = req.user._id;
     let doc = {
         'medicalID': MedicalID,
         'report': report,
-        'links': links
+        'links': links,
+        'addedby': addedBy
     }
+<<<<<<< HEAD
     const response = await AadhaarUser.findOne({ aadhaarNo: MedicalID }) //await
+=======
+    const response = AadhaarUser.findOne({
+        aadhaarNo: MedicalID
+    })
+>>>>>>> 1f9b4509aaa6fd89e2d4ee1ccce003c2658b4da4
     const address = response.address.split(',')
-    const state = address[address.length-1]
+    const state = address[address.length - 1]
     const disease = Diagnosis
     let data = new Data({
         state: state,
         disease: disease
     })
     data.save((err, response) => {
-        if(err){
+        if (err) {
             res.send(err)
         } else {
             console.log(response)
@@ -131,7 +148,8 @@ router.post('/addreport', function (req, res) {
 router.get('/getreport', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -146,17 +164,19 @@ router.post('/getreport', function (req, res) {
 router.get('/addprescription', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
 router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M'
     let prescription = req.body.prescription;
+    let addedBy = req.user._id
     let doc = {
-        'medicalID': medicineID,
-        'prescription': prescription
+        'medicalID': medicalID,
+        'prescription': prescription,
+        'addedby': addedBy
     }
     ehrRadiologist.addMedicineReport(req, res, doc);
 });
@@ -164,15 +184,15 @@ router.post('/addprescription', function (req, res) {
 router.get('/getprescription', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
 router.post('/getprescription', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M';
     let doc = {
-        'medicineID': medicineID
+        'medicineID': medicalID
     }
     ehrRadiologist.getMedicineRecord(req, res, doc);
 });
@@ -180,7 +200,8 @@ router.post('/getprescription', function (req, res) {
 router.get('/reporthistory', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
@@ -195,15 +216,15 @@ router.post('/reporthistory', function (req, res) {
 router.get('/medicinehistory', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
-        error: null
+        error: null,
+        message: null
     });
 });
 
 router.post('/medicinehistory', function (req, res) {
     let medicalID = req.body.medicalID;
-    let medicineID = medicalID + '0M';
     let doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrRadiologist.getMedicineRecord(req, res, doc);
 });

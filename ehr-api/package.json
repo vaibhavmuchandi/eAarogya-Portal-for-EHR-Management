@@ -29,9 +29,11 @@
     "passport": "^0.4.1",
     "passport-local-mongoose": "^6.0.1",
     "pdf-parse": "^1.1.1",
+    "request": "^2.88.2",
     "swagger-ui-express": "^4.0.1",
     "tesseract.js": "^2.0.0-alpha.15",
-    "twilio": "^3.48.1"
+    "twilio": "^3.48.1",
+    "web3": "^1.2.11"
   },
   "author": "Vaibhav Muchandi",
   "license": "Apache-2.0",

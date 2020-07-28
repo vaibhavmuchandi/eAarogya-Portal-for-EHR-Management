@@ -39,16 +39,21 @@ router.post('/medicalID', function (req, res) {
     User.findOne({
         _id: MedicalID
     }, function (err, found) {
-        found.permission.forEach(function (perm) {
-            if (perm == req.user.username) {
-                ehrHCP.getReport(req, res, doc);
-            } else {
-                res.render("org/hcpPortal", {
-                    details: {},
-                    error: 'Access denied. Please make sure the user has given you permission'
-                })
-            }
-        });
+        if (err || !found)
+            return res.render('org/hcpPortal', {
+                details: {},
+                error: res.__('messages.error'),
+                message: null,
+            })
+        let perm = found.permission.indexOf(req.user._id) + 1;
+        if (perm) {
+            ehrHCP.getReport(req, res, doc);
+        } else {
+            res.render("org/hcpPortal", {
+                details: {},
+                error: res.__('messages.noAccess')
+            })
+        }
     });
 });
 
@@ -88,9 +93,8 @@ router.get('/getprescription', function (req, res) {
 });
 router.post('/getprescription', function (req, res) {
     var medicalID = req.body.medicalID
-    var medicineID = medicalID + '0M';
     var doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrHCP.getMedicineReport(req, res, doc);
 });
@@ -103,9 +107,8 @@ router.get('/getprescriptionrecord', function (req, res) {
 
 router.post('/getprescriptionrecord', function (req, res) {
     var medicalID = req.body.medicalID;
-    var medicineID = medicalID + '0M';
     var doc = {
-        'medicalID': medicineID
+        'medicalID': medicalID
     }
     ehrHCP.getMedicineRecord(req, res, doc);
 });

@@ -6,15 +6,16 @@ const User = require("../../models/user");
 
 //All routes have prefix /app
 router.post("/login", passport.authenticate("local", {}), (req, res) => {
-  if (req.user) {
-    delete req.user.salt;
-    delete req.user.hash;
-    res.send({
-      user: req.user
-    });
-  } else {
-    res.sendStatus(401);
-  }
+    if (req.user) {
+        let user = req.user.toObject()
+        delete user.salt;
+        delete user.hash;
+        res.send({
+            user: user
+        });
+    } else {
+        res.sendStatus(401);
+    }
 });
 
 router.post('/give-permission', (req, res) => {
@@ -22,13 +23,15 @@ router.post('/give-permission', (req, res) => {
     User.findOne({
         username: req.body.username
     }, function (err, doc) {
-        if(err)
+        if (err)
             res.sendStatus(400);
         let user = doc;
         user.permission.push(DoctorID);
         user.save();
         console.log(user);
-        res.status(200).send({message: 'Permission granted'});
+        res.status(200).send({
+            message: 'Permission granted'
+        });
     });
 });
 
@@ -54,11 +57,32 @@ router.post('/view-permissions', (req, res) => {
         }, 'permission')
         .populate('permission', 'name org type')
         .exec((err, info) => {
-            if(err)  
+            if (err)
                 return res.sendStatus(400);
             console.log(info);
-            res.status(200).send({permissions: info.permission});
+            res.status(200).send({
+                permissions: info.permission
+            });
         })
+});
+
+router.post('/report-history', (req, res) => {
+    let medicalID = req.body.medicalID;
+    let doc = {
+        'medicalID': medicalID,
+        'mobile': true
+    }
+    ehrUser.getRecord(req, res, doc);
+});
+
+
+router.post('/prescription-history', (req, res) => {
+    let medicalID = req.body.medicalID;
+    let doc = {
+        'medicalID': medicalID,
+        'mobile': true
+    }
+    ehrUser.getMedicineRecord(req, res, doc);
 });
 
 module.exports = router;

@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const ehrPharmacist = require('../../FabricHelperPharmacist')
+const ehrPharmacist = require('../../FabricHelperPharmacist');
+const User = require('../../models/user');
 
 //All routes have prefix '/organisation/pharmacist'
 
@@ -26,13 +27,15 @@ router.use((req, res, next) => {
 
 router.get('/', function (req, res) {
     res.render('org/pharmacistPortal', {
-        details: {}
+        details: {},
+        error: null
     });
 });
 
 router.get('/getprescription', function (req, res) {
     res.render('org/pharmacistPortal', {
-        details: {}
+        details: {},
+        error: null
     });
 });
 
@@ -41,11 +44,41 @@ router.post('/getprescription', function (req, res) {
     let doc = {
         'medicineID': MedicalID
     }
-    ehrPharmacist.getMedicineReport(req, res, doc);
+    User.findOne({
+        _id: MedicalID
+    }, function (err, found) {
+        if (err || !found)
+            return res.render('org/pharmacistPortal', {
+                details: {},
+                error: res.__('messages.error'),
+                message: null,
+            })
+        let perm = found.permission.indexOf(req.user._id) + 1;
+        if (perm) {
+            ehrPharmacist.getMedicineReport(req, res, doc);
+        } else {
+            res.render("org/pharmacistPortal", {
+                details: {},
+                error: res.__('messages.noAccess')
+            })
+        }
+    });
 });
 
 router.post('/getprescriptionhistory', function (req, res) {
-    ehrPharmacist.getMedicineRecord(req, res);
+    User.findOne({
+        _id: MedicalID
+    }, function (err, found) {
+        let perm = found.permission.indexOf(req.user._id) + 1;
+        if (perm) {
+            ehrPharmacist.getMedicineRecord(req, res);
+        } else {
+            res.render("org/pharmacistPortal", {
+                details: {},
+                error: res.__('messages.noAccess')
+            })
+        }
+    });
 });
 
 module.exports = router;

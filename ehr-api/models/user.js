@@ -8,6 +8,8 @@ var UserSchema = new mongoose.Schema({
     password: String,
     email: String,
     phone: String,
+    ethereumAddress: String,
+    privateKey: String,
     type: String,
     org: String,
     permission: [{

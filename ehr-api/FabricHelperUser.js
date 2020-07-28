@@ -68,26 +68,48 @@ function getRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    console.log(typeof (result));
-                    res.render("user/userPortal", {
-                        permission: {},
-                        reports: result,
-                        prescs: []
-                    });
+                    console.log(doc.mobile);
+                    if (doc.mobile) {
+                        let reports = [];
+                        for (let i in result) {
+                            if (result[i]['Value']['report'] != '')
+                                reports.push({
+                                    date: Date(result[i]['Timestamp'].slice(0, 11)).slice(4, 15),
+                                    info: result[i]['Value']['report']
+                                })
+                        }
+                        res.status(200).send({
+                            data: reports
+                        })
+                    } else {
+                        res.render("user/userPortal", {
+                            permission: {},
+                            reports: result,
+                            prescs: [],
+                            message: null,
+                            error: null
+                        });
+                    }
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No medical record history found"
+                res.render("user/userPortal", {
+                    permission: {},
+                    reports: result,
+                    prescs: [],
+                    message: null,
+                    error: res.__('messages.noReport')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting record details"
+            res.render("user/userPortal", {
+                permission: {},
+                reports: result,
+                prescs: [],
+                message: null,
+                error: res.__('messages.error')
             });
         });
 }
@@ -150,25 +172,47 @@ function getMedicineRecord(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     var result = JSON.parse(query_responses[0]);
-                    res.render("user/userPortal", {
-                        permission: {},
-                        reports: [],
-                        prescs: result
-                    });
+                    if (doc.mobile) {
+                        let prescs = [];
+                        for (let i in result) {
+                            if (result[i]['Value']['prescription'] != '')
+                                prescs.push({
+                                    date: Date(result[i]['Timestamp'].slice(0, 11)).slice(4, 15),
+                                    info: result[i]['Value']['prescription']
+                                })
+                        }
+                        res.status(200).send({
+                            data: prescs
+                        })
+                    } else {
+                        res.render("user/userPortal", {
+                            permission: {},
+                            reports: [],
+                            prescs: result,
+                            message: null,
+                            error: null
+                        });
+                    }
                 }
             } else {
                 console.log("No payloads were returned from query");
-                res.send({
-                    code: "500",
-                    message: "No medicine history found"
+                res.render("user/userPortal", {
+                    permission: {},
+                    reports: result,
+                    prescs: [],
+                    message: null,
+                    error: res.__('messages.noPresc')
                 });
             }
         })
         .catch(err => {
             console.error("Failed to query successfully :: " + err);
-            res.send({
-                code: "500",
-                message: "Issue with getting medicine history details"
+            res.render("user/userPortal", {
+                permission: {},
+                reports: result,
+                prescs: [],
+                message: null,
+                error: res.__('messages.error')
             });
         });
 }
