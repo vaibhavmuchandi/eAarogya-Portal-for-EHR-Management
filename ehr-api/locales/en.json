@@ -25,6 +25,11 @@
 		"permRevoked": "Permission revoked",
 		"notFound": "No user found with the following ID"
 	},
+	"orgReg": {
+		"reg": "Organisational Registration",
+		"name": "Organisation Name",
+		"type": "Specialisation"
+	},
 	"centAuth": "Central Authority",
 	"pharma": "Pharmacist",
 	"clinician": "Clinician",
@@ -81,5 +86,6 @@
 	"diseases": "Diseases",
 	"states": "States",
 	"addedby": "Added By",
-	"added": "added"
+	"added": "added",
+	"phone": "phone"
 }

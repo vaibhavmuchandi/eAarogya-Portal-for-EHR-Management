@@ -1,7 +1,7 @@
  <%- include ('./partials/header') %>
 
 <body>
-  <div class="row justify-content-center align-items-center mt-lg-5">
+  <div class="row justify-content-center align-items-center mt-lg-4">
     <div class="col-md-9 col-lg-12 col-xl-10">
       <div class="card shadow-lg o-hidden border-0 my-5 roundness">
         <div class="card-body p-4">
@@ -10,9 +10,13 @@
               <img src="/images/login.svg" alt="" style="width: 100%;">
             </div>
             <div class="col-lg-6">
-              <div class="p-5 mt-5">
+              <div class="p-5 mt-3">
                 <div class="text-center">
-                  <h4 class="mb-4 h2 text-accent"><%=__('welcome')%></h4>
+                  <% if(error) {%>
+                    <div class="alert alert-danger roundness"><%=error%></div>
+                  <%} else {%>
+                    <h4 class="mb-4 h2 text-accent"><%=__('welcome')%></h4>
+                  <%}%>
                 </div>
                 <form class="user" action="/login" method="POST">
                   <div class="form-group"><input class="form-control form-control-user" type="text"
