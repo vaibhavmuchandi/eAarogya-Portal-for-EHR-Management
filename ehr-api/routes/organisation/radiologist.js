@@ -7,6 +7,23 @@ const User = require("../../models/user");
 const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
 
+//image-----------
+var Kraken = require("kraken");
+var fs = require("fs");
+const fileUpload = require("express-fileupload");
+
+var kraken = new Kraken({
+    api_key: "cbe915fd4263bab806ff04bd5a28614b",
+    api_secret: "e28b31c8eca6c9090f9acdee677b87e0444597ff",
+});
+
+router.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
+//----------
+
+
 //All routes have prefix '/organisation/radiologist'
 router.get('/login', function (req, res) {
     res.render('org/org-login', {
@@ -80,7 +97,7 @@ router.post('/addreport', function (req, res) {
         'report': report,
         'links': links
     }
-    const response = await AadhaarUser.findOne({aadhaarNo: MedicalID})
+    const response = await AadhaarUser.findOne({ aadhaarNo: MedicalID }) //await
     const address = response.address.split(',')
     const state = address[address.length-1]
     const disease = Diagnosis
@@ -94,7 +111,20 @@ router.post('/addreport', function (req, res) {
         } else {
             console.log(response)
         }
-    })
+    });
+    //image upload
+    var opts = {
+      file: fs.createReadStream(req.files.reportImg.tempFilePath),
+      wait: true,
+    };
+    kraken.upload(opts, function (err, data) {
+        if (err) {
+            console.log("Failed. Error message: %s", err);
+        } else {
+            console.log("Success. image URL: %s", data.kraked_url);
+            res.end("done");
+        }
+    });
     ehrRadiologist.addrLReport(req, res, doc);
 });
 

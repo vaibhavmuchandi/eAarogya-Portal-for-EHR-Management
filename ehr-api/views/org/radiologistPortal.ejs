@@ -72,8 +72,9 @@
             <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
               <div class="tab-pane fade show active" id="nav-addreport" role="tabpanel"
                 aria-labelledby="nav-addreport-tab">
+                <!-- form -->
                 <form class="user card shadow-lg p-5 roundness" method="post"
-                  action="/organisation/radiologist/addreport">
+                  action="/organisation/radiologist/addreport" enctype="multipart/form-data">
                   <input type="text" class="hiddenInp" name="medicalID" value=<%=details.recordID%>
                     <%=details.medicalID%>>
 
@@ -93,6 +94,11 @@
                           aria-hidden="true"></i></span>
                       <input type="text" class="form-control roundness" name="links" id="links" />
                     </div>
+                  </div>
+                  <!-- images upload -->
+                  <div class="custom-file">
+                    <input type="file" name="reportImg" class="custom-file-input" id="file">
+                    <label class="custom-file-label" for="reportImg" placeholder="Upload your medical report (.jpeg or .png)"></label>
                   </div>
                   <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
                 </form>
@@ -219,3 +225,4 @@
 
 
 <%- include("../partials/footer") %>
+
