@@ -15,6 +15,7 @@ var os = require('os');
 var member_user = null;
 var store_path = path.join(__dirname, 'hfc-key-store');
 console.log('Store path:' + store_path);
+const Organisation = require('./models/organisation');
 var tx_id = null;
 
 
@@ -86,16 +87,22 @@ function createRecord(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                res.render('org/centAuth', {
-                    details: doc,
-                    errors: [],
-                    message: res.__('messages.ehrCreated')
-                });
+                Organisation.find({})
+                    .where('accepted').equals(false)
+                    .exec((err, orgs) => {
+                        res.locals.orgs = orgs;
+                        res.render('org/centAuth', {
+                            details: doc,
+                            errors: [],
+                            message: res.__('messages.ehrCreated')
+                        });
+                    })
             } else {
                 res.render('org/centAuth', {
                     details: {},
                     errors: [proposalResponses[0].response.message],
-                    message: null
+                    message: null,
+                    orgs: []
                 });
                 console.error("Transaction proposal was bad");
             }
