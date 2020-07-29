@@ -56,6 +56,7 @@ passport.deserializeUser(User.deserializeUser());
 const organisationRoutes = require("./routes/organisations");
 const userRoutes = require("./routes/user");
 const appRoutes = require('./routes/app/api');
+const smsRoute = require('./routes/sms');
 
 app.use('/app', appRoutes);
 
@@ -88,6 +89,7 @@ app.use((req, res, next) => {
 
 app.use("/organisation", organisationRoutes);
 app.use("/user", userRoutes);
+app.use("/sms", smsRoute);
 
 app.get("/", (req, res) => {
   res.render("index");

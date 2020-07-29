@@ -62,10 +62,11 @@ router.get('/medicalID', function (req, res) {
 });
 
 router.post('/medicalID', function (req, res) {
-    let medicalID = req.body.medicalID;
+    let MedicalID = req.body.medicalID;
     let doc = {
-        'medicalID': medicalID
+        'medicalID': MedicalID
     }
+    console.log(doc)
     User.findOne({
         _id: MedicalID
     }, function (err, found) {
@@ -77,6 +78,7 @@ router.post('/medicalID', function (req, res) {
             })
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {
+            console.log(doc)
             ehrRadiologist.getReport(req, res, doc);
         } else {
             res.render("org/radiologistPortal", {
@@ -108,7 +110,7 @@ router.post('/addreport', async function (req, res) {
         'links': links,
         'addedby': addedBy
     }
-    const response = AadhaarUser.findOne({
+    const response = await AadhaarUser.findOne({
         aadhaarNo: MedicalID
     })
     const address = response.address.split(',')
@@ -126,8 +128,9 @@ router.post('/addreport', async function (req, res) {
         }
     });
     //image upload
+    const image = await fs.createReadStream(req.files.reportImg)
     var opts = {
-        file: fs.createReadStream(req.files.reportImg.tempFilePath),
+        file: image,
         wait: true,
     };
     kraken.upload(opts, function (err, data) {
