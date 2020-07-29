@@ -85,6 +85,7 @@ router.post('/complete-form', async(req, res) => {
     return account
   }
   let details = req.body;
+  details.isRegister = true;
   let ethAccount = await createEthreumAccount()
   User.register(new User({
     _id: details.aadhaarNo,

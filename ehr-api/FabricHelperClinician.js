@@ -87,6 +87,9 @@ function createRecord(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
+                if(doc.isRegister){
+                    res.render('index')
+                }
                 Organisation.find({})
                     .where('accepted').equals(false)
                     .exec((err, orgs) => {

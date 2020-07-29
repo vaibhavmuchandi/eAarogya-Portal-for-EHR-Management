@@ -39,7 +39,7 @@ async function revokePermission(number, doctorId) {
             let user = foundUser;
             let idx = user.permission.indexOf(doctorId);
             if (idx != -1) {
-                user.permission.splice(i, 1);
+                user.permission.splice(idx, 1);
                 user.save()
             } else {
                 return false
@@ -89,11 +89,11 @@ async function sendGiveSuccessSMS(number) {
         .then((message) => console.log(message.sid))
         .catch((err) => console.log(err))
 }
-async function sendRevokeSuccessSMS() {
+async function sendRevokeSuccessSMS(number) {
     client.messages
         .create({
             body: 'Successfully revoked permission!',
-            messagingServiceSid: twilioConfig.messagingSid,
+            from: twilioConfig.from,
             to: number
         })
         .then((message) => console.log(message.sid))

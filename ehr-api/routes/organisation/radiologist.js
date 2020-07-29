@@ -116,19 +116,20 @@ router.post('/addreport', async function (req, res) {
     const address = response.address.split(',')
     const state = address[address.length - 1]
     const disease = Diagnosis
-    let data = new Data({
-        state: state,
-        disease: disease
-    })
-    data.save((err, response) => {
-        if (err) {
-            res.send(err)
-        } else {
-            console.log(response)
-        }
-    });
+    // let data = new Data({
+    //     state: state,
+    //     disease: disease
+    // })
+    // data.save((err, response) => {
+    //     if (err) {
+    //         res.send(err)
+    //     } else {
+    //         console.log(response)
+    //     }
+    // });
     //image upload
     const image = await fs.createReadStream(req.files.reportImg)
+    console.log(image)
     var opts = {
         file: image,
         wait: true,
