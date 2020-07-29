@@ -10,17 +10,15 @@ const Data = require('../../models/data');
 //image-----------
 var Kraken = require("kraken");
 var fs = require("fs");
-const fileUpload = require("express-fileupload");
+var multer = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({ storage:storage });
 
 var kraken = new Kraken({
-    api_key: "cbe915fd4263bab806ff04bd5a28614b",
-    api_secret: "e28b31c8eca6c9090f9acdee677b87e0444597ff",
+  api_key: "cbe915fd4263bab806ff04bd5a28614b",
+  api_secret: "e28b31c8eca6c9090f9acdee677b87e0444597ff",
 });
 
-router.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: '/tmp/'
-}));
 //----------
 
 
@@ -96,49 +94,54 @@ router.get('/addreport', function (req, res) {
     });
 });
 
-router.post('/addreport', async function (req, res) {
-    const MedicalID = req.body.medicalID
-    let Diagnosis = req.body.diagnoses;
-    let report = Diagnosis;
-    let links = req.body.links;
-    let addedBy = req.user._id;
-    let doc = {
-        'medicalID': MedicalID,
-        'report': report,
-        'links': links,
-        'addedby': addedBy
-    }
-    const response = AadhaarUser.findOne({
-        aadhaarNo: MedicalID
-    })
-    const address = response.address.split(',')
-    const state = address[address.length - 1]
-    const disease = Diagnosis
-    let data = new Data({
-        state: state,
-        disease: disease
-    })
-    data.save((err, response) => {
-        if (err) {
-            res.send(err)
-        } else {
-            console.log(response)
-        }
-    });
+
+router.post('/addreport', upload.single('reportImg'),async function(req, res) {
+    // const MedicalID = req.body.medicalID  
+    // let Diagnosis = req.body.diagnoses;
+    // let report = Diagnosis;
+    // let links = req.body.links;
+    // let addedBy = req.user._id;
+    // let doc = {
+    //     'medicalID': MedicalID,
+    //     'report': report,
+    //     'links': links,
+    //     'addedby': addedBy
+    // }
+    // const response = AadhaarUser.findOne({
+    //     aadhaarNo: MedicalID
+    // })
+    // const address = response.address.split(',')
+    // const state = address[address.length - 1]
+    // const disease = Diagnosis
+    // let data = new Data({
+    //     state: state,
+    //     disease: disease
+    // })
+    // data.save((err, response) => {
+    //     if (err) {
+    //         res.send(err)
+    //     } else {
+    //         console.log(response)
+    //     }
+    // });
     //image upload
+    console.log(req.files);
+    req.files.reportImg.tempFilePath = './upload/';
+        // image upload req.files.reportImg.tempFilePath
     var opts = {
-        file: fs.createReadStream(req.files.reportImg.tempFilePath),
-        wait: true,
+      file: fs.createReadStream("./upload/"+req.files.reportImg.name),
+      wait: true,
     };
     kraken.upload(opts, function (err, data) {
         if (err) {
             console.log("Failed. Error message: %s", err);
         } else {
             console.log("Success. image URL: %s", data.kraked_url);
-            res.end("done");
+            // fs.unlink("./upload/" + req.files.reportImg.name);
         }
     });
-    ehrRadiologist.addrLReport(req, res, doc);
+    
+    // ehrRadiologist.addrLReport(req, res, doc);
 });
 
 router.get('/getreport', function (req, res) {
