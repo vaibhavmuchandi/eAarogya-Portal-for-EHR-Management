@@ -13,7 +13,7 @@
     </div>
     <%}%>
   </div>
-  <div class="container mt-5 d-flex flex-column justify-content-center align-items-center">
+  <div class="mt-1 d-flex flex-column justify-content-center align-items-center">
     <nav class="mt-lg-4">
       <div class="nav nav-tabs d-flex justify-content-center" id="nav-tab" role="tablist">
         <a class="nav-item nav-link shadow active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
@@ -26,6 +26,8 @@
       aria-controls="nav-presc" aria-selected="false"><%= __('prescHist') %></a>
     <a class="nav-item nav-link shadow" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab"
       aria-controls="nav-view" aria-selected="false"><%= __('user.viewPerms') %></a>
+    <a class="nav-item nav-link shadow" id="nav-rewards-tab" data-toggle="tab" href="#nav-rewards" role="tab"
+      aria-controls="nav-view" aria-selected="false">Rewards</a>
   </div>
   </nav>
   <div class="tab-content py-3 px-3 px-sm-0 mt-3" id="nav-tabContent">
@@ -49,6 +51,23 @@
             <input class="form-control form-control-user mr-sm-2" name="doctorID" type="text"
               placeholder="<%= __('doctorID') %>" aria-label="Search">
             <button class="btn b my-2 my-sm-0 submit-btn roundness" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="nav-rewards" role="tabpanel" aria-labelledby="nav-rewards-tab">
+      <div class="card shadow-lg p-2 roundness border-0">
+        <div class="card-body small-card">
+          <h4 class="text-main">Rewards</h4><br>
+          <span class="h5">Ethereum wallet address: <%=rewards.ethAddr%></span>
+          <br>
+          <span class="h5">Rewards enabled: <%=rewards.enabled%></span>
+          <br>
+          <span class="h5">Wallet Balance: <%=rewards.balance%> AMC</span>
+          <br>
+          <br>
+          <form action="/user/togglerewards" method="POST">
+            <button class="btn b my-2 my-sm-0 submit-btn roundness" type="submit">Enable or disable rewards</button>
           </form>
         </div>
       </div>

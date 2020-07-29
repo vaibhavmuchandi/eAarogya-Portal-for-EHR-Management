@@ -128,14 +128,15 @@
                         <div class="form-group">
                             <label for="email">Contact Email: </label>
                             <input type="text" class="form-control form-control-user" name="email" id="email" />
+                            <small>This email will be used for further communication</small>
                         </div>
 
                         <div class="form-group">
                             <label for="regNo">Hospital Registration Number: </label>
-                            <input type="text" class="form-control form-control-user" name="regNo" id="regNo" />
+                            <input type="text" class="form-control form-control-user" name="regNo" id="regNo" required>
                         </div>
                         <div class="custom-file">
-                            <input type="file" name="file" class="custom-file-input" id="file">
+                            <input type="file" name="file" class="custom-file-input" id="file" required>
                             <label class="custom-file-label" for="file" style="overflow: hidden;">Registration
                                 Number Scanned Copy (.pdf, .jpeg or .png)</label>
                         </div>
@@ -167,15 +168,9 @@
         modal.find('#mobile').val(button.data('mobile'))
     });
 
-    let count = 0;
     $('input[type="file"]').change(function (e) {
         var fileName = e.target.files[0].name;
-        console.log(fileName);
         let label = $(this).siblings('.custom-file-label');
-        if (count)
-            label.html(label.html() + ', ' + fileName);
-        else
-            label.html(fileName);
-        $('#file-count').html(`File Count: ${++count}`);
-    });
+        label.html(fileName);
+    })
 </script>

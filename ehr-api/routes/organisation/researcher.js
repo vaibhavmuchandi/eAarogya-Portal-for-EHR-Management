@@ -4,6 +4,18 @@ const router = express.Router();
 const passport = require('passport');
 const fs = require('fs');
 const Data = require('../../models/data')
+const User = require('../../models/user')
+const ehrResearcher = require('../../FabricHelperResearcher');
+const data = require('../../models/data');
+const axios = require('axios');
+const config = require('../ethConfig');
+
+const ethInstance = axios.create({
+    baseURL: config.api+config.contract,
+    timeout: 5000,
+    headers: {'X-API-KEY': config.key}
+})
+
 //All routes have prefix '/organisation/researcher'
 
 router.get('/login', function (req, res) {
@@ -64,5 +76,33 @@ router.get('/patientsdata', (req, res) => {
         res.json(foundData)
     })
 }); 
+
+router.get('/downloadds', async(req, res) => {
+    async function getEnabledUsers(Users){
+        let enabledUsers = new Array()
+        for(let i = 0; i<Users.length; i++){
+            if(Users[i].rewards.enabled){
+                enabledUsers.push(Users[i]._id)
+            }
+        }
+        return enabledUsers
+    }
+    async function distributeRewards(users){
+        for(let i = 0; i<users.length; i++){
+            let foundUser = await User.findOne({_id: users[i]})
+            let resp = await ethInstance.post('/mint', {
+                account: foundUser.rewards.ethereumAddress,
+                amount: 1000
+            })
+            console.log(resp.data)
+        }
+    }
+    const users = await User.find({type: 'user'})
+    const enabledUsers = await getEnabledUsers(users)
+    const respo = await distributeRewards(enabledUsers)
+    ehrResearcher.getAllUsers(req, res, enabledUsers)
+})
+
+
 
 module.exports = router; 

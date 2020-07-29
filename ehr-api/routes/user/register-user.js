@@ -92,8 +92,11 @@ router.post('/complete-form', async(req, res) => {
     username: details.username,
     email: details.email,
     phone: details.phone,
-    ethereumAddress: ethAccount.address,
-    privateKey: ethAccount.privateKey,
+    rewards: {
+      ethereumAddress: ethAccount.address,
+      privateKey: ethAccount.privateKey,
+      enabled: false
+    },
     type: 'user'
   }), details.password, (err, user) => {
     if (err) {

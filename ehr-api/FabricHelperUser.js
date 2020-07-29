@@ -8,7 +8,7 @@ console.log('Store path:' + store_path);
 var tx_id = null;
 
 //Function to get the entire history of medical reports
-function getRecord(req, res, doc) {
+function getRecord(req, res, doc, rewardDetails) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -86,6 +86,7 @@ function getRecord(req, res, doc) {
                             permission: {},
                             reports: result,
                             prescs: [],
+                            rewards: rewardDetails,
                             message: null,
                             error: null
                         });
@@ -98,6 +99,7 @@ function getRecord(req, res, doc) {
                     reports: result,
                     prescs: [],
                     message: null,
+                    rewards: rewardDetails,
                     error: res.__('messages.noReport')
                 });
             }
@@ -108,6 +110,7 @@ function getRecord(req, res, doc) {
                 permission: {},
                 reports: result,
                 prescs: [],
+                rewards: rewardDetails,
                 message: null,
                 error: res.__('messages.error')
             });
@@ -115,7 +118,7 @@ function getRecord(req, res, doc) {
 }
 
 //Get entire history of prescriptions
-function getMedicineRecord(req, res, doc) {
+function getMedicineRecord(req, res, doc, rewardDetails) {
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -190,6 +193,7 @@ function getMedicineRecord(req, res, doc) {
                             reports: [],
                             prescs: result,
                             message: null,
+                            rewards: rewardDetails,
                             error: null
                         });
                     }
@@ -200,6 +204,7 @@ function getMedicineRecord(req, res, doc) {
                     permission: {},
                     reports: result,
                     prescs: [],
+                    rewards: {},
                     message: null,
                     error: res.__('messages.noPresc')
                 });
@@ -211,6 +216,7 @@ function getMedicineRecord(req, res, doc) {
                 permission: {},
                 reports: result,
                 prescs: [],
+                rewards: rewardDetails,
                 message: null,
                 error: res.__('messages.error')
             });

@@ -48,7 +48,7 @@ router.post('/submit-application', (req, res) => {
         name: req.body.name,
         state: req.body.state,
         district: req.body.district,
-        location: req.body.location,
+        location: req.body.loc,
         pin: req.body.pin,
         phone: req.body.phone,
         mobile: req.body.mobile,
@@ -56,7 +56,7 @@ router.post('/submit-application', (req, res) => {
         regNo: req.body.regNo,
         regFile: file.name
     });
-    file.mv('uploads/' + file.name, function (err) { // moving file to uploads folder
+    file.mv('public/files/' + file.name, function (err) { // moving file to uploads folder
         if (err) { // if error occurs run this
             console.log("File was not uploaded!!");
             res.send(err);

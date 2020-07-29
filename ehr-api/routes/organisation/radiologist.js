@@ -127,8 +127,8 @@ router.post('/addreport', async function (req, res) {
     });
     //image upload
     var opts = {
-      file: fs.createReadStream(req.files.reportImg.tempFilePath),
-      wait: true,
+        file: fs.createReadStream(req.files.reportImg.tempFilePath),
+        wait: true,
     };
     kraken.upload(opts, function (err, data) {
         if (err) {

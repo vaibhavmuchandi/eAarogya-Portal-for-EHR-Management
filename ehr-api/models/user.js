@@ -8,8 +8,11 @@ var UserSchema = new mongoose.Schema({
     password: String,
     email: String,
     phone: String,
-    ethereumAddress: String,
-    privateKey: String,
+    rewards: {
+        ethereumAddress: String,
+        privateKey: String,
+        enabled: Boolean
+    },
     type: String,
     org: String,
     permission: [{

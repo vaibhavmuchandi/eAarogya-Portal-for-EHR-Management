@@ -200,7 +200,13 @@ select {
     max-width: 100%;
     margin: 0;
     border: 1px solid #aaa;
-    box-shadow: 1px 0 1px 0 rgba(0,0,0,.6);
+    box-shadow: 1px 0 1px 0 rgba(0, 0, 0, .6);
     border-radius: 1.0em;
-    
+
+}
+
+@media (min-width: 1200px) {
+    .application-table {
+        margin-left: -15%;
+    }
 }

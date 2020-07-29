@@ -87,5 +87,10 @@
 	"states": "States",
 	"addedby": "Added By",
 	"added": "added",
-	"phone": "phone"
+	"downloadds": "Download Dataset",
+	"phone": "phone",
+	"applications": "Applications",
+	"isOrg": "Are you an organisation?",
+	"orgApply": "Apply to be part of the consortium right now!",
+	"applyNow": "APPLY NOW"
 }
