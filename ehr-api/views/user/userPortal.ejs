@@ -32,7 +32,7 @@
   </nav>
   <div class="tab-content py-3 px-3 px-sm-0 mt-3" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-      <div class="card shadow-lg roundness border-0 p-2">
+      <div class="card shadow-lg roundness border-0 p-4">
         <div class="card-body small-card" id="">
           <h4 class="text-main"><%= __('user.givePerm') %></h4><br>
           <form class="form-inline user" action="/user/givepermission" method="POST">
@@ -40,6 +40,13 @@
               placeholder="<%= __('doctorID') %>" aria-label="Search">
             <button class="btn b my-2 my-sm-0 submit-btn roundness">Submit</button>
           </form>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+            <label class="custom-control-label" for="customSwitch1">Grant permission for nominator</label>
+          </div>
+          <br>
+          <h6 class="text-main">Permission will now be granted on behalf of Naman Mehta with Medical ID: 561931048143
+          </h6>
         </div>
       </div>
     </div>
@@ -52,6 +59,13 @@
               placeholder="<%= __('doctorID') %>" aria-label="Search">
             <button class="btn b my-2 my-sm-0 submit-btn roundness" type="submit">Submit</button>
           </form>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch2">
+            <label class="custom-control-label" for="customSwitch2">Revoke permission for nominator</label>
+          </div>
+          <br>
+          <!-- <h6 class="text-main">Permission will now be revoked on behalf of Naman Mehta with Medical ID: 561931048143
+          </h6> -->
         </div>
       </div>
     </div>
