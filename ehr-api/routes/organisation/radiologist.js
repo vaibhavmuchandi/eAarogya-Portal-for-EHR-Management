@@ -67,7 +67,7 @@ router.post('/medicalID', function (req, res) {
         'medicalID': medicalID
     }
     User.findOne({
-        _id: MedicalID
+        _id: medicalID
     }, function (err, found) {
         if (err || !found)
             return res.render('org/radiologistPortal', {
@@ -108,24 +108,26 @@ router.post('/addreport', async function (req, res) {
         'links': links,
         'addedby': addedBy
     }
-    const response = AadhaarUser.findOne({
-        aadhaarNo: MedicalID
-    })
-    const address = response.address.split(',')
-    const state = address[address.length - 1]
-    const disease = Diagnosis
-    let data = new Data({
-        state: state,
-        disease: disease
-    })
-    data.save((err, response) => {
-        if (err) {
-            res.send(err)
-        } else {
-            console.log(response)
-        }
-    });
+    // const response = AadhaarUser.findOne({
+    //     aadhaarNo: MedicalID
+    // })
+    // const address = response.address.split(',')
+    // const state = address[address.length - 1]
+    // const disease = Diagnosis
+    // let data = new Data({
+    //     state: state,
+    //     disease: disease
+    // })
+    // data.save((err, response) => {
+    //     if (err) {
+    //         res.send(err)
+    //     } else {
+    //         console.log(response)
+    //     }
+    // });
     //image upload
+
+    console.log(req.files, req.body)
     var opts = {
         file: fs.createReadStream(req.files.reportImg.tempFilePath),
         wait: true,
@@ -138,7 +140,7 @@ router.post('/addreport', async function (req, res) {
             res.end("done");
         }
     });
-    ehrRadiologist.addrLReport(req, res, doc);
+    // ehrRadiologist.addrLReport(req, res, doc);
 });
 
 router.get('/getreport', function (req, res) {

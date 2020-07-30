@@ -103,9 +103,17 @@
                   <!-- images upload -->
                   <div class="custom-file">
                     <input type="file" name="reportImg" class="custom-file-input" id="file">
-                    <label class="custom-file-label" for="reportImg" placeholder="Upload your medical report (.jpeg or .png)"></label>
+                    <label class="custom-file-label" for="reportImg"><%=__('upload')%> (.pdf, .jpeg or .png)</label>
                   </div>
                   <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
+                </form>
+
+                <form action="/organisation/radiologist/addreport" method="POST" enctype="multipart/form-data">
+                  <div class="custom-file">
+                    <input type="file" name="reportImg" class="custom-file-input" id="file">
+                    <label class="custom-file-label" for="reportImg"><%=__('upload')%> (.pdf, .jpeg or .png)</label>
+                  </div>
+                  <button>Submit</button>
                 </form>
               </div>
 
@@ -240,6 +248,12 @@
 </body>
 <%- include("../partials/footer") %>
 <script>
+  $('input[type="file"]').change(function (e) {
+    var fileName = e.target.files[0].name;
+    console.log(fileName);
+    $('.custom-file-label').html(fileName);
+  });
+
   $(document).ready(function () {
     window.setTimeout(function () {
       $(".alert").fadeTo(1000, 0).slideUp(500, function () {
