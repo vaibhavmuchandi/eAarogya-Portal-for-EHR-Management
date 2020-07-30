@@ -80,7 +80,18 @@ router.post('/uploaded', (req, res) => {
 
           pdfparse(pdffile).then(function (data) { //text-extraction function
             var rawtext = data.text; //all the extracted text is stored in "rawtext" variable
-            console.log(rawtext); //extracted text can be seen in the console
+            var extract = rawtext.split(" ");; //extracted text can be seen in the console
+            var bloodgroup = extract[10];
+            var bloodpressure = extract[33] + extract[34];
+            var haemoglobin = extract[21] + extract[22] ;
+            var sugarlevel = extract[27] + extract[28];
+            res.render('org/testcenter', {
+              bloodgroup: bloodgroup,
+              bloodpressure: bloodpressure,
+              haemoglobin: haemoglobin,
+              sugarlevel: sugarlevel,
+              response: {}
+            });
           });
         }
       });
@@ -109,8 +120,6 @@ router.post('/uploaded', (req, res) => {
             var bloodpressure = extracted.result[0].prediction[4].ocr_text;
             var haemoglobin = extracted.result[0].prediction[2].ocr_text;
             var sugarlevel = extracted.result[0].prediction[3].ocr_text;
-            var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
-            // console.log(report);
             res.render('org/testcenter', {
               bloodgroup: bloodgroup,
               bloodpressure: bloodpressure,
