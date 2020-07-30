@@ -100,14 +100,18 @@
                       <input type="text" class="form-control roundness" name="links" id="links" />
                     </div>
                   </div>
+
                   <!-- images upload -->
-                  <div class="custom-file">
-                    <input type="file" name="reportImg" class="custom-file-input" id="reportImg" accept="image/*">
-                    <label class="custom-file-label" for="reportImg" placeholder="Upload your medical report (.jpeg or .png)"></label>
-                  </div>
-                  <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
-                </form>
-              </div>
+                  
+                    <div class="col">
+                      <input name="reportImg" type="file" class="custom-file-input" id="file">
+                      <label class="custom-file-label" for="file"><%=__('upload')%> (.jpeg or .png)</label>
+                      
+                    </div>
+                    <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
+                  </form>
+                </div>
+               
 
               <div class="tab-pane fade" id="nav-addprescription" role="tabpanel"
                 aria-labelledby="nav-addprescription-tab">

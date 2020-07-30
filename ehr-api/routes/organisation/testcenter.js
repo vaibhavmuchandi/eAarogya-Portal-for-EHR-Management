@@ -9,10 +9,8 @@ const fs = require("fs");
 const pdfparse = require("pdf-parse");
 var request = require('request');
 const upload = require("express-fileupload");
-const {
-  response
-} = require('express');
-router.use(upload());
+const { response } = require('express');
+
 //----------------------//
 
 //All routes have prefix '/organisation/testcenter'
@@ -71,7 +69,7 @@ router.post('/uploaded', (req, res) => {
   if (req.files) {
     var file = req.files.file;
     var fileName = file.name;
-    if (file.mimetype == 'application/pdf') {
+    if (file.mimetype === 'application/pdf') {
       file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
         if (err) { // if error occurs run this
           console.log("File was not uploaded!!");
@@ -82,11 +80,22 @@ router.post('/uploaded', (req, res) => {
 
           pdfparse(pdffile).then(function (data) { //text-extraction function
             var rawtext = data.text; //all the extracted text is stored in "rawtext" variable
-            console.log(rawtext); //extracted text can be seen in the console
+            var extract = rawtext.split(" ");; //extracted text can be seen in the console
+            var bloodgroup = extract[10];
+            var bloodpressure = extract[33] + extract[34];
+            var haemoglobin = extract[21] + extract[22] ;
+            var sugarlevel = extract[27] + extract[28];
+            res.render('org/testcenter', {
+              bloodgroup: bloodgroup,
+              bloodpressure: bloodpressure,
+              haemoglobin: haemoglobin,
+              sugarlevel: sugarlevel,
+              response: {}
+            });
           });
         }
       });
-    } else if (file.mimetype == 'application/jpg' || 'application/png') {
+    } else if (file.mimetype === 'image/jpeg' ||file.mimetype === 'image/png') {
       file.mv("uploads/" + fileName, (err) => {
         if (err) { // if error occurs run this
           console.log("File was not uploaded!!");
@@ -111,8 +120,6 @@ router.post('/uploaded', (req, res) => {
             var bloodpressure = extracted.result[0].prediction[4].ocr_text;
             var haemoglobin = extracted.result[0].prediction[2].ocr_text;
             var sugarlevel = extracted.result[0].prediction[3].ocr_text;
-            var report = 'Blood Group:' + bloodgroup + ' ' + 'Blood Pressure:' + bloodpressure + ' ' + 'Haemoglobin:' + haemoglobin + ' ' + 'Glucose:' + sugarlevel;
-            // console.log(report);
             res.render('org/testcenter', {
               bloodgroup: bloodgroup,
               bloodpressure: bloodpressure,
@@ -126,9 +133,6 @@ router.post('/uploaded', (req, res) => {
     };
   }
 })
-//------------Text Extraction from pdf or image----------------//
-
-
 // ehrTestCenter.addrLReport(req, res, doc);
 
 
