@@ -8,22 +8,9 @@ const ehrTestCenter = require('../../FabricHelpertestcenter');
 const fs = require("fs");
 const pdfparse = require("pdf-parse");
 var request = require('request');
-// const upload = require("express-fileupload");
-const {
-  response
-} = require('express');
-// router.use(upload());
-var multer  = require('multer');
+const upload = require("express-fileupload");
+const { response } = require('express');
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-})
-var upload = multer({ storage: storage })
 //----------------------//
 
 //All routes have prefix '/organisation/testcenter'
@@ -78,10 +65,16 @@ router.post('/addreport', (req, res) => {
 
 
 
-router.post('/uploaded', upload.single('report'), async function (req, res){
-    var file = req.files.report;
+router.post('/uploaded', (req, res) => {
+  if (req.files) {
+    var file = req.files.file;
     var fileName = file.name;
     if (file.mimetype === 'application/pdf') {
+      file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
+        if (err) { // if error occurs run this
+          console.log("File was not uploaded!!");
+          res.send(err);
+        } else {
           console.log("file uploaded");
           const pdffile = fs.readFileSync("uploads/" + fileName); //read the file
 
@@ -89,8 +82,14 @@ router.post('/uploaded', upload.single('report'), async function (req, res){
             var rawtext = data.text; //all the extracted text is stored in "rawtext" variable
             console.log(rawtext); //extracted text can be seen in the console
           });
-       }
-        else if (file.mimetype == 'image/jpeg' || file.mimetype === 'image/png') {
+        }
+      });
+    } else if (file.mimetype === 'image/jpeg' ||file.mimetype === 'image/png') {
+      file.mv("uploads/" + fileName, (err) => {
+        if (err) { // if error occurs run this
+          console.log("File was not uploaded!!");
+          res.send(err);
+        } else {
           var extracted;
           console.log("file uploaded");
           const form_data = {
@@ -120,9 +119,11 @@ router.post('/uploaded', upload.single('report'), async function (req, res){
               response: {}
             });
           });
-        };
+        }
       })
-
+    };
+  }
+})
 // ehrTestCenter.addrLReport(req, res, doc);
 
 
