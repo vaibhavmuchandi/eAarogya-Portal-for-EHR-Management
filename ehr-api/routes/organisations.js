@@ -6,7 +6,7 @@ const path = require('path');
 const upload = require("express-fileupload");
 const Organisation = require('../models/organisation');
 
-router.use(upload());
+
 router.get('/register', (req, res) => {
     res.render('org/org-reg', {
         results: [],
