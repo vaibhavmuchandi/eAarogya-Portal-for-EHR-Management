@@ -102,16 +102,22 @@
                   </div>
 
                   <!-- images upload -->
-                  <div class="form-group">
-                    <div class="custom-file">
+                  
+                    <div class="col">
                       <input name="reportImg" type="file" class="custom-file-input" id="file">
-                      <label class="custom-file-label" for="reportImg" >Upload your medical report (.jpeg or .png)</label>
-                      <input class="btn bg-main btn-block text-white btn-user mt-4" type="submit" value="Submit">
-                      <!-- <span class="h6">Submit</span></button> -->
+                      <label class="custom-file-label" for="file"><%=__('upload')%> (.jpeg or .png)</label>
+                      
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                      <button class="btn bg-main btn-block text-white btn-user mt-4" formaction="/organisation/radiologist/uploaded"><span
+                          class="h6">Upload</span></button>
+                    </div>
+                      <div class="col">
+                      <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
                     </div>
                   </div>
-
-                  
+ 
                 </form>
               </div>
 
