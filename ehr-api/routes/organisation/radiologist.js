@@ -10,26 +10,17 @@ const Data = require('../../models/data');
 //image-----------
 var Kraken = require("kraken");
 var fs = require("fs");
-var multer = require('multer');
-//var storage = multer.memoryStorage();
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-});
-
-var upload = multer({
-    storage: storage
-}).single('reportImg')
+const fileUpload = require("express-fileupload");
 
 var kraken = new Kraken({
     api_key: "cbe915fd4263bab806ff04bd5a28614b",
     api_secret: "e28b31c8eca6c9090f9acdee677b87e0444597ff",
 });
 
+router.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
 //----------
 
 
@@ -76,7 +67,7 @@ router.post('/medicalID', function (req, res) {
         'medicalID': medicalID
     }
     User.findOne({
-        _id: medicalID
+        _id: MedicalID
     }, function (err, found) {
         if (err || !found)
             return res.render('org/radiologistPortal', {
@@ -105,19 +96,18 @@ router.get('/addreport', function (req, res) {
     });
 });
 
-
 router.post('/addreport', async function (req, res) {
-    // const MedicalID = req.body.medicalID  
-    // let Diagnosis = req.body.diagnoses;
-    // let report = Diagnosis;
-    // let links = req.body.links;
-    // let addedBy = req.user._id;
-    // let doc = {
-    //     'medicalID': MedicalID,
-    //     'report': report,
-    //     'links': links,
-    //     'addedby': addedBy
-    // }
+    const MedicalID = req.body.medicalID
+    let Diagnosis = req.body.diagnoses;
+    let report = Diagnosis;
+    let links = req.body.links;
+    let addedBy = req.user._id;
+    let doc = {
+        'medicalID': MedicalID,
+        'report': report,
+        'links': links,
+        'addedby': addedBy
+    }
     // const response = AadhaarUser.findOne({
     //     aadhaarNo: MedicalID
     // })
@@ -136,30 +126,18 @@ router.post('/addreport', async function (req, res) {
     //     }
     // });
     //image upload
-    console.log(req.files);
-    upload(req, res, (err) => {
-        if (err)
-            console.error(err);
-        else {
-            console.log(req.file);
-            console.log(req.files);
+    var opts = {
+        file: fs.createReadStream(req.files.reportImg.tempFilePath),
+        wait: true,
+    };
+    kraken.upload(opts, function (err, data) {
+        if (err) {
+            console.log("Failed. Error message: %s", err);
+        } else {
+            console.log("Success. image URL: %s", data.kraked_url);
+            res.end("done");
         }
-    })
-    //req.files.reportImg.tempFilePath = './upload/';
-    // image upload req.files.reportImg.tempFilePath
-    // var opts = {
-    //     file: fs.createReadStream("./upload/" + req.files.reportImg.name),
-    //     wait: true,
-    // };
-    // kraken.upload(opts, function (err, data) {
-    //     if (err) {
-    //         console.log("Failed. Error message: %s", err);
-    //     } else {
-    //         console.log("Success. image URL: %s", data.kraked_url);
-    //         // fs.unlink("./upload/" + req.files.reportImg.name);
-    //     }
-    // });
-
+    });
     // ehrRadiologist.addrLReport(req, res, doc);
 });
 
