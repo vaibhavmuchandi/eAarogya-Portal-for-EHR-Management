@@ -4,6 +4,8 @@ const router = express.Router();
 const passport = require('passport');
 const ehrRadiologist = require('../../FabricHelperRadiologist');
 const User = require("../../models/user");
+const AadhaarUser = require('../../models/aadhaaruser');
+const Data = require('../../models/data');
 
 //All routes have prefix '/organisation/radiologist'
 router.get('/login', function (req, res) {
@@ -68,7 +70,8 @@ router.get('/addreport', function (req, res) {
     });
 });
 
-router.post('/addreport', function (req, res) {
+router.post('/addreport', async function (req, res) {
+    const MedicalID = req.body.medicalID
     let Diagnosis = req.body.diagnoses;
     let report = Diagnosis;
     let links = req.body.links;
@@ -77,6 +80,21 @@ router.post('/addreport', function (req, res) {
         'report': report,
         'links': links
     }
+    const response = AadhaarUser.findOne({aadhaarNo: MedicalID})
+    const address = response.address.split(',')
+    const state = address[address.length-1]
+    const disease = Diagnosis
+    let data = new Data({
+        state: state,
+        disease: disease
+    })
+    data.save((err, response) => {
+        if(err){
+            res.send(err)
+        } else {
+            console.log(response)
+        }
+    })
     ehrRadiologist.addrLReport(req, res, doc);
 });
 
