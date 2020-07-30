@@ -7,6 +7,8 @@ const User = require("../../models/user");
 const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
 
+let linksim ; // global declaration of image links to be passed 
+
 //All routes have prefix '/organisation/radiologist'
 router.get('/login', function (req, res) {
     res.render('org/org-login', {
@@ -110,7 +112,7 @@ router.post('/uploaded', (req, res) => {
                     if (err) {
                     console.log("Failed. Error message: %s", err);
                     } else {
-                    console.log("Success. image URL: %s", data.kraked_url); //this is the url to be pushed into blockchain
+                    linksim = data.kraked_url                     
                     }
             });
             }
@@ -126,7 +128,8 @@ router.post('/addreport',async function(req, res) {
     const MedicalID = req.body.medicalID  
     let Diagnosis = req.body.diagnoses;
     let report = Diagnosis;
-    let links = req.body.links;
+    // let links = req.body.links;
+    let links = linksim;
     let addedBy = req.user._id;
     let doc = {
         'medicalID': MedicalID,
