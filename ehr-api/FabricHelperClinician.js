@@ -87,16 +87,23 @@ function createRecord(req, res, doc) {
             ) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
-                Organisation.find({})
-                    .where('accepted').equals(false)
-                    .exec((err, orgs) => {
-                        res.locals.orgs = orgs;
-                        res.render('org/centAuth', {
-                            details: doc,
-                            errors: [],
-                            message: res.__('messages.ehrCreated')
-                        });
-                    })
+                if (doc.user) {
+                    res.render('user/register-user/nominee', {
+                        id: doc.aadhaarNo,
+                        user: null
+                    });
+                } else {
+                    Organisation.find({})
+                        .where('accepted').equals(false)
+                        .exec((err, orgs) => {
+                            res.locals.orgs = orgs;
+                            res.render('org/centAuth', {
+                                details: doc,
+                                errors: [],
+                                message: res.__('messages.ehrCreated')
+                            });
+                        })
+                }
             } else {
                 res.render('org/centAuth', {
                     details: {},

@@ -37,10 +37,6 @@ router.post('/', (req, res) => {
         let session = JSON.parse(body);
         app.set('sessionNum', session.Details);
       });
-
-
-
-
       res.render('user/register-user/enter-code', {
         error: null
       });
@@ -65,7 +61,6 @@ router.post('/verify-otp', (req, res) => {
 
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
-
     if (response.statusCode == 200) {
       let details = app.get('details');
       res.render('user/register-user/complete-form', {
@@ -79,13 +74,14 @@ router.post('/verify-otp', (req, res) => {
   });
 })
 
-router.post('/complete-form', async(req, res) => {
-  async function createEthreumAccount(){
+router.post('/complete-form', async (req, res) => {
+  async function createEthreumAccount() {
     const account = web3.eth.accounts.create()
     return account
   }
   let details = req.body;
-  let ethAccount = await createEthreumAccount()
+  details.user = true;
+  let ethAccount = await createEthreumAccount();
   User.register(new User({
     _id: details.aadhaarNo,
     name: details.name,
@@ -105,6 +101,51 @@ router.post('/complete-form', async(req, res) => {
       ehrClinician.createRecord(req, res, details);
     }
   })
+});
+
+router.post('/find-user', (req, res) => {
+  User.findOne({
+    _id: req.body.nomID
+  }, 'name nom', (err, user) => {
+    if (err) {
+      console.error(err)
+      return res.render('user/register-user/nominee', {
+        id: req.body.userID,
+        user: null
+      });
+    }
+    if (!user)
+      res.render('user/register-user/nominee', {
+        id: req.body.userID,
+        user: 'none'
+      });
+    else
+      res.render('user/register-user/nominee', {
+        id: req.body.userID,
+        user: user
+      });
+  })
+});
+
+router.post('/confirm-nominee', (req, res) => {
+  console.log('body', req.body);
+  User.findOneAndUpdate({
+    _id: req.body.nomID
+  }, {
+    $set: {
+      nom: req.body.userID
+    }
+  }, (err, doc) => {
+    if (err) {
+      console.error(err);
+      return res.render('user/register-user/nominee', {
+        id: req.body.userID,
+        user: null
+      });
+    }
+    console.log(doc);
+    res.redirect('/user/login');
+  });
 });
 
 module.exports = router;
