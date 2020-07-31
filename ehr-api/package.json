@@ -15,7 +15,7 @@
     "cookie-parser": "^1.4.4",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.8",
+    "express-fileupload": "^1.1.7-alpha.4",
     "express-session": "^1.17.0",
     "express-validator": "^6.3.1",
     "fabric-ca-client": "^2.2.0",

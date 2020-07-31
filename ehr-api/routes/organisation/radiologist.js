@@ -93,28 +93,25 @@ var kraken = new Kraken({
 });
 
 
-
-router.post('/addreport',async function(req, res) {
-
+router.post('/addreport', async function (req, res) {
+    var file = req.files.reportImg;
+    var fileName = file.name;
     if (req.files) {
-        var file = req.files.reportImg;
-        var fileName = file.name;
-            if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg'){ 
-                file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
-                    if (err) { // if error occurs run this
-                    console.log("File was not uploaded!!");
-                    res.send(err);
-                    } else {
-                    console.log("file uploaded");
-                    var opts = {
-                        file: fs.createReadStream("uploads/" + fileName),
-                        wait: true,
-                    };
-                    kraken.upload(opts, function (err, data) {
-                        if (err) {
+        file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
+            if (err) { // if error occurs run this
+                console.log("File was not uploaded!!");
+                res.send(err);
+            } else {
+                console.log("file uploaded");
+                var opts = {
+                    file: fs.createReadStream("uploads/" + fileName),
+                    wait: true,
+                };
+                kraken.upload(opts, function (err, data) {
+                    if (err) {
                         console.log("Failed. Error message: %s", err);
-                        } else {
-                        const MedicalID = req.body.medicalID  
+                    } else {
+                        const MedicalID = req.body.medicalID
                         let Diagnosis = req.body.diagnoses;
                         let report = Diagnosis;
                         // let links = req.body.links;
@@ -143,17 +140,14 @@ router.post('/addreport',async function(req, res) {
                                 console.log(response)
                             }
                         });
-                        ehrRadiologist.addrLReport(req, res, doc);  
-                      }
-                   });
-                 }
-              });
-            };
-          };
-       });
-                        
-                                        
-          
+                        ehrRadiologist.addrLReport(req, res, doc);
+                    }
+                });
+            }
+        });
+    };
+});
+
 
 router.get('/getreport', function (req, res) {
     res.render('org/radiologistPortal', {
