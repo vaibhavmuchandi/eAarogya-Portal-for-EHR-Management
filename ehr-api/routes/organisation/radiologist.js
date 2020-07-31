@@ -7,7 +7,6 @@ const User = require("../../models/user");
 const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
 
-let linksim; // global declaration of image links to be passed 
 
 //All routes have prefix '/organisation/radiologist'
 router.get('/login', function (req, res) {
@@ -42,7 +41,7 @@ router.get('/medicalID', function (req, res) {
     res.render('org/radiologistPortal', {
         details: {},
         error: null,
-        message: null
+        message: null,
     });
 });
 
@@ -52,7 +51,7 @@ router.post('/medicalID', function (req, res) {
         'medicalID': medicalID
     }
     User.findOne({
-        _id: MedicalID
+        _id: medicalID
     }, function (err, found) {
         if (err || !found)
             return res.render('org/radiologistPortal', {
@@ -92,72 +91,61 @@ var kraken = new Kraken({
 });
 
 
-router.post('/uploaded', (req, res) => {
-    //image upload
-    if (req.files) {
-        var file = req.files.reportImg;
-        var fileName = file.name;
-        if (file.mimetype === 'image/png') {
-            file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
-                if (err) { // if error occurs run this
-                    console.log("File was not uploaded!!");
-                    res.send(err);
-                } else {
-                    console.log("file uploaded");
-                    var opts = {
-                        file: fs.createReadStream("uploads/" + fileName),
-                        wait: true,
-                    };
-                    kraken.upload(opts, function (err, data) {
-                        if (err) {
-                            console.log("Failed. Error message: %s", err);
-                        } else {
-                            linksim = data.kraked_url
-                        }
-                    });
-                }
-            });
-        };
-
-    };
-
-});
-
-
 router.post('/addreport', async function (req, res) {
-    const MedicalID = req.body.medicalID
-    let Diagnosis = req.body.diagnoses;
-    let report = Diagnosis;
-    // let links = req.body.links;
-    let links = linksim;
-    let addedBy = req.user._id;
-    let doc = {
-        'medicalID': MedicalID,
-        'report': report,
-        'links': links,
-        'addedby': addedBy
-    }
-    const response = AadhaarUser.findOne({
-        aadhaarNo: MedicalID
-    })
-    const address = response.address.split(',')
-    const state = address[address.length - 1]
-    const disease = Diagnosis
-    let data = new Data({
-        state: state,
-        disease: disease
-    })
-    data.save((err, response) => {
-        if (err) {
-            res.send(err)
-        } else {
-            console.log(response)
-        }
-    });
-
-
-    ehrRadiologist.addrLReport(req, res, doc);
+    var file = req.files.reportImg;
+    var fileName = file.name;
+    if (req.files) {
+        file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
+            if (err) { // if error occurs run this
+                console.log("File was not uploaded!!");
+                res.send(err);
+            } else {
+                console.log("file uploaded");
+                var opts = {
+                    file: fs.createReadStream("uploads/" + fileName),
+                    wait: true,
+                };
+                kraken.upload(opts, function (err, data) {
+                    if (err) {
+                        console.log("Failed. Error message: %s", err);
+                    } else {
+                        const MedicalID = req.body.medicalID
+                        let Diagnosis = req.body.diagnoses;
+                        let report = Diagnosis;
+                        // let links = req.body.links;
+                        let links = data.kraked_url;
+                        let addedBy = req.user._id;
+                        let doc = {
+                            'medicalID': MedicalID,
+                            'report': report,
+                            'links': links,
+                            'addedby': addedBy
+                        }
+                        const response = AadhaarUser.findOne({
+                            aadhaarNo: MedicalID
+                        })
+                        const address = response.address.split(',')
+                        const state = address[address.length - 1]
+                        const disease = Diagnosis
+                        let info = new Data({
+                            state: state,
+                            disease: disease
+                        })
+                        info.save((err, response) => {
+                            if (err) {
+                                res.send(err)
+                            } else {
+                                console.log(response)
+                            }
+                        });
+                        ehrRadiologist.addrLReport(req, res, doc);
+                    }
+                });
+            }
+        });
+    };
 });
+
 
 router.get('/getreport', function (req, res) {
     res.render('org/radiologistPortal', {

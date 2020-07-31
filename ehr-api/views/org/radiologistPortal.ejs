@@ -108,19 +108,10 @@
                     <label class="custom-file-label" for="file"><%=__('upload')%> (.jpeg or .png)</label>
 
                   </div>
-                  <div class="row">
-                    <div class="col">
-                      <button class="btn bg-main btn-block text-white btn-user mt-4"
-                        formaction="/organisation/radiologist/uploaded"><span class="h6">Upload</span></button>
-                    </div>
-                    <div class="col">
-                      <button class="btn bg-main btn-block text-white btn-user mt-4"><span
-                          class="h6">Submit</span></button>
-                    </div>
-                  </div>
-
+                  <button class="btn bg-main btn-block text-white btn-user mt-4"><span class="h6">Submit</span></button>
                 </form>
               </div>
+
 
               <div class="tab-pane fade" id="nav-addprescription" role="tabpanel"
                 aria-labelledby="nav-addprescription-tab">
@@ -224,7 +215,6 @@
                   </div>
 
                   <%for(var i = 0; i<details.length;i++){ %>
-
                   <%if(details[i]['Value']['report']!=""){%>
                   <div class="card bg-accent text-white roundness p-3 mt-2">
                     Date:
@@ -253,12 +243,6 @@
 </body>
 <%- include("../partials/footer") %>
 <script>
-  $('input[type="file"]').change(function (e) {
-    var fileName = e.target.files[0].name;
-    console.log(fileName);
-    $('.custom-file-label').html(fileName);
-  });
-
   $(document).ready(function () {
     window.setTimeout(function () {
       $(".alert").fadeTo(1000, 0).slideUp(500, function () {

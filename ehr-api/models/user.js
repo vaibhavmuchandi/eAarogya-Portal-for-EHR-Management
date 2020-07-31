@@ -18,7 +18,11 @@ var UserSchema = new mongoose.Schema({
     permission: [{
         type: String,
         ref: 'User'
-    }]
+    }],
+    nom: {
+        type: String,
+        ref: 'User'
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);
