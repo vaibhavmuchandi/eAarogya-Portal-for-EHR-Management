@@ -52,7 +52,7 @@ router.post('/medicalID', function (req, res) {
     }
     console.log(doc)
     User.findOne({
-        _id: medicalID
+        _id: MedicalID
     }, function (err, found) {
         if (err || !found)
             return res.render('org/radiologistPortal', {
@@ -107,7 +107,7 @@ router.post('/addreport', async function (req, res) {
                     file: fs.createReadStream("uploads/" + fileName),
                     wait: true,
                 };
-                kraken.upload(opts, function (err, data) {
+                kraken.upload(opts, async function (err, data) {
                     if (err) {
                         console.log("Failed. Error message: %s", err);
                     } else {
@@ -115,7 +115,7 @@ router.post('/addreport', async function (req, res) {
                         let Diagnosis = req.body.diagnoses;
                         let report = Diagnosis;
                         // let links = req.body.links;
-                        let links = data.kraked_url;
+                        let links = data.kraked_url.toString();
                         let addedBy = req.user._id;
                         let doc = {
                             'medicalID': MedicalID,
@@ -123,7 +123,7 @@ router.post('/addreport', async function (req, res) {
                             'links': links,
                             'addedby': addedBy
                         }
-                        const response = AadhaarUser.findOne({
+                        const response = await AadhaarUser.findOne({
                             aadhaarNo: MedicalID
                         })
                         const address = response.address.split(',')
@@ -137,7 +137,7 @@ router.post('/addreport', async function (req, res) {
                             if (err) {
                                 res.send(err)
                             } else {
-                                console.log(response)
+                                console.log('done')
                             }
                         });
                         ehrRadiologist.addrLReport(req, res, doc);
@@ -196,7 +196,7 @@ router.get('/getprescription', function (req, res) {
 router.post('/getprescription', function (req, res) {
     let medicalID = req.body.medicalID;
     let doc = {
-        'medicineID': medicalID
+        'medicalID': medicalID
     }
     ehrRadiologist.getMedicineRecord(req, res, doc);
 });

@@ -145,7 +145,7 @@
               <div class="tab-pane fade" id="nav-reporth" role="tabpanel" aria-labelledby="nav-reporth-tab">
                 <div class="card shadow-lg p-4 roundness">
                   <div class="coabox">
-                    <form action="/organisation/healthcareprovider/reporthistory" method="POST">
+                    <form action="/organisation/healthcareprovider/getmedicalrecord" method="POST">
                       <button class="btn submit-btn roundness"><%=__('getReports')%></button>
                       <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                         <%=details.recordID%>>

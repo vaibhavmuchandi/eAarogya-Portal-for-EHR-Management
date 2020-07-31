@@ -116,15 +116,15 @@ router.post('/uploaded', (req, res) => {
           }
           request.post(options, (err, httpResponse, body) => {
             extracted = JSON.parse(body);
-            var bloodgroup = extracted.result[0].prediction[1].ocr_text;
-            var bloodpressure = extracted.result[0].prediction[4].ocr_text;
-            var haemoglobin = extracted.result[0].prediction[2].ocr_text;
-            var sugarlevel = extracted.result[0].prediction[3].ocr_text;
+            var Bloodgroup = extracted.result[0].prediction[1].ocr_text;
+            var Bloodpressure = extracted.result[0].prediction[4].ocr_text;
+            var Haemoglobin = extracted.result[0].prediction[2].ocr_text;
+            var Sugarlevel = extracted.result[0].prediction[3].ocr_text;
             res.render('org/testcenter', {
-              bloodgroup: bloodgroup,
-              bloodpressure: bloodpressure,
-              haemoglobin: haemoglobin,
-              sugarlevel: sugarlevel,
+              bloodgroup: Bloodgroup,
+              bloodpressure: Bloodpressure,
+              haemoglobin: Haemoglobin,
+              sugarlevel: Sugarlevel,
               response: {}
             });
           });

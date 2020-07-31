@@ -588,7 +588,8 @@ function addMedicineReport(req, res, doc) {
 }
 
 //Add new radioLogist report
-function addrLReport(req, res) {
+function addrLReport(req, res, doc) {
+    console.log(doc)
     //Init fabric client
     var fabric_client = new Fabric_Client();
 
@@ -634,7 +635,7 @@ function addrLReport(req, res) {
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'addrLReport',
-                args: [doc.recordID, doc.report, doc.links, doc.addedby],
+                args: [doc.medicalID, doc.report, doc.links, doc.addedby],
                 chainId: 'ehr',
                 txId: tx_id
             };
