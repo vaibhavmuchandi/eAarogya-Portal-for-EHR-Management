@@ -4,6 +4,7 @@ const router = express.Router();
 const passport = require('passport');
 const ehrHCP = require('../../FabricHelperHCP');
 const User = require("../../models/user");
+const keccak256 = require('keccak256');
 
 //All routers have prefix '/organisation/healthcareprovider'
 router.get('/login', function (req, res) {
@@ -32,7 +33,9 @@ router.get('/', function (req, res) {
 });
 
 router.post('/medicalID', function (req, res) {
-    let MedicalID = req.body.medicalID;
+    let AadhaarNo = req.body.medicalID;
+    let hash = keccak256(AadhaarNo).toString('hex');
+    let MedicalID = hash;
     let doc = {
         'medicalID': MedicalID
     }
