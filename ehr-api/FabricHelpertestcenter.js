@@ -75,7 +75,12 @@ function addrLReport(req, res, doc) {
                 res.render("org/testcenter", {
                     response: {
                         message: res.__('messages.reportAdded')
-                    }
+                    },
+                    bloodgroup: "",
+                    bloodpressure: "",
+                    haemoglobin: "",
+                    sugarlevel: "",
+                    response: {}
                 });
             } else {
                 res.send({

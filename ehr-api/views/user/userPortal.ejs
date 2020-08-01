@@ -106,7 +106,7 @@
       </div>
     </div>
     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-      <div class="card shadow-lg p-4 border-0 roundness" style="max-height: 450px; overflow-y: scroll">
+      <div class="card shadow-lg p-4 border-0 roundness" style="max-height: 490px; overflow-y: scroll">
         <div class="card-body">
           <div class="row align-items-center">
             <h4 class="text-main"><%= __('reportHist') %></h4>
@@ -125,17 +125,23 @@
             <%}%>
           </form>
         </div>
-        <% if(reports.length) {%>
-            <p class="text-main">Name: <%=reports[0]['Value']['name']%></p>
-            <p class="text-main">Medical ID: <%=reports[0]['Value']['recordID']%></p>
-            <%}%>
+        <br>
+        <!-- <% if(reports.length) {%>
+            <div>
+              <p class="text-main">Name: <%=reports[0]['Value']['name']%></p>
+              <p class="text-main">Medical ID: <%=reports[0]['Value']['recordID']%></p>
+            </div>
+            <%}%> -->
         <% for(let i in reports) {%>
             <%if(reports[i]['Value']['report']!=""){%>
             <div class="card bg-accent text-white roundness p-3 mt-2">
               Date:
               <%=Date(reports[i]['Timestamp'].slice(0, 11)).slice(4, 15)%>
               <br>
-              <span class="h5"><%=reports[i]['Value']['report']%></span>
+              <span class="h5">Report: <%=reports[i]['Value']['report']%></span>
+              <% if(reports[i]['Value']['links']) {%>
+              <span class="h5"><%=reports[i]['Value']['links']%></span>
+              <%}%>
               <br>
               <span class="h6">Added by: <%=reports[i]['Value']['addedby']%></span>
             </div>

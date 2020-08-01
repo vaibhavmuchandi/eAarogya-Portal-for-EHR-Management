@@ -144,6 +144,11 @@
                         <%=details.report%>
                       </span>
                     </p>
+                    <p class="h5 mt-2"><%= __('links')%>: <br>
+                      <span href="<%=details.links%>" target="_blank" class="h4 text-main">
+                        <%=details.links%>
+                      </span>
+                    </p>
                     <p class="h5 mt-2"><%= __('addedby')%>: <br>
                       <span class="h4 text-main">
                         <%=details.addedby%>
@@ -222,6 +227,9 @@
                     <br>
                     <span class="h5"><%=details[i]['Value']['report']%></span>
                     <br>
+                    <br>
+                    <span class="h5"><%=details[i]['Value']['links']%></span>
+                    <br>
                     <span class="h5"><%=details[i]['Value']['addedby']%></span>
                   </div>
                   <%}%>
@@ -250,4 +258,10 @@
       });
     }, 3000);
   });
+   $('input[type="file"]').change(function (e) {
+                      var fileName = e.target.files[0].name;
+                      console.log(fileName);
+                      $('.custom-file-label').html(fileName);
+  });
+
 </script>
