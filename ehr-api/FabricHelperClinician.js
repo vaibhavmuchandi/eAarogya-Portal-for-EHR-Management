@@ -65,10 +65,11 @@ function createRecord(req, res, doc) {
 
             // createRecord chaincode function - requires 4 args, ex: args: ['ABCD', 'NAME', 'DOB', 'ADDRESS'],
             // must send the proposal to endorsing peers
+            let report = 'Diabetes: ' + doc.diabetes + ', Hypertension: ' + doc.hypertension + ', Thyroid conditions: ' + doc.thyroid;
             var request = {
                 chaincodeId: 'ehrcc',
                 fcn: 'createRecord',
-                args: [doc.aadhaarNo, doc.name, doc.dob, doc.gender, doc.address],
+                args: [doc.aadhaarNo, doc.name, doc.dob, doc.gender, doc.address, report],
                 chainId: 'ehrchannel',
                 txId: tx_id
             };

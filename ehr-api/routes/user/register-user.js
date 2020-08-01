@@ -21,7 +21,6 @@ router.post('/', (req, res) => {
   }, (err, user) => {
     if (user) {
       app.set('details', user.toJSON());
-
       var options = {
         method: 'GET',
         url: 'http://2factor.in/API/V1/2ab4e5d4-685c-11ea-9fa5-0200cd936042/SMS/' + user.phoneNumber + '/AUTOGEN',
@@ -53,8 +52,7 @@ router.post('/verify-otp', (req, res) => {
   let options = {
     method: 'GET',
     url: 'http://2factor.in/API/V1/2ab4e5d4-685c-11ea-9fa5-0200cd936042/SMS/VERIFY/' + sessNum + '/' + otp,
-    headers: {
-    },
+    headers: {},
     form: {}
   };
 
