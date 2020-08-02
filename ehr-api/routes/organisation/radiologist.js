@@ -51,7 +51,6 @@ router.post('/medicalID', function (req, res) {
     let AadhaarNo = req.body.medicalID;
     app.set('aadhaar', AadhaarNo);
     let hash = keccak256(AadhaarNo).toString('hex')
-    console.log(hash);
     let MedicalID = hash;
     let doc = {
         'medicalID': MedicalID

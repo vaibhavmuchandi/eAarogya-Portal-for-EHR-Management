@@ -33,8 +33,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/medicalID', function (req, res) {
-    let AadhaarNo = req.body.medicalID;
-    let hash = keccak256(AadhaarNo).toString('hex');
+    let hash = keccak256(req.body.medicalID).toString('hex');
     let MedicalID = hash;
     let doc = {
         'medicalID': MedicalID
