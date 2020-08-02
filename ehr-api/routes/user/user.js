@@ -20,76 +20,80 @@ const ethInstance = axios.create({
 });
 const PDFDocument = require("pdfkit");
 const fs = require("fs");
+const download = require("download-pdf");
+
+const pdf =
+  "http://apps.who.int/iris/bitstream/10665/137592/1/roadmapsitrep_7Nov2014_eng.pdf";
 
 //All routes have prefix '/user'
 router.get("/login", (req, res) => {
   res.render("user/user-login");
   console.log("hi");
-  var data = [
-    {
-      TxId: "9084b3e0515c02d2a04549bc5b967894a130f4fa77e6e7165fdfa295a4483268",
-      Value: {
-        recordID: "992232556067",
-        name: "Vadin Bhinge",
-        dob: "23/08/1972",
-        address:
-          "Plot No 203 2nd Floor, Bldg 54-b, Drug House, Procter Road, Nr Grant Hotel, Grant RoadCity Pune,Maharashtra ",
-        report:
-          "Diabetes: Type 1, Hypertension: Primary, Thyroid conditions: None",
-        links: "",
-        prescription: "",
-        addedby: "",
-      },
-      Timestamp: "2020-08-02 11:41:20.738 +0000 UTC",
-      IsDelete: "false",
-    },
-    {
-      TxId: "a90c4c7da5f9a096a9e761c1a22568019644dc4f139bc2c4074ffa5508ae4d1c",
-      Value: {
-        recordID: "992232556067",
-        name: "Vadin Bhinge",
-        dob: "23/08/1972",
-        address: "Plot No 203 2nd Floor, Bnks",
-        prescription: "",
-        addedby: "",
-      },
-      Timestamp: "2020-08-02 11:55:49.592 +0000 UTC",
-      IsDelete: "false",
-    },
-  ];
-  var name = data[0]["Value"]["name"];
-  var dob = data[0]["Value"]["dob"];
-  const doc = new PDFDocument();
-  doc.pipe(fs.createWriteStream("reportHistory.pdf"));
-  doc.fontSize(20);
-  doc.text(`Name : ${name}`, {
-    width: 410,
-    align: "left",
-  });
+  // var data = [
+  //   {
+  //     TxId: "9084b3e0515c02d2a04549bc5b967894a130f4fa77e6e7165fdfa295a4483268",
+  //     Value: {
+  //       recordID: "992232556067",
+  //       name: "Vadin Bhinge",
+  //       dob: "23/08/1972",
+  //       address:
+  //         "Plot No 203 2nd Floor, Bldg 54-b, Drug House, Procter Road, Nr Grant Hotel, Grant RoadCity Pune,Maharashtra ",
+  //       report:
+  //         "Diabetes: Type 1, Hypertension: Primary, Thyroid conditions: None",
+  //       links: "",
+  //       prescription: "Paracitamol",
+  //       addedby: "",
+  //     },
+  //     Timestamp: "2020-08-02 11:41:20.738 +0000 UTC",
+  //     IsDelete: "false",
+  //   },
+  //   {
+  //     TxId: "a90c4c7da5f9a096a9e761c1a22568019644dc4f139bc2c4074ffa5508ae4d1c",
+  //     Value: {
+  //       recordID: "992232556067",
+  //       name: "Vadin Bhinge",
+  //       dob: "23/08/1972",
+  //       address: "Plot No 203 2nd Floor, Bnks",
+  //       prescription: "Crocin",
+  //       addedby: "",
+  //     },
+  //     Timestamp: "2020-08-02 11:55:49.592 +0000 UTC",
+  //     IsDelete: "false",
+  //   },
+  // ];
+  // var name = data[0]["Value"]["name"];
+  // var dob = data[0]["Value"]["dob"];
+  // const doc = new PDFDocument();
+  // doc.pipe(fs.createWriteStream("naman2.pdf"));
+  // doc.fontSize(20);
+  // doc.text(`Name : ${name}`, {
+  //   width: 410,
+  //   align: "left",
+  // });
 
-  doc.moveDown();
-  doc.fontSize(20);
-  doc.text(`Date of Birth: ${dob}`, {
-    width: 410,
-    align: "left",
-  });
+  // doc.moveDown();
+  // doc.fontSize(20);
+  // doc.text(`Date of Birth: ${dob}`, {
+  //   width: 410,
+  //   align: "left",
+  // });
 
-  data.forEach((item) => {
-    doc.moveDown();
-    doc.fontSize(20);
-    doc.text(item.Timestamp, {
-      width: 410,
-      align: "left",
-    });
-    doc.moveDown();
-    doc.fontSize(20);
-    doc.text(item.report, {
-      width: 410,
-      align: "left",
-    });
-  });
+  // data.forEach((item) => {
+  //   doc.moveDown();
+  //   doc.fontSize(20);
+  //   doc.text(item.Timestamp, {
+  //     width: 410,
+  //     align: "center",
+  //   });
+  //   doc.moveDown();
+  //   doc.fontSize(20);
+  //   doc.text(item.report, {
+  //     width: 410,
+  //     align: "left",
+  //   });
+  // });
 
-  doc.end();
+  // doc.end();
 });
 
 router.post(
@@ -124,6 +128,100 @@ router.get("/", async (req, res) => {
     message: null,
     error: null,
   });
+  var data = [
+    {
+      TxId: "9084b3e0515c02d2a04549bc5b967894a130f4fa77e6e7165fdfa295a4483268",
+      Value: {
+        recordID: "992232556067",
+        name: "Vadin Bhinge",
+        dob: "23/08/1972",
+        address:
+          "Plot No 203 2nd Floor, Bldg 54-b, Drug House, Procter Road, Nr Grant Hotel, Grant RoadCity Pune,Maharashtra ",
+        report:
+          "Diabetes: Type 1, Hypertension: Primary, Thyroid conditions: None",
+        links: "",
+        prescription: "Crocin",
+        addedby: "",
+      },
+      Timestamp: "2020-08-02 11:41:20.738 +0000 UTC",
+      IsDelete: "false",
+    },
+    {
+      TxId: "a90c4c7da5f9a096a9e761c1a22568019644dc4f139bc2c4074ffa5508ae4d1c",
+      Value: {
+        recordID: "992232556067",
+        name: "Vadin Bhinge",
+        dob: "23/08/1972",
+        address: "Plot No 203 2nd Floor, Bnks",
+        prescription: "Paracitamol",
+        addedby: "",
+      },
+      Timestamp: "2020-08-02 11:55:49.592 +0000 UTC",
+      IsDelete: "false",
+    },
+  ];
+  var name = data[0]["Value"]["name"];
+  var dob = data[0]["Value"]["dob"];
+  const doc = new PDFDocument();
+  doc.pipe(fs.createWriteStream("Report.pdf"));
+  doc.fontSize(20);
+  doc.text(`Name : ${name}`, {
+    width: 410,
+    align: "left",
+  });
+
+  doc.moveDown();
+  doc.fontSize(20);
+  doc.text(`Date of Birth: ${dob}`, {
+    width: 410,
+    align: "left",
+  });
+
+  data.forEach((item) => {
+    doc.moveDown();
+    doc.fontSize(20);
+    doc.text("Date:", {
+      width: 410,
+      align: "center",
+    });
+    doc.moveDown();
+    doc.fontSize(18);
+    doc.text(item.Timestamp, {
+      width: 410,
+      align: "left",
+    });
+    doc.moveDown();
+    doc.fontSize(20);
+    doc.text("Prescription:", {
+      width: 410,
+      align: "center",
+    });
+    doc.moveDown();
+    doc.fontSize(18);
+    doc.text(item.Value.prescription, {
+      width: 410,
+      align: "left",
+    });
+    doc.moveDown();
+    doc.fontSize(20);
+    doc.text("Report:", {
+      width: 410,
+      align: "center",
+    });
+    doc.moveDown();
+    doc.fontSize(18);
+    doc.text(item.Value.report, {
+      width: 410,
+      align: "left",
+    });
+  });
+
+  doc.end();
+});
+
+router.get("/downloads", async (req, res) => {
+  const file = `./Report.pdf`;
+  res.download(file);
 });
 
 router.post("/givepermission", async (req, res) => {
