@@ -95,9 +95,9 @@ router.post('/addreport', async function (req, res) {
         'report': report,
         'addedby': addedBy
     }
-    const aadhaar = app.get(aadhaar);
+    const aadhaarno = app.get('aadhaar');
     const response = await AadhaarUser.findOne({
-        aadhaarNo: aadhaar
+        aadhaarNo: aadhaarno
     })
     const address = response.address.split(',')
     const state = address[address.length - 1]
