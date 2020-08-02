@@ -60,17 +60,17 @@
  
  // createRecord - This is for centralAuth to issue new medical cards.
  func (s *SmartContract) createRecord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
- 
 	 recordID := args[0]
 	 name := args[1]
 	 dob := args[2]
-	 address := args[3]
- 
+	 address := args[4]
+	 report := args[5]
+
 	 Record := RecordStruct {RecordID: recordID,
 		 Name:                  name,
 		 Dob:        			dob,
 		 Address : 				address,
-		 Report:                "",
+		 Report:                report,
 		 Links:					"",
 		 Prescription: 			"",
 		 AddedBy:				"",

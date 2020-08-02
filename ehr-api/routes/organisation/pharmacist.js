@@ -4,6 +4,8 @@ const router = express.Router();
 const passport = require('passport');
 const ehrPharmacist = require('../../FabricHelperPharmacist');
 const User = require('../../models/user');
+const keccak256 = require('keccak256');
+
 
 //All routes have prefix '/organisation/pharmacist'
 
@@ -40,7 +42,8 @@ router.get('/getprescription', function (req, res) {
 });
 
 router.post('/getprescription', function (req, res) {
-    let MedicalID = req.body.medicalID;
+    let hash = keccak256(req.body.medicalID).toString('hex');
+    let MedicalID = hash;
     let doc = {
         'medicineID': MedicalID
     }
@@ -66,7 +69,7 @@ router.post('/getprescription', function (req, res) {
 
 router.post('/getprescriptionhistory', function (req, res) {
     User.findOne({
-        _id: MedicalID
+        _id: req.body.medicalID
     }, function (err, found) {
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {

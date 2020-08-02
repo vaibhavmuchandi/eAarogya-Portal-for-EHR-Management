@@ -6,8 +6,8 @@ const ehrRadiologist = require('../../FabricHelperRadiologist');
 const User = require("../../models/user");
 const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
-const FileReader = require('filereader');
-const axios = require('axios')
+const keccak256 = require('keccak256');
+const app = express();
 
 
 //All routes have prefix '/organisation/radiologist'
@@ -48,7 +48,10 @@ router.get('/medicalID', function (req, res) {
 });
 
 router.post('/medicalID', function (req, res) {
-    let MedicalID = req.body.medicalID;
+    let AadhaarNo = req.body.medicalID;
+    app.set('aadhaar', AadhaarNo);
+    let hash = keccak256(AadhaarNo).toString('hex')
+    let MedicalID = hash;
     let doc = {
         'medicalID': MedicalID
     }
@@ -96,77 +99,59 @@ var kraken = new Kraken({
 
 
 router.post('/addreport', async function (req, res) {
-    async function getBase64(file) {
-        return new Promise(resolve => {
-            var reader = new FileReader();
-            // Read file content on file loaded event
-            reader.onload = function(event) {
-              resolve(event.target.result);
-            };
-            
-            // Convert data to base64 
-            reader.readAsDataURL(file);
-          });
-     }
-    var file = req.files.reportImg;
-    var fileName = file.name;
-    const base64 = await getBase64(req.files.reportImg)
-    axios.post('https://earogya-ipfs.herokuapp.com/post', {
-        img: base64
-    }).then((response) => res.send(response)).catch((err) => res.send(err))
-    // if (req.files) {
-    //     file.mv("uploads/" + fileName, async function (err) { // moving file to uploads folder
-    //         if (err) { // if error occurs run this
-    //             console.log("File was not uploaded!!");
-    //             res.send(err);
-    //         } else {
-    //             console.log("file uploaded");
-    //             var opts = {
-    //                 file: fs.createReadStream("uploads/" + fileName),
-    //                 wait: true,
-    //             };
-                //console.log(opts.file)
-                
-                // kraken.upload(opts, async function (err, data) {
-                //     if (err) {
-                //         console.log("Failed. Error message: %s", err);
-                //     } else {
-                //         const MedicalID = req.body.medicalID
-                //         let Diagnosis = req.body.diagnoses;
-                //         let report = Diagnosis;
-                //         // let links = req.body.links;
-                //         let links = data.kraked_url.toString();
-                //         console.log(data)
-                //         let addedBy = req.user._id;
-                //         let doc = {
-                //             'medicalID': MedicalID,
-                //             'report': report,
-                //             'links': links,
-                //             'addedby': addedBy
-                //         }
-                //         const response = await AadhaarUser.findOne({
-                //             aadhaarNo: MedicalID
-                //         })
-                //         const address = response.address.split(',')
-                //         const state = address[address.length - 1]
-                //         const disease = Diagnosis
-                //         let info = new Data({
-                //             state: state,
-                //             disease: disease
-                //         })
-                //         info.save((err, response) => {
-                //             if (err) {
-                //                 res.send(err)
-                //             } else {
-                //                 console.log('done')
-                //             }
-                //         });
-                //         ehrRadiologist.addrLReport(req, res, doc);
-                //     }
-                // });
-            //}
-        //});
-    //};
+    if (req.files) {
+        var file = req.files.reportImg;
+        var fileName = file.name;
+        file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
+            if (err) { // if error occurs run this
+                console.log("File was not uploaded!!");
+                res.send(err);
+            } else {
+                console.log("file uploaded");
+                var opts = {
+                    file: fs.createReadStream("uploads/" + fileName),
+                    wait: true,
+                };
+                kraken.upload(opts, async function (err, data) {
+                    if (err) {
+                        console.log("Failed. Error message: %s", err);
+                    } else {
+                        const MedicalID = req.body.medicalID
+                        let Diagnosis = req.body.diagnoses;
+                        let report = Diagnosis;
+                        // let links = req.body.links;
+                        let links = data.kraked_url.toString();
+                        let addedBy = req.user._id;
+                        let doc = {
+                            'medicalID': MedicalID,
+                            'report': report,
+                            'links': links,
+                            'addedby': addedBy
+                        }
+                        const aadhaarno = app.get('aadhaar');
+                        const response = await AadhaarUser.findOne({
+                            aadhaarNo: aadhaarno
+                        })
+                        const address = response.address.split(',')
+                        const state = address[address.length - 1]
+                        const disease = Diagnosis
+                        let info = new Data({
+                            state: state,
+                            disease: disease
+                        })
+                        info.save((err, response) => {
+                            if (err) {
+                                res.send(err)
+                            } else {
+                                console.log('done')
+                            }
+                        });
+                        ehrRadiologist.addrLReport(req, res, doc);
+                    }
+                });
+            }
+        });
+    };
 });
 
 

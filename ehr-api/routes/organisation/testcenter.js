@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const ehrTestCenter = require('../../FabricHelpertestcenter');
+const keccak256 = require('keccak256');
 
 //--------requires for text-extraction-------//
 const fs = require("fs");
@@ -45,7 +46,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/addreport', (req, res) => {
-  var MedicalID = req.body.medicalID;
+  var hash = keccak256(req.body.medicalID).toString('hex')
+  var MedicalID = hash;
   var bloodgroup = req.body.bloodGroup;
   var bloodpressure = req.body.bloodPressure;
   var haemoglobin = req.body.haemoglobin;

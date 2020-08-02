@@ -8,6 +8,7 @@ const User = require('../../models/user');
 const Web3 = require('web3');
 let app = express();
 let web3 = new Web3();
+const keccak256 = require('keccak256');
 
 //All routes have prefix /user/register-user
 router.get('/', (req, res) => {
@@ -21,7 +22,6 @@ router.post('/', (req, res) => {
   }, (err, user) => {
     if (user) {
       app.set('details', user.toJSON());
-
       var options = {
         method: 'GET',
         url: 'http://2factor.in/API/V1/2ab4e5d4-685c-11ea-9fa5-0200cd936042/SMS/' + user.phoneNumber + '/AUTOGEN',
@@ -53,8 +53,7 @@ router.post('/verify-otp', (req, res) => {
   let options = {
     method: 'GET',
     url: 'http://2factor.in/API/V1/2ab4e5d4-685c-11ea-9fa5-0200cd936042/SMS/VERIFY/' + sessNum + '/' + otp,
-    headers: {
-    },
+    headers: {},
     form: {}
   };
 
@@ -81,8 +80,9 @@ router.post('/complete-form', async (req, res) => {
   let details = req.body;
   details.user = true;
   let ethAccount = await createEthreumAccount();
+  let hash = keccak256(details.aadhaarNo).toString('hex');
   User.register(new User({
-    _id: details.aadhaarNo,
+    _id: hash,
     name: details.name,
     username: details.username,
     email: details.email,
