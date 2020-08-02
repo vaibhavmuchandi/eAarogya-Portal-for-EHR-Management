@@ -173,10 +173,10 @@
                     <p class="h5"><%= __('dob')%>:
                       <span class="h4 text-main"><%=details.dob%></span>
                     </p>
-                    <p class="h5"><%= __('prescription')%>:
+                    <p class="h5"><%= __('presc')%>:
                       <span class="h4 text-main"><%=details.prescription%></span>
                     </p>
-                    <p class="h5"><%= __('added')%>:
+                    <p class="h5"><%= __('addedBy')%>:
                       <span class="h4 text-main"><%=details.addedby%></span>
                     </p>
                   </div>
@@ -218,8 +218,16 @@
                         <%=details.recordID%>>
                     </form>
                   </div>
-
-                  <%for(var i = 0; i<details.length;i++){ %>
+                  <div>
+                    <% let data = details[0]['Value']['report'].split(', ')%>
+                    <% for(let i in data) {%>
+                    <% if(!data[i].includes('None')) {%>
+                    <p><%=data[i]%></p>
+                    <%}%>
+                    <%}%>
+                  </div>
+                  <br>
+                  <%for(var i = 1; i<details.length;i++){ %>
                   <%if(details[i]['Value']['report']!=""){%>
                   <div class="card bg-accent text-white roundness p-3 mt-2">
                     Date:
@@ -258,10 +266,9 @@
       });
     }, 3000);
   });
-   $('input[type="file"]').change(function (e) {
-                      var fileName = e.target.files[0].name;
-                      console.log(fileName);
-                      $('.custom-file-label').html(fileName);
+  $('input[type="file"]').change(function (e) {
+    var fileName = e.target.files[0].name;
+    console.log(fileName);
+    $('.custom-file-label').html(fileName);
   });
-
 </script>

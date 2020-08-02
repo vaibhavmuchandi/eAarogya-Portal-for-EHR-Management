@@ -69,7 +69,7 @@ router.post('/getprescription', function (req, res) {
 
 router.post('/getprescriptionhistory', function (req, res) {
     User.findOne({
-        _id: MedicalID
+        _id: req.body.medicalID
     }, function (err, found) {
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {

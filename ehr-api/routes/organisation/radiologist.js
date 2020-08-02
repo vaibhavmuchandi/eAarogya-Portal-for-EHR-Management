@@ -99,9 +99,9 @@ var kraken = new Kraken({
 
 
 router.post('/addreport', async function (req, res) {
-    var file = req.files.reportImg;
-    var fileName = file.name;
     if (req.files) {
+        var file = req.files.reportImg;
+        var fileName = file.name;
         file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
             if (err) { // if error occurs run this
                 console.log("File was not uploaded!!");
