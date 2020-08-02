@@ -78,7 +78,7 @@ router.post('/getprescription', function (req, res) {
 
 router.post('/getprescriptionhistory', function (req, res) {
     User.findOne({
-        _id: req.body.medicalID
+        _id: keccak256(req.body.medicalID).toString('hex')
     }, function (err, found) {
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {

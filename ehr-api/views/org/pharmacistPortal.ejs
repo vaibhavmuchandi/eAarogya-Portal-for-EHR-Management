@@ -37,7 +37,7 @@
 <div class="col-md-6">
   <div class="card border-0 shadow-lg roundness" style="height: 400px; overflow-y: scroll;">
     <div class="card-body border-0">
-      <% if(details instanceof Array) {%>
+      <% if(details && details instanceof Array) {%>
       <p class="h5"><%= __('name')%>:
         <span class="h4 text-main"><%=details[0]['Value']['name']%></span>
       </p>

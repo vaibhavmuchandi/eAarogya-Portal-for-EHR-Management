@@ -49,6 +49,7 @@ router.get('/medicalID', function (req, res) {
 });
 
 router.post('/medicalID', function (req, res) {
+<<<<<<< HEAD
   let AadhaarNo = req.body.medicalID;
   app.set('aadhaar', AadhaarNo);
   let hash = keccak256(AadhaarNo).toString('hex')
@@ -76,6 +77,15 @@ router.post('/medicalID', function (req, res) {
         error: res.__('messages.noAccess'),
         message: null
       })
+=======
+    let AadhaarNo = req.body.medicalID;
+    app.set('aadhaar', AadhaarNo);
+    let hash = keccak256(AadhaarNo).toString('hex')
+    let MedicalID = hash;
+    let doc = {
+        'medicalID': MedicalID,
+        'aadhaarNo': AadhaarNo
+>>>>>>> 6c3e87e8a14ae2eede1f3af91ec8b7fa38daa05a
     }
   });
 });
@@ -118,6 +128,7 @@ var kraken = new Kraken({
 
 
 router.post('/addreport', async function (req, res) {
+<<<<<<< HEAD
   // var file = req.files.reportImg;
   // var fileName = file.name;
   // let base64 = 'data:image/jpeg;base64' + file.data.toString('base64');
@@ -161,6 +172,59 @@ router.post('/addreport', async function (req, res) {
               'report': report,
               'links': links,
               'addedby': addedBy
+=======
+    if (req.files) {
+        var file = req.files.reportImg;
+        var fileName = file.name;
+        file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
+            if (err) { // if error occurs run this
+                console.log("File was not uploaded!!");
+                res.send(err);
+            } else {
+                console.log("file uploaded");
+                var opts = {
+                    file: fs.createReadStream("uploads/" + fileName),
+                    wait: true,
+                };
+                kraken.upload(opts, async function (err, data) {
+                    if (err) {
+                        console.log("Failed. Error message: %s", err);
+                    } else {
+                        const aadhaarno = app.get('aadhaar');
+                        const MedicalID = keccak256(aadhaarno).toString('hex')
+                        let Diagnosis = req.body.diagnoses;
+                        let report = Diagnosis;
+                        // let links = req.body.links;
+                        let links = data.kraked_url.toString();
+                        let addedBy = req.user._id;
+                        let doc = {
+                            'medicalID': MedicalID,
+                            'report': report,
+                            'links': links,
+                            'addedby': addedBy,
+                            'aadhaarNo': aadhaarno
+                        }
+                        const response = await AadhaarUser.findOne({
+                            aadhaarNo: aadhaarno
+                        })
+                        const address = response.address.split(',')
+                        const state = address[address.length - 1]
+                        const disease = Diagnosis
+                        let info = new Data({
+                            state: state,
+                            disease: disease
+                        })
+                        info.save((err, response) => {
+                            if (err) {
+                                res.send(err)
+                            } else {
+                                console.log('done')
+                            }
+                        });
+                        ehrRadiologist.addrLReport(req, res, doc);
+                    }
+                });
+>>>>>>> 6c3e87e8a14ae2eede1f3af91ec8b7fa38daa05a
             }
             const response = await AadhaarUser.findOne({
               aadhaarNo: MedicalID
@@ -197,11 +261,21 @@ router.get('/getreport', function (req, res) {
 });
 
 router.post('/getreport', function (req, res) {
+<<<<<<< HEAD
   let medicalID = req.body.medicalID;
   let doc = {
     'medicalID': medicalID
   }
   ehrRadiologist.getReport(req, res, doc);
+=======
+    const aadhaarno = app.get('aadhaar');
+    let medicalID = keccak256(aadhaarno).toString('hex')
+    let doc = {
+        'medicalID': medicalID,
+        'aadhaarNo': aadhaarno
+    }
+    ehrRadiologist.getReport(req, res, doc);
+>>>>>>> 6c3e87e8a14ae2eede1f3af91ec8b7fa38daa05a
 });
 
 router.get('/addprescription', function (req, res) {
@@ -213,6 +287,7 @@ router.get('/addprescription', function (req, res) {
 });
 
 router.post('/addprescription', function (req, res) {
+<<<<<<< HEAD
   let medicalID = req.body.medicalID;
   let prescription = req.body.prescription;
   let addedBy = req.user._id
@@ -222,6 +297,19 @@ router.post('/addprescription', function (req, res) {
     'addedby': addedBy
   }
   ehrRadiologist.addMedicineReport(req, res, doc);
+=======
+    const aadhaarno = app.get('aadhaar');
+    let medicalID = keccak256(aadhaarno).toString('hex')
+    let prescription = req.body.prescription;
+    let addedBy = req.user._id
+    let doc = {
+        'medicalID': medicalID,
+        'prescription': prescription,
+        'addedby': addedBy,
+        'aadhaarNo': aadhaarno
+    }
+    ehrRadiologist.addMedicineReport(req, res, doc);
+>>>>>>> 6c3e87e8a14ae2eede1f3af91ec8b7fa38daa05a
 });
 
 router.get('/getprescription', function (req, res) {
@@ -233,11 +321,21 @@ router.get('/getprescription', function (req, res) {
 });
 
 router.post('/getprescription', function (req, res) {
+<<<<<<< HEAD
   let medicalID = req.body.medicalID;
   let doc = {
     'medicalID': medicalID
   }
   ehrRadiologist.getMedicineRecord(req, res, doc);
+=======
+    const aadhaarno = app.get('aadhaar');
+    let medicalID = keccak256(aadhaarno).toString('hex')
+    let doc = {
+        'medicalID': medicalID,
+        'aadhaarNo': aadhaarno
+    }
+    ehrRadiologist.getMedicineRecord(req, res, doc);
+>>>>>>> 6c3e87e8a14ae2eede1f3af91ec8b7fa38daa05a
 });
 
 router.get('/reporthistory', function (req, res) {
@@ -249,11 +347,21 @@ router.get('/reporthistory', function (req, res) {
 });
 
 router.post('/reporthistory', function (req, res) {
+<<<<<<< HEAD
   let medicalID = req.body.medicalID;
   let doc = {
     'medicalID': medicalID
   }
   ehrRadiologist.getRecord(req, res, doc);
+=======
+    const aadhaarno = app.get('aadhaar');
+    let medicalID = keccak256(aadhaarno).toString('hex')
+    let doc = {
+        'medicalID': medicalID,
+        'aadhaarNo':aadhaarno
+    }
+    ehrRadiologist.getRecord(req, res, doc);
+>>>>>>> 6c3e87e8a14ae2eede1f3af91ec8b7fa38daa05a
 });
 
 router.get('/medicinehistory', function (req, res) {
@@ -265,11 +373,21 @@ router.get('/medicinehistory', function (req, res) {
 });
 
 router.post('/medicinehistory', function (req, res) {
+<<<<<<< HEAD
   let medicalID = req.body.medicalID;
   let doc = {
     'medicalID': medicalID
   }
   ehrRadiologist.getMedicineRecord(req, res, doc);
+=======
+    const aadhaarno = app.get('aadhaar');
+    let medicalID = keccak256(aadhaarno).toString('hex')
+    let doc = {
+        'medicalID': medicalID,
+        'aadhaarNo': aadhaarno
+    }
+    ehrRadiologist.getMedicineRecord(req, res, doc);
+>>>>>>> 6c3e87e8a14ae2eede1f3af91ec8b7fa38daa05a
 });
 
 module.exports = router;

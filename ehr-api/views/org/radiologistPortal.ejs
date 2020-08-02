@@ -43,8 +43,7 @@
       <div class="card border-0 shadow p-3 roundness">
         <div class="card-body text-main mt-1">
           <p class="h6"> <%= __('name') %>: <span class="font-weight-bold h5"><%=details.name%> </span></p>
-          <p class="h6"> <%= __('medicalID') %>: <span class="font-weight-bold h5"><%=details.recordID%></span>
-            <%=details.medicalID%></p>
+          <p class="h6"> <%= __('medicalID') %>: <span class="font-weight-bold h5"><%=details.aadhaarNo%></span></p>
         </div>
       </div>
     </div>
@@ -192,6 +191,7 @@
                         <input type="text" class="hiddenInp" name="medicalID" value=<%=details.medicalID%>
                           <%=details.recordID%>>
                       </form>
+                      <% if(details.length) {%>
                     </div>
                     <%for(var i = 0; i<details.length; i++) { %>
                     <%if(details[i]['Value']['prescription']!=""){%>
@@ -206,6 +206,7 @@
                     <%}%>
                           <%}%>
                   </div>
+                  <% } %>
                 </div>
               </div>
 
@@ -218,7 +219,7 @@
                         <%=details.recordID%>>
                     </form>
                   </div>
-                  <% if(details.length) {%>
+                  <% if(details.length){%>
                   <div>
                     <% let data = details[0]['Value']['report'].split(', ')%>
                     <% for(let i in data) {%>

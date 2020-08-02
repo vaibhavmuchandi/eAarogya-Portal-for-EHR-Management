@@ -283,6 +283,7 @@ function getReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
+                    result.aadhaarNo = doc.aadhaarNo
                     res.render("org/radiologistPortal", {
                         details: result,
                         message: null,
@@ -845,6 +846,7 @@ function getMedicineReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
+                    result.aadhaarNo = doc.aadhaarNo
                     res.render("org/radiologistPortal", {
                         details: result,
                         error: null,

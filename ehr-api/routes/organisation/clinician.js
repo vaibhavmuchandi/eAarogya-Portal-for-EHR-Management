@@ -8,6 +8,7 @@ const User = require("../../models/user");
 const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
 const keccak256 = require('keccak256');
+const app = express()
 
 //All routes have prefix '/organsation/clinician'
 router.get('/login', function (req, res) {
@@ -51,7 +52,8 @@ router.post('/medicalID', function (req, res) {
     var hash = keccak256(AadhaarNo).toString('hex');
     let MedicalID = hash;
     let doc = {
-        'medicalID': MedicalID
+        'medicalID': MedicalID,
+        'aadhaarNo': AadhaarNo
     }
     User.findOne({
         _id: MedicalID
@@ -91,12 +93,13 @@ router.post('/addreport', async function (req, res) {
     let diagnosis = req.body.diagnoses;
     let addedBy = req.user._id;
     let report = 'Allergies: ' + allergies + ', Symptoms: ' + symptoms + ', Diagnosis: ' + diagnosis;
+    const aadhaarno = app.get('aadhaar');
     let doc = {
         'medicalID': MedicalID,
         'report': report,
-        'addedby': addedBy
+        'addedby': addedBy,
+        'aadhaarNo': aadhaarno
     }
-    const aadhaarno = app.get('aadhaar');
     const response = await AadhaarUser.findOne({
         aadhaarNo: aadhaarno
     })
@@ -130,10 +133,12 @@ router.post('/addprescription', function (req, res) {
     let medicalID = req.body.medicalID;
     let prescription = req.body.prescription;
     let addedBy = req.user._id
+    const aadhaarno = app.get('aadhaar');
     let doc = {
         'medicalID': medicalID,
         'prescription': prescription,
-        'addedby': addedBy
+        'addedby': addedBy,
+        'aadhaarNo': aadhaarno
     }
     ehrClinician.addMedicineReport(req, res, doc);
 });
@@ -148,8 +153,10 @@ router.get('/getreport', function (req, res) {
 
 router.post('/getreport', function (req, res) {
     let medicalID = req.body.medicalID;
+    const aadhaarno = app.get('aadhaar');
     let doc = {
-        'medicalID': medicalID
+        'medicalID': medicalID,
+        'aadhaarNo': aadhaarno
     };
     ehrClinician.getReport(req, res, doc);
 });
@@ -163,8 +170,10 @@ router.get('/getprescription', function (req, res) {
 });
 router.post('/getprescription', function (req, res) {
     let medicalID = req.body.medicalID;
+    const aadhaarno = app.get('aadhaar');
     let doc = {
-        'medicalID': medicalID
+        'medicalID': medicalID,
+        'aadhaarNo': aadhaarno
     }
     ehrClinician.getMedicineReport(req, res, doc);
 });
@@ -179,8 +188,10 @@ router.get('/reporthistory', function (req, res) {
 
 router.post('/reporthistory', function (req, res) {
     let medicalID = req.body.medicalID;
+    const aadhaarno = app.get('aadhaar');
     let doc = {
-        'medicalID': medicalID
+        'medicalID': medicalID,
+        'aadhaarNo': aadhaarno
     }
     ehrClinician.getRecord(req, res, doc);
 });
@@ -194,8 +205,10 @@ router.get('/medicinehistory', function (req, res) {
 });
 router.post('/medicinehistory', function (req, res) {
     let medicalID = req.body.medicalID;
+    const aadhaarno = app.get('aadhaar');
     let doc = {
-        'medicalID': medicalID
+        'medicalID': medicalID,
+        'aadhaarNo': aadhaarno
     }
     ehrClinician.getMedicineRecord(req, res, doc)
 });

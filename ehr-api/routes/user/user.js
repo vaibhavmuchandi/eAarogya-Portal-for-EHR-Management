@@ -15,6 +15,7 @@ const ethInstance = axios.create({
         'X-API-KEY': config.key
     }
 })
+const keccak256 = require('keccak256');
 
 
 //All routes have prefix '/user'
