@@ -218,6 +218,7 @@
                         <%=details.recordID%>>
                     </form>
                   </div>
+                  <% if(details.length) {%>
                   <div>
                     <% let data = details[0]['Value']['report'].split(', ')%>
                     <% for(let i in data) {%>
@@ -226,6 +227,7 @@
                     <%}%>
                     <%}%>
                   </div>
+                  <%}%>
                   <br>
                   <%for(var i = 1; i<details.length;i++){ %>
                   <%if(details[i]['Value']['report']!=""){%>

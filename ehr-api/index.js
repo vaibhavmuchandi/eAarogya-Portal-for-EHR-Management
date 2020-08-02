@@ -10,6 +10,7 @@ const LocalStrategy = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 const i18n = require("i18n");
 const upload = require('express-fileupload');
+const cors = require('cors');
 const uri =
   "mongodb+srv://test:test@cluster0-2czvc.mongodb.net/ehr?retryWrites=true&w=majority";
 
@@ -49,6 +50,7 @@ app.use(passport.session());
 app.use(flash());
 app.use(i18n.init);
 app.use(upload());
+app.use(cors());
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -102,10 +104,15 @@ app.get("/professional", (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.render('login', {error: req.flash('error')[0]});
+  res.render('login', {
+    error: req.flash('error')[0]
+  });
 });
 
-app.post('/login', passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}), (req, res) => {
+app.post('/login', passport.authenticate('local', {
+  failureRedirect: '/login',
+  failureFlash: true
+}), (req, res) => {
   if (req.user.type == 'user')
     res.redirect('/user');
   else if (req.user.type == 'hcp')
