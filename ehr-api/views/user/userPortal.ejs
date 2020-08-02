@@ -132,6 +132,7 @@
               <p class="text-main">Medical ID: <%=reports[0]['Value']['recordID']%></p>
             </div>
             <%}%> -->
+            <% if(reports.length) {%>
             <div>
               <% let data = reports[0]['Value']['report'].split(', ')%>
             <% for(let i in data) {%>
@@ -140,6 +141,7 @@
             <%}%>
               <%}%>
         </div>
+        <% } %>
         <% for(let i = 1; i<reports.length; i++) {%>
         <%if(reports[i]['Value']['report']!=""){%>
         <div class="card bg-accent text-white roundness p-3 mt-2">

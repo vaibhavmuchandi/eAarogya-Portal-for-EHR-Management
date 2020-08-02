@@ -12,6 +12,7 @@ const AadhaarUser = require('../../models/aadhaaruser');
 const User = require('../../models/user');
 const Organisation = require('../../models/organisation');
 const ehrClinician = require('../../FabricHelperClinician');
+const keccak256 = require('keccak256');
 
 let transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
@@ -72,6 +73,7 @@ router.post('/', [check('aadhaarNum').isLength(12).withMessage('Please enter a v
             })
         } else {
             let details = doc.toJSON()
+            details.aadhaarNo = keccak256(details.aadhaarNo).toString('hex')
             ehrClinician.createRecord(req, res, details);
             // User.register(new User({
             //     _id: details.aadhaarNo,

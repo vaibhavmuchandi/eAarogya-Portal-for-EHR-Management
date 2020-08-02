@@ -97,6 +97,7 @@ router.post('/complete-form', async (req, res) => {
     if (err) {
       console.log(err.message);
     } else {
+      details.aadhaarNo = hash;
       ehrClinician.createRecord(req, res, details);
     }
   })
@@ -104,7 +105,7 @@ router.post('/complete-form', async (req, res) => {
 
 router.post('/find-user', (req, res) => {
   User.findOne({
-    _id: req.body.nomID
+    _id: keccak256(req.body.nomID).toString('hex')
   }, 'name nom', (err, user) => {
     if (err) {
       console.error(err)
@@ -121,18 +122,21 @@ router.post('/find-user', (req, res) => {
     else
       res.render('user/register-user/nominee', {
         id: req.body.userID,
-        user: user
+        user: user,
+        aid: req.body.nomID
       });
   })
 });
 
 router.post('/confirm-nominee', (req, res) => {
   console.log('body', req.body);
+  const id = keccak256(req.body.nomID).toString('hex')
+  const nid = keccak256(req.body.userID).toString('hex')
   User.findOneAndUpdate({
-    _id: req.body.nomID
+    _id: id
   }, {
     $set: {
-      nom: req.body.userID
+      nom: nid
     }
   }, (err, doc) => {
     if (err) {
