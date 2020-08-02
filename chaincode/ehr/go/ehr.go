@@ -27,8 +27,14 @@
 	 Address			  string `json:"address"`
 	 Report               string `json:"report"`
 	 Links		          string `json:"links"`
-	 Prescription		  string `json:"prescription"`
 	 AddedBy			  string `json:"addedby"`
+ }
+ type PrescriptionStruct struct {
+	RecordID             string `json:"recordID"`
+	Name                 string `json:"name"`
+	Dob			      string `json:"dob"`
+	Address			  string `json:"address"`
+	Prescription		  string `json:"prescription"`
  }
  
  // Init SmartContract
@@ -75,12 +81,25 @@
 		 Prescription: 			"",
 		 AddedBy:				"",
 		}
+		Prescription := PrescriptionStruct{
+			RecordID: recordID,
+			Name: name,
+			Address: address,
+			Prescription: ""
+		}
+	 
 	 RecordBytes, err := json.Marshal(Record)
 	 if err != nil {
 		 return shim.Error("JSON Marshal failed.")
 	 }
+	 PrescriptionBytes, err := json.Marshal(Prescription)
+	 if err != nil {
+		 return shim.Error("Json Marshal failed")
+	 }
  
-	 APIstub.PutState(recordID, RecordBytes)
+	 //APIstub.PutState(recordID, RecordBytes)
+	 APIstub.PutPrivateData("collectionRecord", recordID, RecordBytes)
+	 APIstub.PutPrivateData("collectionPriscription", recordID, PrescriptionBytes)
 	 fmt.Println("Record has been created -> ", Record)
  
 	 return shim.Success(nil)
@@ -94,33 +113,30 @@
 	 prescription := args[1]
 	 addedby := args[2]
  
-	 RecordAsBytes, _ := APIstub.GetState(recordID)
+	 PrescriptionAsBytes, _ := APIstub.GetPrivateData("collectionPrescription", recordID)
  
-	 var record RecordStruct
+	 var prescription PrescriptionStruct
  
-	 err := json.Unmarshal(RecordAsBytes, &record)
+	 err := json.Unmarshal(PrescriptionAsBytes, &prescription)
 	 if err != nil {
 		 return shim.Error("Issue with Record json unmarshaling")
 	 }
  
  
-	 Record := RecordStruct{RecordID: record.RecordID,
-		 Name:                 record.Name,
-		 Dob:       		   record.Dob,
-		 Address: 			   record.Address,
-		 Report:				"",
-		 Links:					"",
-		 Prescription:         prescription,
-		 AddedBy:			   addedby}
+	 Prescription := PrescriptionStruct{RecordID: prescription.RecordID,
+		 Name:                 prescription.Name,
+		 Dob:       		   prescription.Dob,
+		 Address: 			   prescription.Address,
+		 Prescription:         prescription,}
 		 
  
-	 RecordBytes, err := json.Marshal(Record)
+	 PrescriptionBytes, err := json.Marshal(Prescription)
 	 if err != nil {
 		 return shim.Error("Issue with Record json marshaling")
 	 }
  
-	 APIstub.PutState(Record.RecordID, RecordBytes)
-	 fmt.Println("New Prescription Report has been added -> ", Record)
+	 APIstub.PutPrivateData("collectionPrescription",Prescription.RecordID, PrescriptionBytes)
+	 fmt.Println("New Prescription Report has been added -> ", Prescription)
  
 	 return shim.Success(nil)
  }
@@ -132,7 +148,7 @@
 	 report := args[1]
 	 addedby := args[2]
  
-	 RecordAsBytes, _ := APIstub.GetState(recordID)
+	 RecordAsBytes, _ := APIstub.GetPrivateData("collectionRecord",recordID)
  
 	 var record RecordStruct
  
@@ -148,7 +164,6 @@
 		 Address: 			  	record.Address,
 		 Report:                report,
 		 Links:					"",
-		 Prescription:			"",
 		 AddedBy:				addedby}
 		 
  
@@ -157,7 +172,7 @@
 		 return shim.Error("Issue with Record json marshaling")
 	 }
  
-	 APIstub.PutState(Record.RecordID, RecordBytes)
+	 APIstub.PutPrivateData("collectionRecord",Record.RecordID, RecordBytes)
 	 fmt.Println("New Report has been added -> ", Record)
  
 	 return shim.Success(nil)
@@ -171,7 +186,7 @@
 	 links := args[2]
 	 addedby := args[3]
  
-	 RecordAsBytes, _ := APIstub.GetState(recordID)
+	 RecordAsBytes, _ := APIstub.GetPrivateData("collectionRecord",recordID)
  
 	 var record RecordStruct
  
@@ -187,7 +202,6 @@
 		 Address: 			  	record.Address,
 		 Report:                report,
 		 Links:				  	links,
-		 Prescription:			"",
 		 AddedBy:				addedby}
 		 
  
@@ -196,7 +210,7 @@
 		 return shim.Error("Issue with Record json marshaling")
 	 }
  
-	 APIstub.PutState(Record.RecordID, RecordBytes)
+	 APIstub.PutPrivateData("collectionRecord",Record.RecordID, RecordBytes)
 	 fmt.Println("New Report has been added -> ", Record)
  
 	 return shim.Success(nil)
@@ -208,12 +222,22 @@
  func (s *SmartContract) getReport(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
  
 	 recordID := args[0]
-	 RecordAsBytes, _ := APIstub.GetState(recordID)
+	 RecordAsBytes, _ := APIstub.GetPrivateData("collectionRecord",recordID)
 	 recordd := new(RecordStruct)
 	 _ = json.Unmarshal(RecordAsBytes, recordd)
 	 return shim.Success(RecordAsBytes)
 	 
  }
+
+ func (s *SmartContract) getPrescription(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+ 
+	recordID := args[0]
+	PrescriptionAsBytes, _ := APIstub.GetPrivateData("collectionPrescription",recordID)
+	prescriptionn := new(PrescriptionStruct)
+	_ = json.Unmarshal(PrescriptionAsBytes, prescriptionn)
+	return shim.Success(PrescriptionAsBytes)
+	
+}
  
  //Function to get entire medical report history
  func (s *SmartContract) getRecord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
