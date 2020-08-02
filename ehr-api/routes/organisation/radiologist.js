@@ -7,6 +7,10 @@ const User = require("../../models/user");
 const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
 const axios = require('axios');
+const keccak256 = require('keccak256');
+const app = express();
+
+
 //All routes have prefix '/organisation/radiologist'
 router.get('/login', function (req, res) {
   res.render('org/org-login', {
@@ -45,7 +49,10 @@ router.get('/medicalID', function (req, res) {
 });
 
 router.post('/medicalID', function (req, res) {
-  let MedicalID = req.body.medicalID;
+  let AadhaarNo = req.body.medicalID;
+  app.set('aadhaar', AadhaarNo);
+  let hash = keccak256(AadhaarNo).toString('hex')
+  let MedicalID = hash;
   let doc = {
     'medicalID': MedicalID
   }
@@ -111,10 +118,10 @@ var kraken = new Kraken({
 
 
 router.post('/addreport', async function (req, res) {
-  var file = req.files.reportImg;
-  var fileName = file.name;
-  let base64 = 'data:image/jpeg;base64' + file.data.toString('base64');
-  console.log(base64.slice(0, 20));
+  // var file = req.files.reportImg;
+  // var fileName = file.name;
+  // let base64 = 'data:image/jpeg;base64' + file.data.toString('base64');
+  // console.log(base64.slice(0, 20));
 
   // axios({
   //     url: 'http://localhost:4000/post',

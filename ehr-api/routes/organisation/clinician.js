@@ -1,11 +1,13 @@
 //Clinician Routes
 const express = require('express');
+const app = express();
 const router = express.Router();
 const passport = require('passport');
 const ehrClinician = require('../../FabricHelperClinician');
 const User = require("../../models/user");
 const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
+const keccak256 = require('keccak256');
 
 //All routes have prefix '/organsation/clinician'
 router.get('/login', function (req, res) {
@@ -44,7 +46,10 @@ router.get('/medicalID', function (req, res) {
 });
 
 router.post('/medicalID', function (req, res) {
-    let MedicalID = req.body.medicalID;
+    var AadhaarNo = req.body.medicalID;
+    app.set('aadhaar', AadhaarNo);
+    var hash = keccak256(AadhaarNo).toString('hex');
+    let MedicalID = hash;
     let doc = {
         'medicalID': MedicalID
     }
@@ -91,8 +96,9 @@ router.post('/addreport', async function (req, res) {
         'report': report,
         'addedby': addedBy
     }
+    const aadhaarno = app.get('aadhaar');
     const response = await AadhaarUser.findOne({
-        aadhaarNo: MedicalID
+        aadhaarNo: aadhaarno
     })
     const address = response.address.split(',')
     const state = address[address.length - 1]
