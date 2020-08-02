@@ -24,261 +24,224 @@ const fs = require("fs");
 //All routes have prefix '/user'
 router.get("/login", (req, res) => {
   res.render("user/user-login");
-
-  router.post(
-    "/login",
-    passport.authenticate("local", {
-      successRedirect: "/user",
-      failureRedirect: "/user/login",
-    }),
-    (req, res) => {}
-  );
-
-  router.use(async (req, res, next) => {
-    async function getBalance(addr) {
-      const response = await ethInstance.get("/balanceOf/" + addr);
-      return response.data.data[0].uint256;
-    }
-    const walletBalance = await getBalance(req.user.rewards.ethereumAddress);
-    const rewardDetails = {
-      ethAddr: req.user.rewards.ethereumAddress,
-      enabled: req.user.rewards.enabled,
-      balance: walletBalance,
-    };
-    res.locals.rewards = rewardDetails;
-    next();
+  console.log("hi");
+  var data = [
+    {
+      TxId: "9084b3e0515c02d2a04549bc5b967894a130f4fa77e6e7165fdfa295a4483268",
+      Value: {
+        recordID: "992232556067",
+        name: "Vadin Bhinge",
+        dob: "23/08/1972",
+        address:
+          "Plot No 203 2nd Floor, Bldg 54-b, Drug House, Procter Road, Nr Grant Hotel, Grant RoadCity Pune,Maharashtra ",
+        report:
+          "Diabetes: Type 1, Hypertension: Primary, Thyroid conditions: None",
+        links: "",
+        prescription: "",
+        addedby: "",
+      },
+      Timestamp: "2020-08-02 11:41:20.738 +0000 UTC",
+      IsDelete: "false",
+    },
+    {
+      TxId: "a90c4c7da5f9a096a9e761c1a22568019644dc4f139bc2c4074ffa5508ae4d1c",
+      Value: {
+        recordID: "992232556067",
+        name: "Vadin Bhinge",
+        dob: "23/08/1972",
+        address: "Plot No 203 2nd Floor, Bnks",
+        prescription: "",
+        addedby: "",
+      },
+      Timestamp: "2020-08-02 11:55:49.592 +0000 UTC",
+      IsDelete: "false",
+    },
+  ];
+  var name = data[0]["Value"]["name"];
+  var dob = data[0]["Value"]["dob"];
+  const doc = new PDFDocument();
+  doc.pipe(fs.createWriteStream("reportHistory.pdf"));
+  doc.fontSize(20);
+  doc.text(`Name : ${name}`, {
+    width: 410,
+    align: "left",
   });
 
-  router.get("/", async (req, res) => {
-    res.render("user/userPortal", {
-      permission: {},
-      reports: [],
-      prescs: [],
-      message: null,
-      error: null,
+  doc.moveDown();
+  doc.fontSize(20);
+  doc.text(`Date of Birth: ${dob}`, {
+    width: 410,
+    align: "left",
+  });
+
+  data.forEach((item) => {
+    doc.moveDown();
+    doc.fontSize(20);
+    doc.text(item.Timestamp, {
+      width: 410,
+      align: "left",
+    });
+    doc.moveDown();
+    doc.fontSize(20);
+    doc.text(item.report, {
+      width: 410,
+      align: "left",
     });
   });
 
-  router.post("/givepermission", async (req, res) => {
-    let DoctorID = req.body.doctorID;
-    if (/^\d{12}$/.test(DoctorID)) {
-      User.findOne(
-        {
-          _id: DoctorID,
-        },
-        (err, found) => {
-          if (err || !found)
-            return res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: null,
-              error: res.__("messages.notFound"),
-            });
-          else {
-            User.findOne(
-              {
-                _id: req.body.nom ? req.user.nom : req.user._id,
-              },
-              function (err, doc) {
-                if (err)
-                  return res.render("user/userPortal", {
-                    permission: {},
-                    reports: [],
-                    prescs: [],
-                    message: null,
-                    error: res.__("messages.error"),
-                  });
-                let user = doc;
-                console.log(user.permission);
-                console.log(DoctorID);
-                user.permission.push(DoctorID);
-                console.log(user.permission);
-                user.save();
-                res.render("user/userPortal", {
-                  permission: {},
-                  reports: [],
-                  prescs: [],
-                  message: res.__("messages.permGranted"),
-                  error: null,
-                });
-              }
-            );
-          }
-        }
-      );
-    } else {
-      User.findOne(
-        {
-          username: DoctorID,
-        },
-        (err, found) => {
-          if (err || !found)
-            return res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: null,
-              error: res.__("messages.notFound"),
-            });
-          else {
-            User.findOne(
-              {
-                _id: req.body.nom ? req.user.nom : req.user._id,
-              },
-              function (err, doc) {
-                if (err)
-                  return res.render("user/userPortal", {
-                    permission: {},
-                    reports: [],
-                    prescs: [],
-                    message: null,
-                    error: res.__("messages.error"),
-                  });
-                let user = doc;
-                console.log(user.permission);
-                console.log(found._id);
+  doc.end();
+});
 
-                user.permission.push(found._id);
-                console.log(user.permission);
-                user.save();
-                res.render("user/userPortal", {
-                  permission: {},
-                  reports: [],
-                  prescs: [],
-                  message: res.__("messages.permGranted"),
-                  error: null,
-                });
-              }
-            );
-          }
-        }
-      );
-    }
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/user",
+    failureRedirect: "/user/login",
+  }),
+  (req, res) => {}
+);
+
+router.use(async (req, res, next) => {
+  async function getBalance(addr) {
+    const response = await ethInstance.get("/balanceOf/" + addr);
+    return response.data.data[0].uint256;
+  }
+  const walletBalance = await getBalance(req.user.rewards.ethereumAddress);
+  const rewardDetails = {
+    ethAddr: req.user.rewards.ethereumAddress,
+    enabled: req.user.rewards.enabled,
+    balance: walletBalance,
+  };
+  res.locals.rewards = rewardDetails;
+  next();
+});
+
+router.get("/", async (req, res) => {
+  res.render("user/userPortal", {
+    permission: {},
+    reports: [],
+    prescs: [],
+    message: null,
+    error: null,
   });
+});
 
-  router.get("/revokepermission", async (req, res) => {
-    res.render("user/userPortal", {
-      permission: {},
-      reports: [],
-      prescs: [],
-      message: null,
-      error: null,
-    });
-  });
-
-  router.post("/revokepermission", async (req, res) => {
-    let DoctorID = req.body.doctorID;
-    if (/^\d{12}$/.test(DoctorID)) {
-      User.findOne(
-        {
-          _id: req.body.nom ? req.user.nom : req.user._id,
-        },
-        (err, user) => {
-          if (err)
-            return res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: null,
-              error: res.__("messages.error"),
-            });
-          let idx = user.permission.indexOf(DoctorID);
-          if (idx != -1) {
-            console.log(user.permission);
-            console.log(idx);
-            user.permission.splice(idx, 1);
-            console.log(user.permission);
-            user.save();
-            res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: res.__("messages.permRevoked"),
-              error: null,
-            });
-          } else {
-            res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: null,
-              error: res.__("messages.notFound"),
-            });
-          }
-        }
-      );
-    } else {
-      User.findOne({ username: DoctorID }, (err, doc) => {
-        if (err) {
-          console.log(err);
-        } else {
-          docid = doc._id;
-          console.log(docid);
-        }
-      });
-      User.findOne(
-        {
-          _id: req.body.nom ? req.user.nom : req.user._id,
-        },
-        (err, user) => {
-          if (err)
-            return res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: null,
-              error: res.__("messages.error"),
-            });
-          let idx = user.permission.indexOf(docid);
-          if (idx != -1) {
-            console.log(user.permission);
-            console.log(docid);
-            console.log(idx);
-            user.permission.splice(idx, 1);
-            console.log(user.permission);
-            user.save();
-            res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: res.__("messages.permRevoked"),
-              error: null,
-            });
-          } else {
-            res.render("user/userPortal", {
-              permission: {},
-              reports: [],
-              prescs: [],
-              message: null,
-              error: res.__("messages.notFound"),
-            });
-          }
-        }
-      );
-    }
-  });
-
-  router.get("/getpermission", async (req, res) => {
-    res.render("user/userPortal", {
-      permission: {},
-      reports: [],
-      prescs: [],
-      rewards: {},
-      message: null,
-      error: null,
-    });
-  });
-
-  router.post("/getpermission", async (req, res) => {
+router.post("/givepermission", async (req, res) => {
+  let DoctorID = req.body.doctorID;
+  if (/^\d{12}$/.test(DoctorID)) {
     User.findOne(
       {
-        username: req.user.username,
+        _id: DoctorID,
       },
-      "permission"
-    )
-      .populate("permission", "name org type")
-      .exec((err, info) => {
+      (err, found) => {
+        if (err || !found)
+          return res.render("user/userPortal", {
+            permission: {},
+            reports: [],
+            prescs: [],
+            message: null,
+            error: res.__("messages.notFound"),
+          });
+        else {
+          User.findOne(
+            {
+              _id: req.body.nom ? req.user.nom : req.user._id,
+            },
+            function (err, doc) {
+              if (err)
+                return res.render("user/userPortal", {
+                  permission: {},
+                  reports: [],
+                  prescs: [],
+                  message: null,
+                  error: res.__("messages.error"),
+                });
+              let user = doc;
+              console.log(user.permission);
+              console.log(DoctorID);
+              user.permission.push(DoctorID);
+              console.log(user.permission);
+              user.save();
+              res.render("user/userPortal", {
+                permission: {},
+                reports: [],
+                prescs: [],
+                message: res.__("messages.permGranted"),
+                error: null,
+              });
+            }
+          );
+        }
+      }
+    );
+  } else {
+    User.findOne(
+      {
+        username: DoctorID,
+      },
+      (err, found) => {
+        if (err || !found)
+          return res.render("user/userPortal", {
+            permission: {},
+            reports: [],
+            prescs: [],
+            message: null,
+            error: res.__("messages.notFound"),
+          });
+        else {
+          User.findOne(
+            {
+              _id: req.body.nom ? req.user.nom : req.user._id,
+            },
+            function (err, doc) {
+              if (err)
+                return res.render("user/userPortal", {
+                  permission: {},
+                  reports: [],
+                  prescs: [],
+                  message: null,
+                  error: res.__("messages.error"),
+                });
+              let user = doc;
+              console.log(user.permission);
+              console.log(found._id);
+
+              user.permission.push(found._id);
+              console.log(user.permission);
+              user.save();
+              res.render("user/userPortal", {
+                permission: {},
+                reports: [],
+                prescs: [],
+                message: res.__("messages.permGranted"),
+                error: null,
+              });
+            }
+          );
+        }
+      }
+    );
+  }
+});
+
+router.get("/revokepermission", async (req, res) => {
+  res.render("user/userPortal", {
+    permission: {},
+    reports: [],
+    prescs: [],
+    message: null,
+    error: null,
+  });
+});
+
+router.post("/revokepermission", async (req, res) => {
+  let DoctorID = req.body.doctorID;
+  if (/^\d{12}$/.test(DoctorID)) {
+    User.findOne(
+      {
+        _id: req.body.nom ? req.user.nom : req.user._id,
+      },
+      (err, user) => {
         if (err)
           return res.render("user/userPortal", {
             permission: {},
@@ -287,86 +250,122 @@ router.get("/login", (req, res) => {
             message: null,
             error: res.__("messages.error"),
           });
-        res.render("user/userPortal", {
-          permission: info.permission,
+        let idx = user.permission.indexOf(DoctorID);
+        if (idx != -1) {
+          console.log(user.permission);
+          console.log(idx);
+          user.permission.splice(idx, 1);
+          console.log(user.permission);
+          user.save();
+          res.render("user/userPortal", {
+            permission: {},
+            reports: [],
+            prescs: [],
+            message: res.__("messages.permRevoked"),
+            error: null,
+          });
+        } else {
+          res.render("user/userPortal", {
+            permission: {},
+            reports: [],
+            prescs: [],
+            message: null,
+            error: res.__("messages.notFound"),
+          });
+        }
+      }
+    );
+  } else {
+    User.findOne({ username: DoctorID }, (err, doc) => {
+      if (err) {
+        console.log(err);
+      } else {
+        docid = doc._id;
+        console.log(docid);
+      }
+    });
+    User.findOne(
+      {
+        _id: req.body.nom ? req.user.nom : req.user._id,
+      },
+      (err, user) => {
+        if (err)
+          return res.render("user/userPortal", {
+            permission: {},
+            reports: [],
+            prescs: [],
+            message: null,
+            error: res.__("messages.error"),
+          });
+        let idx = user.permission.indexOf(docid);
+        if (idx != -1) {
+          console.log(user.permission);
+          console.log(docid);
+          console.log(idx);
+          user.permission.splice(idx, 1);
+          console.log(user.permission);
+          user.save();
+          res.render("user/userPortal", {
+            permission: {},
+            reports: [],
+            prescs: [],
+            message: res.__("messages.permRevoked"),
+            error: null,
+          });
+        } else {
+          res.render("user/userPortal", {
+            permission: {},
+            reports: [],
+            prescs: [],
+            message: null,
+            error: res.__("messages.notFound"),
+          });
+        }
+      }
+    );
+  }
+});
+
+router.get("/getpermission", async (req, res) => {
+  res.render("user/userPortal", {
+    permission: {},
+    reports: [],
+    prescs: [],
+    rewards: {},
+    message: null,
+    error: null,
+  });
+});
+
+router.post("/getpermission", async (req, res) => {
+  User.findOne(
+    {
+      username: req.user.username,
+    },
+    "permission"
+  )
+    .populate("permission", "name org type")
+    .exec((err, info) => {
+      if (err)
+        return res.render("user/userPortal", {
+          permission: {},
           reports: [],
           prescs: [],
           message: null,
-          error: null,
+          error: res.__("messages.error"),
         });
-      });
-  });
-
-  router.get("/reporthistory", async (req, res) => {
-    res.render("user/userPortal");
-    var data = [
-      {
-        TxId:
-          "9084b3e0515c02d2a04549bc5b967894a130f4fa77e6e7165fdfa295a4483268",
-        Value: {
-          recordID: "992232556067",
-          name: "Vadin Bhinge",
-          dob: "23/08/1972",
-          address:
-            "Plot No 203 2nd Floor, Bldg 54-b, Drug House, Procter Road, Nr Grant Hotel, Grant RoadCity Pune,Maharashtra ",
-          report:
-            "Diabetes: Type 1, Hypertension: Primary, Thyroid conditions: None",
-          links: "",
-          prescription: "",
-          addedby: "",
-        },
-        Timestamp: "2020-08-02 11:41:20.738 +0000 UTC",
-        IsDelete: "false",
-      },
-      {
-        TxId:
-          "a90c4c7da5f9a096a9e761c1a22568019644dc4f139bc2c4074ffa5508ae4d1c",
-        Value: {
-          recordID: "992232556067",
-          name: "Vadin Bhinge",
-          dob: "23/08/1972",
-          address: "Plot No 203 2nd Floor, Bnks",
-          prescription: "",
-          addedby: "",
-        },
-        Timestamp: "2020-08-02 11:55:49.592 +0000 UTC",
-        IsDelete: "false",
-      },
-    ];
-    var name = data[0]["Value"]["name"];
-    var dob = data[0]["Value"]["dob"];
-    const doc = new PDFDocument();
-    doc.pipe(fs.createWriteStream("naman2.pdf"));
-    doc.fontSize(20);
-    doc.text(`Name : ${name}`, {
-      width: 410,
-      align: "left",
-    });
-
-    doc.moveDown();
-    doc.fontSize(20);
-    doc.text(`Date of Birth: ${dob}`, {
-      width: 410,
-      align: "left",
-    });
-
-    data.forEach((item) => {
-      doc.moveDown();
-      doc.fontSize(20);
-      doc.text(item.Timestamp, {
-        width: 410,
-        align: "left",
-      });
-      doc.moveDown();
-      doc.fontSize(20);
-      doc.text(item.Value.report, {
-        width: 410,
-        align: "left",
+      res.render("user/userPortal", {
+        permission: info.permission,
+        reports: [],
+        prescs: [],
+        message: null,
+        error: null,
       });
     });
+});
 
-    doc.end();
-  });
+router.get("/reporthistory", async (req, res) => {
+  res.render("user/userPortal");
 });
 
 router.post("/reporthistory", async (req, res) => {
