@@ -21,9 +21,16 @@ router.post('/login', passport.authenticate('local', {
 }), function (req, res) {});
 
 router.use((req, res, next) => {
-    if (req.user.type == 'pharmacist')
-        next();
-    else
+    if (req.user.type == 'pharmacist') {
+        User.findOne({
+                _id: req.user._id
+            }, '-_id permission')
+            .populate('permission', 'name dob')
+            .exec((err, found) => {
+                res.locals.perms = found.permission;
+                next();
+            })
+    } else
         res.redirect('/');
 });
 
@@ -42,29 +49,31 @@ router.get('/getprescription', function (req, res) {
 });
 
 router.post('/getprescription', function (req, res) {
-    let hash = keccak256(req.body.medicalID).toString('hex');
+    console.log(req.body);
+    let hash = /^\d{12}$/.test(req.body.medicalID) ? keccak256(req.body.medicalID).toString('hex') : req.body.encrID;
     let MedicalID = hash;
     let doc = {
         'medicineID': MedicalID
     }
-    User.findOne({
-        _id: MedicalID
-    }, function (err, found) {
-        if (err || !found)
-            return res.render('org/pharmacistPortal', {
-                details: {},
-                error: res.__('messages.error'),
-            })
-        let perm = found.permission.indexOf(req.user._id) + 1;
-        if (perm) {
-            ehrPharmacist.getMedicineReport(req, res, doc);
-        } else {
-            res.render("org/pharmacistPortal", {
-                details: {},
-                error: res.__('messages.noAccess')
-            })
-        }
-    });
+    console.log(doc);
+    // User.findOne({
+    //     _id: MedicalID
+    // }, function (err, found) {
+    //     if (err || !found)
+    //         return res.render('org/pharmacistPortal', {
+    //             details: {},
+    //             error: res.__('messages.error'),
+    //         })
+    //     let perm = found.permission.indexOf(req.user._id) + 1;
+    //     if (perm) {
+    //         ehrPharmacist.getMedicineReport(req, res, doc);
+    //     } else {
+    //         res.render("org/pharmacistPortal", {
+    //             details: {},
+    //             error: res.__('messages.noAccess')
+    //         })
+    //     }
+    // });
 });
 
 router.post('/getprescriptionhistory', function (req, res) {
