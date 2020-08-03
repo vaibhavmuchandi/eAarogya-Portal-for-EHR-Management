@@ -96,56 +96,6 @@ router.get('/addreport', function (req, res) {
 //image upload
 
 router.post('/addreport', async function (req, res) {
-<<<<<<< HEAD
-    var file = req.files.reportImg;
-    var fileName = file.name;
-    let base64 = 'data:image/jpeg;base64,' + file.data.toString('base64'); 
-    var options = {
-        method: 'POST',
-        uri: 'https://earogya-ipfs.herokuapp.com/post',
-        form: {
-            img: base64
-        },
-        headers: {
-            /* 'content-type': 'application/x-www-form-urlencoded' */ // Is set automatically
-        }
-    };
-    
- rp(options)
-    .then(async function (response) {
-        let imglink = JSON.parse(response);
-        const aadhaarno = app.get('aadhaar');
-        const MedicalID = keccak256(aadhaarno).toString('hex')
-        let Diagnosis = req.body.diagnoses;
-        let report = Diagnosis;
-        let links = 'https://earogya-ipfs.herokuapp.com/photo/' + imglink.rid;
-        let addedBy = req.user._id;
-        let doc = {
-            'medicalID': MedicalID,
-            'report': report,
-            'links': links,
-            'addedby': addedBy,
-            'aadhaarNo': aadhaarno
-        }
-        const Response = await AadhaarUser.findOne({
-            aadhaarNo: aadhaarno
-        })
-        const address = Response.address.split(',')
-        const state = address[address.length - 1]
-        const disease = Diagnosis
-        let info = new Data({
-            state: state,
-            disease: disease
-        })
-        info.save((err, response) => {
-            if (err) {
-                res.send(err)
-            } else {
-                console.log('done')
-            }               
-        })
-        ehrRadiologist.addrLReport(req, res, doc);
-=======
   var file = req.files.reportImg;
   var fileName = file.name;
   let base64 = 'data:image/jpeg;base64,' + file.data.toString('base64');
@@ -194,7 +144,6 @@ router.post('/addreport', async function (req, res) {
         }
       })
       ehrRadiologist.addrLReport(req, res, doc);
->>>>>>> d58bbe36c35a022b3dfc3558bc4d42fe27c8d7dd
     })
     .catch(function (err) {
       res.send(err)

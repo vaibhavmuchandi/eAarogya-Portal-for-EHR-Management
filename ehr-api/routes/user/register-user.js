@@ -99,7 +99,6 @@ router.post('/complete-form', async (req, res) => {
     if (err) {
       console.log(err.message);
     } else {
-      details.aadhaarNo = hash;
       ehrClinician.createRecord(req, res, details);
     }
   })
@@ -131,14 +130,14 @@ router.post('/find-user', (req, res) => {
 });
 
 router.post('/confirm-nominee', (req, res) => {
-  console.log('body', req.body);
-  const id = keccak256(req.body.nomID).toString('hex')
-  const nid = keccak256(req.body.userID).toString('hex')
+  const nid = req.body.nomID
+  const id = keccak256(req.body.userID).toString('hex');
+  console.log(id, nid);
   User.findOneAndUpdate({
-    _id: id
+    _id: nid
   }, {
     $set: {
-      nom: nid
+      nom: id
     }
   }, (err, doc) => {
     if (err) {
@@ -148,7 +147,6 @@ router.post('/confirm-nominee', (req, res) => {
         user: null
       });
     }
-    console.log(doc);
     res.redirect('/user/login');
   });
 });
