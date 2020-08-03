@@ -27,6 +27,7 @@ router.use((req, res, next) => {
             }, '-_id permission')
             .populate('permission', 'name dob')
             .exec((err, found) => {
+                console.log(found);
                 res.locals.perms = found.permission;
                 next();
             })
