@@ -110,7 +110,7 @@ router.post('/addreport', async function (req, res) {
     };
     
  rp(options)
-    .then(function (response) {
+    .then(async function (response) {
         let imglink = JSON.parse(response);
         const aadhaarno = app.get('aadhaar');
         const MedicalID = keccak256(aadhaarno).toString('hex')
@@ -125,10 +125,10 @@ router.post('/addreport', async function (req, res) {
             'addedby': addedBy,
             'aadhaarNo': aadhaarno
         }
-        const response = await AadhaarUser.findOne({
+        const Response = await AadhaarUser.findOne({
             aadhaarNo: aadhaarno
         })
-        const address = response.address.split(',')
+        const address = Response.address.split(',')
         const state = address[address.length - 1]
         const disease = Diagnosis
         let info = new Data({
