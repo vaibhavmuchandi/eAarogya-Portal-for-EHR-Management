@@ -18,7 +18,7 @@ The main idea of this application is to form a consortium of trusted parties and
 The role of the Central authority would be to add and remove entities from the consortium. 
 Other consortium members included in the application: 
 1. Clinician: A clinician peer would be allowed to add/query reports and prescription.
-2. Radiologist: A radiologist peer can add/query reports and precriptions along with addition feature of adding medical images.
+2. Radiologist: A radiologist peer can add/query reports and precriptions along with addition feature of adding medical images. The medical images added will be encrypted and stored securely on [IPFS](https://ipfs.io)
 3. Pharmacist: A pharmacist peer can only query prescriptions.
 4. Health Care provider: A healthcare provider peer can query reports and prescriptions.
 5. Test Center: A test center peer can add reports only.
@@ -49,10 +49,12 @@ Since it might not actually be necessary for all the peers to store all the tran
 4. SMS Gateway is provieded for users through which they can use the functionalities by sending SMS.
 5. Data visualisation for researchers.
 6. Ethereum based crypto incentive system for users when they agree upon sharing their data for researcher purposes. 
+7. Ready to download password protected report PDF's.
+8. Private API's to access the medical images stored on IPFS.
 
 ## Getting started with the application
 ### Prerequisite
-Make sure you have installed Docker and Nodejs v8.10.0
+Make sure you have installed Docker and Nodejs v^8.13.0 < v10.10.0 
 
 ```
 1. In the root directory first run ./start.sh : this will create the required containers
@@ -64,7 +66,7 @@ The application can then used at https://localhost:3000
 ```
 ### Built with
 * [Hyperledger Fabric v1.4](https://https://github.com/hyperledger/fabric)
-* [Nodejs v8.10.0](https://nodejs.org/dist/latest-v8.x/)
+* [Nodejs ^v8.13.0](https://nodejs.org/dist/latest-v8.x/)
 * [Embedded JS](https://ejs.co/)
 * [React Native](https://reactnative.dev)
 
