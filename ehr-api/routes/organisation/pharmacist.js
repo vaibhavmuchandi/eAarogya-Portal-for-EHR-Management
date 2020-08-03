@@ -4,6 +4,8 @@ const router = express.Router();
 const passport = require('passport');
 const ehrPharmacist = require('../../FabricHelperPharmacist');
 const User = require('../../models/user');
+const keccak256 = require('keccak256');
+
 
 //All routes have prefix '/organisation/pharmacist'
 
@@ -19,9 +21,17 @@ router.post('/login', passport.authenticate('local', {
 }), function (req, res) {});
 
 router.use((req, res, next) => {
-    if (req.user.type == 'pharmacist')
-        next();
-    else
+    if (req.user.type == 'pharmacist') {
+        User.findOne({
+                _id: req.user._id
+            }, '-_id permission')
+            .populate('permission', 'name dob')
+            .exec((err, found) => {
+                console.log(found);
+                res.locals.perms = found.permission;
+                next();
+            })
+    } else
         res.redirect('/');
 });
 
@@ -40,10 +50,13 @@ router.get('/getprescription', function (req, res) {
 });
 
 router.post('/getprescription', function (req, res) {
-    let MedicalID = req.body.medicalID;
+    console.log(req.body);
+    let hash = /^\d{12}$/.test(req.body.medicalID) ? keccak256(req.body.medicalID).toString('hex') : req.body.encrID;
+    let MedicalID = hash;
     let doc = {
         'medicineID': MedicalID
     }
+    console.log(doc);
     User.findOne({
         _id: MedicalID
     }, function (err, found) {
@@ -66,7 +79,7 @@ router.post('/getprescription', function (req, res) {
 
 router.post('/getprescriptionhistory', function (req, res) {
     User.findOne({
-        _id: req.body.medicalID
+        _id: keccak256(req.body.medicalID).toString('hex')
     }, function (err, found) {
         let perm = found.permission.indexOf(req.user._id) + 1;
         if (perm) {

@@ -93,7 +93,7 @@ function createRecord(req, res, doc) {
                         id: doc.aadhaarNo,
                         user: null
                     });
-                    // res.redirect('/user/login');
+                    //res.redirect('/user/login');
                 } else {
                     Organisation.find({})
                         .where('accepted').equals(false)
@@ -484,6 +484,7 @@ function getReport(req, res, doc) {
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
+                    result.aadhaarNo = doc.aadhaarNo
                     res.render("org/clinicianPortal", {
                         details: result,
                         error: res.__('messages.error'),
@@ -492,6 +493,7 @@ function getReport(req, res, doc) {
                 } else {
                     console.log("Response is ", query_responses[0].toString())
                     var result = JSON.parse(query_responses[0]);
+                    result.aadhaarNo = doc.aadhaarNo
                     res.render("org/clinicianPortal", {
                         details: result,
                         error: null,

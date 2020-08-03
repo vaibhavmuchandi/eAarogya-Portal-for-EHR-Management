@@ -2,6 +2,8 @@ var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
 var os = require('os');
+const fs = require('fs');
+const PDFDocument = require('pdfkit');
 var member_user = null;
 var store_path = path.join(__dirname, 'hfc-key-store');
 console.log('Store path:' + store_path);
@@ -82,6 +84,93 @@ function getRecord(req, res, doc) {
                             data: reports
                         })
                     } else {
+                        let data = result;
+                        var name = data[0]["Value"]["name"];
+                        var dob = data[0]["Value"]["dob"];
+                        const doc = new PDFDocument({
+                            userPassword: req.user.name.split(' ')[0].toLowerCase() + req.user.dob.split('/')[2]
+                        });
+                        doc.pipe(fs.createWriteStream("Report.pdf"));
+                        doc.fontSize(20);
+                        doc.text(`Name : ${name}`, {
+                            width: 410,
+                            align: "left",
+                        });
+
+                        doc.moveDown();
+                        doc.fontSize(20);
+                        doc.text(`Date of Birth: ${dob}`, {
+                            width: 410,
+                            align: "left",
+                        });
+
+                        data.forEach((item, i) => {
+                            doc.moveDown();
+                            if (i == 0) {
+                                item.Value.report.split(', ').forEach((x) => {
+                                    doc.fontSize(14);
+                                    doc.text(x, {
+                                        width: 410,
+                                        align: "left",
+                                    });
+                                })
+                            } else {
+                                doc.fontSize(16);
+                                doc.text("Date:", {
+                                    width: 410,
+                                    align: "left",
+                                });
+                                doc.fontSize(18);
+                                doc.text(item.Timestamp, {
+                                    width: 410,
+                                    align: "left",
+                                });
+                                doc.moveDown();
+                                if (item.Value.prescription) {
+                                    doc.fontSize(16);
+                                    doc.text("Prescription:", {
+                                        width: 410,
+                                        align: "left",
+                                    });
+
+                                    doc.fontSize(18);
+                                    doc.text(item.Value.prescription, {
+                                        width: 410,
+                                        align: "left",
+                                    });
+                                    doc.moveDown();
+                                }
+                                if (item.Value.report) {
+                                    doc.fontSize(16);
+                                    doc.text("Report:", {
+                                        width: 410,
+                                        align: "left",
+                                    });
+
+                                    doc.fontSize(18);
+                                    doc.text(item.Value.report, {
+                                        width: 410,
+                                        align: "left",
+                                    });
+                                    doc.moveDown();
+                                }
+                                if (item.Value.links) {
+                                    doc.fontSize(16);
+                                    doc.text("Links:", {
+                                        width: 410,
+                                        align: "left",
+                                    });
+
+                                    doc.fontSize(18);
+                                    doc.text(item.Value.links, {
+                                        width: 410,
+                                        align: "left",
+                                    });
+                                }
+                            }
+                        });
+
+                        doc.end();
                         res.render("user/userPortal", {
                             permission: {},
                             reports: result,

@@ -8,6 +8,7 @@ const User = require('../../models/user');
 const Web3 = require('web3');
 let app = express();
 let web3 = new Web3();
+const keccak256 = require('keccak256');
 
 //All routes have prefix /user/register-user
 router.get('/', (req, res) => {
@@ -79,12 +80,15 @@ router.post('/complete-form', async (req, res) => {
   let details = req.body;
   details.user = true;
   let ethAccount = await createEthreumAccount();
+  let hash = keccak256(details.aadhaarNo).toString('hex');
+  console.log('Aaadhaar hash: ', hash);
   User.register(new User({
-    _id: details.aadhaarNo,
+    _id: hash,
     name: details.name,
     username: details.username,
     email: details.email,
     phone: details.phone,
+    dob: details.dob,
     rewards: {
       ethereumAddress: ethAccount.address,
       privateKey: ethAccount.privateKey,
@@ -95,6 +99,7 @@ router.post('/complete-form', async (req, res) => {
     if (err) {
       console.log(err.message);
     } else {
+      details.aadhaarNo = hash;
       ehrClinician.createRecord(req, res, details);
     }
   })
@@ -102,7 +107,7 @@ router.post('/complete-form', async (req, res) => {
 
 router.post('/find-user', (req, res) => {
   User.findOne({
-    _id: req.body.nomID
+    _id: keccak256(req.body.nomID).toString('hex')
   }, 'name nom', (err, user) => {
     if (err) {
       console.error(err)
@@ -119,18 +124,21 @@ router.post('/find-user', (req, res) => {
     else
       res.render('user/register-user/nominee', {
         id: req.body.userID,
-        user: user
+        user: user,
+        aid: req.body.nomID
       });
   })
 });
 
 router.post('/confirm-nominee', (req, res) => {
   console.log('body', req.body);
+  const id = keccak256(req.body.nomID).toString('hex')
+  const nid = keccak256(req.body.userID).toString('hex')
   User.findOneAndUpdate({
-    _id: req.body.nomID
+    _id: id
   }, {
     $set: {
-      nom: req.body.userID
+      nom: nid
     }
   }, (err, doc) => {
     if (err) {
