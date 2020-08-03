@@ -81,12 +81,14 @@ router.post('/complete-form', async (req, res) => {
   details.user = true;
   let ethAccount = await createEthreumAccount();
   let hash = keccak256(details.aadhaarNo).toString('hex');
+  console.log('Aaadhaar hash: ', hash);
   User.register(new User({
     _id: hash,
     name: details.name,
     username: details.username,
     email: details.email,
     phone: details.phone,
+    dob: details.dob,
     rewards: {
       ethereumAddress: ethAccount.address,
       privateKey: ethAccount.privateKey,

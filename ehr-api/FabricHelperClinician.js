@@ -89,10 +89,10 @@ function createRecord(req, res, doc) {
                 isProposalGood = true;
                 console.log("Transaction proposal was good");
                 if (doc.user) {
-                     res.render('user/register-user/nominee', {
-                         id: doc.aadhaarNo,
-                         user: null
-                     });
+                    res.render('user/register-user/nominee', {
+                        id: doc.aadhaarNo,
+                        user: null
+                    });
                     //res.redirect('/user/login');
                 } else {
                     Organisation.find({})
