@@ -4,6 +4,8 @@ This application focuses on use of private blockchain to create and manage elect
 
 [Demo video](https://youtu.be/mlPB1FBxMQo)
 
+[Power Point Presentation](https://drive.google.com/drive/folders/1S-edWrW7Nn50Otnp0N4X1ScdWIBHO7mY?usp=sharing)
+
 ## Why private blockchain ? 
 While desiging a system to be utilizied by a country like India, it is very important to keep in mind to tackle problems such as scalability, security and cost efficiency.
 Private blockchains offer all the above along with decentralization in a closed ecosystem.
