@@ -2,6 +2,8 @@
 eAPEM is a private blockchain based solution built for the problem statement submitted by Ministry of Health and Family Welfare in the Smart India Hackathon 2020. 
 This application focuses on use of private blockchain to create and manage electronic health records on top of the existing Aadhaar Identity Infrastructure (UIDAI).
 
+[Demo video](https://youtu.be/mlPB1FBxMQo)
+
 ## Why private blockchain ? 
 While desiging a system to be utilizied by a country like India, it is very important to keep in mind to tackle problems such as scalability, security and cost efficiency.
 Private blockchains offer all the above along with decentralization in a closed ecosystem.
@@ -31,6 +33,13 @@ The users of the application/medical data holders are provided with a permission
 
 <p align="center">
     <img width="700" height="600" src="https://github.com/vaibhavmuchandi/eArogya-Portal-for-EHR-Management-eAPEM-/blob/master/eAarogya_User_Sequence.png">
+</p>
+
+#### Data storage management across peers
+Since it might not actually be necessary for all the peers to store all the transactions, we use Private Data Collection technique to make sure that there is a better data storage management. For the Pharmacist Peers in our network, there is no need for them to store the data related medical reports since they can only access prescriptions and also considering constrains such as size of total data. Hence with the help of Private Data Collection, it is made sure that the Pharmacist stores only the data related to addition of Prescription reports while all the other peers can store the data related to both medical reports and prescriptions.
+
+<p align="center">
+    <img width="550" height="300" src="https://github.com/vaibhavmuchandi/eArogya-Portal-for-EHR-Management-eAPEM-/blob/master/eAarogya_PrivateDataCollection.JPG">
 </p>
 
 #### Additional features
