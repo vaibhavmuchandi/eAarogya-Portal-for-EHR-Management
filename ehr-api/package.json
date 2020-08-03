@@ -36,6 +36,7 @@
     "password-generator": "^2.3.2",
     "pdf-parse": "^1.1.1",
     "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "swagger-ui-express": "^4.0.1",
     "tesseract.js": "^2.0.0-alpha.15",
     "twilio": "^3.48.1",
