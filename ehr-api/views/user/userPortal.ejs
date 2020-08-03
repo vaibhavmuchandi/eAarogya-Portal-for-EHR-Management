@@ -54,9 +54,7 @@
             <%}%>
           </form>
           <br>
-          <h6 class="alert alert-info roundness" id="nom1">Permission will now be granted on behalf of user with Medical
-            ID:
-            <%=user.nom%>
+          <h6 class="alert alert-info roundness" id="nom1">Permission will now be granted on behalf of nominator
             </h6>
         </div>
       </div>
@@ -65,26 +63,25 @@
       <div class="card shadow-lg p-2 roundness border-0">
         <div class="card-body small-card">
           <h4 class="text-main"><%= __('user.revokePerm') %></h4><br>
-          <form class="user" action="/user/revokepermission" method="POST">
-            <div class="form-row">
-              <div class="form-group">
-                <input class="form-control form-control-user mr-sm-2" name="doctorID" type="text"
-                  placeholder="<%= __('doctorID') %>" aria-label="Search">
+            <form class="user" action="/user/revokepermission" method="POST">
+              <div class="form-row">
+                <div class="form-group">
+                  <input class="form-control form-control-user mr-sm-2" name="doctorID" type="text"
+                    placeholder="<%= __('doctorID') %>" aria-label="Search">
+                </div>
+                <div class="form-group ml-3">
+                  <button class="btn my-2 my-sm-0 submit-btn roundness">Submit</button>
+                </div>
               </div>
-              <div class="form-group ml-3">
-                <button class="btn my-2 my-sm-0 submit-btn roundness">Submit</button>
+              <% if(user.nom) {%>
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" name="nom" id="switch2">
+                <label class="custom-control-label" for="switch2">Revoke permission for nominator</label>
               </div>
-            </div>
-            <% if(user.nom) {%>
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" name="nom" id="switch2">
-              <label class="custom-control-label" for="switch2">Revoke permission for nominator</label>
-            </div>
-            <%}%>
+              <%}%>
           </form>
           <br>
-          <h6 class="alert alert-info roundness" id="nom2">Permission will now be revoked on behalf of user with Medical
-            ID: <%=user.nom%>
+          <h6 class="alert alert-info roundness" id="nom2">Permission will now be revoked on behalf of nominator
             </h6>
         </div>
       </div>
@@ -94,15 +91,15 @@
         <div class="card-body small-card">
           <h4 class="text-main">Rewards</h4><br>
           <span class="h5">Ethereum wallet address: <%=rewards.ethAddr%></span>
-          <br>
-          <span class="h5">Rewards enabled: <%=rewards.enabled%></span>
-          <br>
-          <span class="h5">Wallet Balance: <%=rewards.balance%> AMC</span>
-          <br>
-          <br>
-          <form action="/user/togglerewards" method="POST">
-            <button class="btn b my-2 my-sm-0 submit-btn roundness" type="submit">Enable or disable rewards</button>
-          </form>
+              <br>
+              <span class="h5">Rewards enabled: <%=rewards.enabled%></span>
+              <br>
+              <span class="h5">Wallet Balance: <%=rewards.balance%> AMC</span>
+              <br>
+              <br>
+              <form action="/user/togglerewards" method="POST">
+                <button class="btn b my-2 my-sm-0 submit-btn roundness" type="submit">Enable or disable rewards</button>
+              </form>
         </div>
       </div>
     </div>
@@ -111,7 +108,7 @@
         <div class="card-body">
           <div class="row align-items-center">
             <h4 class="text-main"><%= __('reportHist') %></h4>
-            <div class="alert alert-info roundness ml-3" id="nom3">Reports of user with medical ID <%=user.nom%> will be
+            <div class="alert alert-info roundness ml-3" id="nom3">Reports of nominator will be
               fetched
             </div>
           </div>
@@ -165,7 +162,7 @@
         <div class="card-body">
           <div class="row align-items-center">
             <h4 class="text-main"><%= __('prescHist') %></h4>
-            <div class="alert alert-info roundness" id="nom4">Prescriptions of user with medical ID <%=user.nom%>
+            <div class="alert alert-info roundness" id="nom4">Prescriptions of nominator
               will be fetched</div>
           </div>
           <br>
@@ -178,11 +175,10 @@
             </div>
             <%}%>
           </form>
-        </div>
-        <% if(prescs.length) {%>
+          <!-- <% if(prescs.length) {%>
             <p class="text-main">Name: <%=prescs[0]['Value']['name']%></p>
             <p class="text-main">Medical ID: <%=prescs[0]['Value']['recordID']%></p>
-            <%}%>
+            <%}%> -->
         <% for(let i in prescs) {%>
             <%if(prescs[i]['Value']['prescription']!=""){%>
             <div class="card  bg-accent text-white roundness p-3 mt-2">
@@ -197,36 +193,37 @@
           <%}%>
         </div>
       </div>
-      <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-        <div class="card shadow-lg p-2 border-0 roundness" style="max-height: 450px; overflow-y: scroll">
-          <div class="card-body">
-            <form class="form-inline" action="/user/getpermission" method="POST">
-              <button class="btn submit-btn roundness"><%= __('user.viewPerms') %></button>
-              <% if(user.nom) {%>
-              <div class="custom-control custom-switch ml-3">
-                <input type="checkbox" class="custom-control-input" name="nom" id="switch5">
-                <label class="custom-control-label" for="switch5">View permissions of nominator</label>
-              </div>
-              <%}%>
+    </div>
+    <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+      <div class="card shadow-lg p-2 border-0 roundness" style="max-height: 450px; overflow-y: scroll">
+        <div class="card-body">
+          <form class="form-inline" action="/user/getpermission" method="POST">
+            <button class="btn submit-btn roundness"><%= __('user.viewPerms') %></button>
+            <% if(user.nom) {%>
+            <div class="custom-control custom-switch ml-3">
+              <input type="checkbox" class="custom-control-input" name="nom" id="switch5">
+              <label class="custom-control-label" for="switch5">View permissions of nominator</label>
+            </div>
+            <%}%>
               </form>
               <table class="table">
                 <thead>
                   <tr class="text-main">
                     <th scope="col"><%= __('doctorID') %></th>
-              <th scope="col"><%= __('name') %></th>
-              <th scope="col"><%= __('specialisation') %></th>
-              <th scope="col"><%= __('org') %></th>
+            <th scope="col"><%= __('name') %></th>
+            <th scope="col"><%= __('specialisation') %></th>
+            <th scope="col"><%= __('org') %></th>
+            </tr>
+            </thead>
+            <tbody>
+              <% for(let i in permission) {%>
+              <tr class="text-dark">
+                <td><%=permission[i]._id%></td>
+                <td><%=permission[i].name%></td>
+                <td><%=permission[i].type[0].toUpperCase() + permission[i].type.slice(1)%></td>
+                <td><%=permission[i].org%></td>
               </tr>
-              </thead>
-              <tbody>
-                <% for(let i in permission) {%>
-                <tr class="text-dark">
-                  <td><%=permission[i]._id%></td>
-                  <td><%=permission[i].name%></td>
-                  <td><%=permission[i].type[0].toUpperCase() + permission[i].type.slice(1)%></td>
-                  <td><%=permission[i].org%></td>
-                </tr>
-                <%}%>
+              <%}%>
               </tbody>
             </table>
           </div>
@@ -237,44 +234,44 @@
 </body>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="d-none d-lg-block" style="position: absolute; bottom: 0; z-index:-1"><path fill="#0f4c75" fill-opacity="1" d="M0,224L60,202.7C120,181,240,139,360,128C480,117,600,139,720,165.3C840,192,960,224,1080,213.3C1200,203,1320,149,1380,122.7L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
 <%- include ('../partials/footer') %>
-                <script>
-                  $(document).ready(function () {
-                    $('#nom1').hide()
-                    $("#switch1").change(function () {
-                      if (this.checked)
-                        $('#nom1').show()
-                      else
-                        $('#nom1').hide()
-                    })
+              <script>
+                $(document).ready(function () {
+                  $('#nom1').hide()
+                  $("#switch1").change(function () {
+                    if (this.checked)
+                      $('#nom1').show()
+                    else
+                      $('#nom1').hide()
+                  })
 
-                    $('#nom2').hide()
-                    $("#switch2").change(function () {
-                      if (this.checked)
-                        $('#nom2').show()
-                      else
-                        $('#nom2').hide()
-                    })
+                  $('#nom2').hide()
+                  $("#switch2").change(function () {
+                    if (this.checked)
+                      $('#nom2').show()
+                    else
+                      $('#nom2').hide()
+                  })
 
-                    $('#nom3').hide()
-                    $("#switch3").change(function () {
-                      if (this.checked)
-                        $('#nom3').show()
-                      else
-                        $('#nom3').hide()
-                    })
+                  $('#nom3').hide()
+                  $("#switch3").change(function () {
+                    if (this.checked)
+                      $('#nom3').show()
+                    else
+                      $('#nom3').hide()
+                  })
 
-                    $('#nom4').hide()
-                    $("#switch4").change(function () {
-                      if (this.checked)
-                        $('#nom4').show()
-                      else
-                        $('#nom4').hide()
-                    })
+                  $('#nom4').hide()
+                  $("#switch4").change(function () {
+                    if (this.checked)
+                      $('#nom4').show()
+                    else
+                      $('#nom4').hide()
+                  })
 
-                    window.setTimeout(function () {
-                      $(".msg").fadeTo(1000, 0).slideUp(500, function () {
-                        $(this).remove();
-                      });
-                    }, 3000);
-                  });
-                </script>
+                  window.setTimeout(function () {
+                    $(".msg").fadeTo(1000, 0).slideUp(500, function () {
+                      $(this).remove();
+                    });
+                  }, 3000);
+                });
+              </script>
