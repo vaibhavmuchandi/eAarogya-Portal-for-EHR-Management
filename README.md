@@ -56,7 +56,7 @@ Since it might not actually be necessary for all the peers to store all the tran
 
 ## Getting started with the application
 ### Prerequisite
-Make sure you have installed Docker and Nodejs v^8.13.0 < v10.10.0 
+Make sure you have installed Docker and Nodejs v^8.13.0 < v10.10.0 for the web app
 
 ```
 1. In the root directory first run ./start.sh : this will create the required containers
@@ -66,6 +66,21 @@ Make sure you have installed Docker and Nodejs v^8.13.0 < v10.10.0
 4. Finally, run 'npm start'
 The application can then used at https://localhost:3000
 ```
+
+The source code for mobile app is placed in the [AarogyaMobileApp](https://github.com/vaibhavmuchandi/SS45_Eureka99/tree/master/AarogyaMobileApp) directory.
+```
+1. Install the Expo app in your mobile phone from AppStore or Google Play Store.
+2. cd to AarogyaMobileApp directory and run 'npm install'.
+3. You need to have a tunnel between the Web App api and Mobile App, we recommand to use ngrok.
+4. Start a [ngrok](https://ngrok.com/) tunnel at port 3000 from your command prompt
+5. The ngrok link needs to be put in webServer.js file present in the 'api' directory inside the 'src' directory of AarogyaMobileApp
+6. After setting up the ngrok link, you can run 'npm start' from root of AarogyaMobileApp directory.
+7. The app can then be used in the Expo app in the phone
+
+Note: The Laptop/PC and the cellphone needs to be connected to the same Wifi network in order for Expo to work.
+
+```
+
 ### Built with
 * [Hyperledger Fabric v1.4](https://https://github.com/hyperledger/fabric)
 * [Nodejs ^v8.13.0](https://nodejs.org/dist/latest-v8.x/)
