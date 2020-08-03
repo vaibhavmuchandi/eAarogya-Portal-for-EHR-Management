@@ -57,24 +57,24 @@ router.post('/getprescription', function (req, res) {
         'medicineID': MedicalID
     }
     console.log(doc);
-    // User.findOne({
-    //     _id: MedicalID
-    // }, function (err, found) {
-    //     if (err || !found)
-    //         return res.render('org/pharmacistPortal', {
-    //             details: {},
-    //             error: res.__('messages.error'),
-    //         })
-    //     let perm = found.permission.indexOf(req.user._id) + 1;
-    //     if (perm) {
-    //         ehrPharmacist.getMedicineReport(req, res, doc);
-    //     } else {
-    //         res.render("org/pharmacistPortal", {
-    //             details: {},
-    //             error: res.__('messages.noAccess')
-    //         })
-    //     }
-    // });
+    User.findOne({
+        _id: MedicalID
+    }, function (err, found) {
+        if (err || !found)
+            return res.render('org/pharmacistPortal', {
+                details: {},
+                error: res.__('messages.error'),
+            })
+        let perm = found.permission.indexOf(req.user._id) + 1;
+        if (perm) {
+            ehrPharmacist.getMedicineReport(req, res, doc);
+        } else {
+            res.render("org/pharmacistPortal", {
+                details: {},
+                error: res.__('messages.noAccess')
+            })
+        }
+    });
 });
 
 router.post('/getprescriptionhistory', function (req, res) {

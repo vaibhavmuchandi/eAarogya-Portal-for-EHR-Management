@@ -88,6 +88,7 @@ router.post('/complete-form', async (req, res) => {
     username: details.username,
     email: details.email,
     phone: details.phone,
+    dob: details.dob,
     rewards: {
       ethereumAddress: ethAccount.address,
       privateKey: ethAccount.privateKey,

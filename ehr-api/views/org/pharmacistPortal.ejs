@@ -16,7 +16,7 @@
         <h4 class="text-main"><%=__('latestPresc')%></h4><br>
   <form class="form-inline user" action="/organisation/pharmacist/getprescription" method="POST">
     <input type="text" class="form-control form-control-user mr-sm-2" name="medicalID" id="getHist"
-      placeholder="<%=__('medicalID')%>" aria-label="Search">
+      placeholder="<%=__('medicalID')%>" aria-label="Search" autocomplete="off">
     <input type="text" name="encrID" id="encrID" hidden>
     <button class="btn  my-2 my-sm-0 submit-btn roundness" type="submit"><%=__('getHist')%></button>
   </form>

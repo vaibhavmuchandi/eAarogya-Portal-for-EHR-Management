@@ -8,6 +8,9 @@ const AadhaarUser = require('../../models/aadhaaruser');
 const Data = require('../../models/data');
 const axios = require('axios');
 const keccak256 = require('keccak256');
+const fileUpload = require("express-fileupload");
+var fs = require("fs");
+var rp = require('request-promise');
 const app = express();
 
 
@@ -89,91 +92,63 @@ router.get('/addreport', function (req, res) {
   });
 });
 
+
 //image upload
-const fileUpload = require("express-fileupload");
-var Kraken = require("kraken");
-var fs = require("fs");
-
-var kraken = new Kraken({
-  api_key: "cbe915fd4263bab806ff04bd5a28614b",
-  api_secret: "e28b31c8eca6c9090f9acdee677b87e0444597ff",
-});
-
-// router.post('/addreport', async function (req, res) {
-//   async function getBase64(file) {
-//     return new Promise(resolve => {
-//       var reader = new FileReader();
-//       reader.onload = function (event) {
-//         resolve(event.target.result);
-//       };
-//       reader.readAsDataURL(file);
-//     });
-//   }
-//   var file = req.files.reportImg;
-//   var fileName = file.name;
-//   const base64 = await getBase64(req.files.reportImg)
-//   axios.post('https://earogya-ipfs.herokuapp.com/post', {
-//     img: base64
-//   }).then((response) => res.send(response)).catch((err) => res.send(err))
-// });
-
 
 router.post('/addreport', async function (req, res) {
-  if (req.files) {
-    var file = req.files.reportImg;
-    var fileName = file.name;
-    file.mv("uploads/" + fileName, function (err) { // moving file to uploads folder
-      if (err) { // if error occurs run this
-        console.log("File was not uploaded!!");
-        res.send(err);
-      } else {
-        console.log("file uploaded");
-        var opts = {
-          file: fs.createReadStream("uploads/" + fileName),
-          wait: true,
-        };
-        kraken.upload(opts, async function (err, data) {
-          if (err) {
-            console.log("Failed. Error message: %s", err);
-          } else {
-            const aadhaarno = app.get('aadhaar');
-            const MedicalID = keccak256(aadhaarno).toString('hex')
-            let Diagnosis = req.body.diagnoses;
-            let report = Diagnosis;
-            // let links = req.body.links;
-            let links = data.kraked_url.toString();
-            let addedBy = req.user._id;
-            let doc = {
-              'medicalID': MedicalID,
-              'report': report,
-              'links': links,
-              'addedby': addedBy,
-              'aadhaarNo': aadhaarno
-            }
-            const response = await AadhaarUser.findOne({
-              aadhaarNo: aadhaarno
-            })
-            const address = response.address.split(',')
-            const state = address[address.length - 1]
-            const disease = Diagnosis
-            let info = new Data({
-              state: state,
-              disease: disease
-            })
-            info.save((err, response) => {
-              if (err) {
-                res.send(err)
-              } else {
-                console.log('done')
-              }
-            });
-            ehrRadiologist.addrLReport(req, res, doc);
-          }
-        });
+  var file = req.files.reportImg;
+  var fileName = file.name;
+  let base64 = 'data:image/jpeg;base64,' + file.data.toString('base64');
+  var options = {
+    method: 'POST',
+    uri: 'https://earogya-ipfs.herokuapp.com/post',
+    form: {
+      img: base64
+    },
+    headers: {
+      /* 'content-type': 'application/x-www-form-urlencoded' */ // Is set automatically
+    }
+  };
+
+  rp(options)
+    .then(async function (response) {
+      let imglink = JSON.parse(response);
+      const aadhaarno = app.get('aadhaar');
+      const MedicalID = keccak256(aadhaarno).toString('hex')
+      let Diagnosis = req.body.diagnoses;
+      let report = Diagnosis;
+      let links = 'https://earogya-ipfs.herokuapp.com/photo/' + imglink.rid;
+      let addedBy = req.user._id;
+      let doc = {
+        'medicalID': MedicalID,
+        'report': report,
+        'links': links,
+        'addedby': addedBy,
+        'aadhaarNo': aadhaarno
       }
+      const user = await (AadhaarUser.findOne({
+        aadhaarNo: aadhaarno
+      }))
+      const address = user.address.split(',')
+      const state = address[address.length - 1]
+      const disease = Diagnosis
+      let info = new Data({
+        state: state,
+        disease: disease
+      })
+      info.save((err, response) => {
+        if (err) {
+          res.send(err)
+        } else {
+          console.log('done')
+        }
+      })
+      ehrRadiologist.addrLReport(req, res, doc);
     })
-  }
-});
+    .catch(function (err) {
+      res.send(err)
+    });
+})
 
 
 router.get('/getreport', function (req, res) {
